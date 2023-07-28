@@ -5,10 +5,9 @@ public class Vodka : BaseItem
 {
     [SerializeField] private int _heal;
 
-    public override void PickUp(BaseMob parent)
+    public override void Use(BaseMob target)
     {
-        parent.Scorer.PickItem(this);
-        parent.Health += _heal;
+        target.Health += _heal;
         Destroy(gameObject);
     }
 }
