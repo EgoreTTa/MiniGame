@@ -46,8 +46,6 @@ public abstract class BaseMob : MonoBehaviour
         }
     }
 
-    protected virtual void DecreaseHealth() { }
-
     public int Stamina
     {
         get => _stamina;
@@ -125,11 +123,14 @@ public abstract class BaseMob : MonoBehaviour
 
     public bool Live => _live;
 
+    protected virtual void DecreaseHealth() { }
+
+    protected virtual void PickItem() { }
+
     protected virtual void Walk()
     {
         transform.position += transform.up.normalized * _moveSpeed * Time.deltaTime;
     }
-    protected virtual void PickItem() { }
 
     protected virtual void Rotate(float axisX)
     {

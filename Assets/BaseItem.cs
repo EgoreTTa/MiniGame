@@ -2,7 +2,9 @@ using UnityEngine;
 
 public abstract class BaseItem : MonoBehaviour
 {
-    [SerializeField] protected string _nameItem;
+    [SerializeField] protected string _itemName;
 
-    public abstract void Use(BaseMob target);
+    public virtual void PreUse(BaseMob parent) { }
+    public abstract void Use(BaseMob parent);
+    public virtual void EndUse(BaseMob parent) { }
 }
