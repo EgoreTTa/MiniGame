@@ -23,7 +23,6 @@ public abstract class BaseMob : MonoBehaviour
     [SerializeField] protected float _viewRadius;
     [SerializeField] protected float _turningSpeed;
     protected bool _live = true;
-    private ScoreCounter _scorer = new();
 
     public float Health
     {
@@ -47,8 +46,6 @@ public abstract class BaseMob : MonoBehaviour
         }
     }
 
-    protected virtual void DecreaseHealth() { }
-
     public int Stamina
     {
         get => _stamina;
@@ -60,27 +57,6 @@ public abstract class BaseMob : MonoBehaviour
         }
     }
 
-    public int MinStamina
-    {
-        get => _minStamina;
-        set
-        {
-            if (value <= 0) value = 1;
-            if (value > _maxStamina) value = _maxStamina;
-            _stamina = value;
-        }
-    }
-
-    public int MaxStamina
-    {
-        get => _maxStamina;
-        set
-        {
-            if (value <= _minStamina) value = _minStamina += 1;
-            _maxStamina = value;
-        }
-    }
-
     public float MoveSpeed
     {
         get => _moveSpeed;
@@ -89,27 +65,6 @@ public abstract class BaseMob : MonoBehaviour
             if (value < _minMoveSpeed) value = _minMoveSpeed;
             if (value > _maxMoveSpeed) value = _maxMoveSpeed;
             _moveSpeed = value;
-        }
-    }
-
-    public float MinMoveSpeed
-    {
-        get => _minMoveSpeed;
-        set
-        {
-            if (value < 0) value = 0;
-            if (value > _maxMoveSpeed) value = _maxMoveSpeed;
-            _minMoveSpeed = value;
-        }
-    }
-
-    public float MaxMoveSpeed
-    {
-        get => _maxMoveSpeed;
-        set
-        {
-            if (value < _minMoveSpeed) value = _minMoveSpeed;
-            _maxMoveSpeed = value;
         }
     }
 
@@ -141,19 +96,20 @@ public abstract class BaseMob : MonoBehaviour
         set
         {
             if (value < 0) value = 0;
-            if (value > 360) value = 360;
             _turningSpeed = value;
         }
     }
 
     public bool Live => _live;
-    public ScoreCounter Scorer => _scorer;
+
+    protected virtual void DecreaseHealth() { }
+
+    protected virtual void PickItem() { }
 
     protected virtual void Walk()
     {
         transform.position += transform.up.normalized * _moveSpeed * Time.deltaTime;
     }
-    protected virtual void PickItem() { }
 
     protected virtual void Rotate(float axisX)
     {
@@ -161,15 +117,12 @@ public abstract class BaseMob : MonoBehaviour
         transform.Rotate(0f, 0f, _turningSpeed * Time.deltaTime * axisX);
     }
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    private void OnTriggerEnter2D(Component other)
     {
-        if (collider.gameObject.GetComponent<BaseItem>() is { } item)
+        if (other.gameObject.GetComponent<BaseItem>() is { } item)
         {
+            item.Use(this);
             PickItem();
-            if (item.GetComponent<IUsable>() is { } usable)
-            {
-                usable.Use(this);
-            }
         }
     }
 }

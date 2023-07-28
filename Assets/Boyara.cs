@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[DisallowMultipleComponent]
 public class Boyara : BaseItem
 {
     private int _damageBoost;
@@ -12,9 +11,9 @@ public class Boyara : BaseItem
         _damageBoost = Random.Range(_minRange, _maxRange);
     }
 
-    public override void PickUp(BaseMob parent)
+    public override void Use(BaseMob target)
     {
-        parent.Damage += _damageBoost;
+        target.Damage += _damageBoost;
         Destroy(gameObject);
     }
 }

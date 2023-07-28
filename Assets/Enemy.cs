@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[DisallowMultipleComponent]
 public class Enemy : BaseMob
 {
     [SerializeField] private int _score;
@@ -30,11 +29,10 @@ public class Enemy : BaseMob
 
     private void MoveToTarget(GameObject target)
     {
-        var direction = _targetToAttack.transform.position - transform.position;
-        var axis = Vector3.SignedAngle(
-            direction,
-            transform.up,
-            Vector3.back);
+        var axis = Vector3.Angle(
+            target.transform.position - transform.position,
+            transform.right);
+        axis -= 90;
         Rotate(axis);
         Walk();
     }

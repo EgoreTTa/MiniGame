@@ -1,47 +1,19 @@
 using UnityEngine;
 
-[DisallowMultipleComponent]
 public class Player : BaseMob
 {
-    [SerializeField] private float _increaseCharacteristicsOnMurder;
-    [SerializeField] private float _intervalForAttack;
-    [SerializeField] private CircleCollider2D _triggerForAttack;
-    [SerializeField] private float _offsetForAttack;
-    private float _timerIntervalForAttack;
-    private Inventory _inventory;
+    private BumStats _stats = new();
+    [SerializeField] private float _increaseCharacteristicsOnMurder = 1.1f;
 
-    public void Attack()
+    public BumStats Stats => _stats;
+
+    public void Attack(Player target)
     {
-        if (_stamina > 0)
+        target.Health -= _damage;
+        if (target.Live is false)
         {
-            var triggerPosition =
-                transform.position +
-                transform.up * _offsetForAttack;
-            var casted = Physics2D.CircleCastAll(
-                triggerPosition,
-                _triggerForAttack.radius,
-                Vector2.zero);
-            if (casted.Length > 0)
-            {
-                foreach (var hit in casted)
-                {
-                    if (hit.collider.GetComponent<BaseMob>() is { } enemy
-                        &&
-                        enemy != this)
-                    {
-                        enemy.Health -= _damage;
-                        if (enemy.Live is false)
-                        {
-                            Scorer.KilledEnemy(enemy);
-                            IncreaseCharacteristics();
-                        }
-
-                        break;
-                    }
-                }
-            }
-
-            _stamina--;
+            Stats.KilledEnemy();
+            IncreaseCharacteristics();
         }
     }
 
@@ -77,23 +49,15 @@ public class Player : BaseMob
         {
             Rotate(axisX);
         }
-
-        if (_timerIntervalForAttack <= _intervalForAttack)
-        {
-            _timerIntervalForAttack += Time.deltaTime;
-        }
-
-        if (Input.GetKeyDown(KeyCode.E)
-            &&
-            _timerIntervalForAttack > _intervalForAttack)
-        {
-            _timerIntervalForAttack -= _intervalForAttack;
-            Attack();
-        }
     }
 
     protected override void DecreaseHealth()
     {
-        Scorer.ClearStreak();
+        Stats.ClearStreak();
+    }
+
+    protected override void PickItem()
+    {
+        Stats.PickItem();
     }
 }

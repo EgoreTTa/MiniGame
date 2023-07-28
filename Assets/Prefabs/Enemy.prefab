@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4455685455898522900}
   - component: {fileID: 4455685455898522901}
   - component: {fileID: 4455685455898522898}
-  - component: {fileID: 2333678910982951190}
+  - component: {fileID: 4455685455898522899}
   - component: {fileID: 1476327087777312625}
   m_Layer: 0
   m_Name: Enemy
@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4455685455898522903}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1.8, y: -2.79, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -76,8 +76,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9cad77bc57c28a24ebc088eadf4a4e68, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -108,8 +108,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &2333678910982951190
-CircleCollider2D:
+--- !u!61 &4455685455898522899
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -122,8 +122,18 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!114 &1476327087777312625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,18 +146,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5883c2a64b8c32f41bec8c08fcda29b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 80
+  _health: 0
   _minHealth: 0
-  _maxHealth: 100
-  _stamina: 10
-  _minStamina: 0
-  _maxStamina: 20
-  _moveSpeed: 1
-  _minMoveSpeed: 0
-  _maxMoveSpeed: 3
-  _firstname: "\u0418\u0433\u0440\u043E\u044F\u043D"
-  _damage: 15
-  _viewRadius: 3
-  _turningSpeed: 10
-  _score: 0
+  _maxHealth: 0
+  _firstname: 
+  _damage: 0
+  _moveSpeed: 0
   _targetToAttack: {fileID: 0}
