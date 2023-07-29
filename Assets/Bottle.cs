@@ -5,7 +5,7 @@ public class Bottle : MonoBehaviour
     private Vector3 _direction;
     private float _distance;
     private float _speed;
-    private float _damage;
+    private Damage _damage;
     private GameObject _parent;
 
     public Vector3 Direction
@@ -26,7 +26,7 @@ public class Bottle : MonoBehaviour
         set => _parent = value;
     }
 
-    public float Damage
+    public Damage Damage
     {
         get => _damage;
         set => _damage = value;
@@ -69,7 +69,7 @@ public class Bottle : MonoBehaviour
             &&
             collider.gameObject.GetComponent<BaseMob>() is { } mob)
         {
-            mob.Health -= _damage;
+            mob.TakeDamage(_damage);
             Fall(transform.position);
             Destroy(this);
         }

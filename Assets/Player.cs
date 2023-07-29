@@ -29,10 +29,10 @@ public class Player : BaseMob
                         &&
                         enemy != this)
                     {
-                        enemy.Health -= _damage;
+                        var damage = new Damage(this, null, TypeDamage.Clear, _damage);
+                        enemy.TakeDamage(damage);
                         if (enemy.Live is false)
                         {
-                            Scorer.KilledEnemy(enemy);
                             IncreaseCharacteristics();
                         }
 
