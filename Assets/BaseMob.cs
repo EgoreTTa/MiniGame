@@ -133,6 +133,15 @@ public abstract class BaseMob : MonoBehaviour
     }
     protected virtual void PickItem() { }
 
+    public void TakeDamage(Damage damage)
+    {
+        Health -= damage.CountDamage;
+        if (_live is false)
+        {
+            damage.Owner.Scorer.KilledEnemy(this);
+        }
+    }
+
     protected virtual void Rotate(float axisX)
     {
         axisX = axisX > 0 ? 1 : -1;
