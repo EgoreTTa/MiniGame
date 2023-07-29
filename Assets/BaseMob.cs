@@ -23,6 +23,7 @@ public abstract class BaseMob : MonoBehaviour
     [SerializeField] protected float _viewRadius;
     [SerializeField] protected float _turningSpeed;
     protected bool _live = true;
+    private ScoreCounter _scorer = new();
 
     public float Health
     {
@@ -124,6 +125,7 @@ public abstract class BaseMob : MonoBehaviour
     }
 
     public bool Live => _live;
+    public ScoreCounter Scorer => _scorer;
 
     protected virtual void Walk()
     {
@@ -141,8 +143,11 @@ public abstract class BaseMob : MonoBehaviour
     {
         if (collider.gameObject.GetComponent<BaseItem>() is { } item)
         {
-            item.Use(this);
             PickItem();
+            if (item.GetComponent<IUsable>() is { } usable)
+            {
+                usable.Use(this);
+            }
         }
     }
 }
