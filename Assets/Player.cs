@@ -3,14 +3,12 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class Player : BaseMob
 {
-    private BumStats _stats = new();
     [SerializeField] private float _increaseCharacteristicsOnMurder;
     [SerializeField] private float _intervalForAttack;
     [SerializeField] private CircleCollider2D _triggerForAttack;
     [SerializeField] private float _offsetForAttack;
     private float _timerIntervalForAttack;
-
-    public BumStats Stats => _stats;
+    private Inventory _inventory;
 
     public void Attack()
     {
@@ -34,7 +32,7 @@ public class Player : BaseMob
                         enemy.Health -= _damage;
                         if (enemy.Live is false)
                         {
-                            Stats.KilledEnemy();
+                            Scorer.KilledEnemy(enemy);
                             IncreaseCharacteristics();
                         }
 
@@ -96,11 +94,6 @@ public class Player : BaseMob
 
     protected override void DecreaseHealth()
     {
-        Stats.ClearStreak();
-    }
-
-    protected override void PickItem()
-    {
-        Stats.PickItem();
+        Scorer.ClearStreak();
     }
 }
