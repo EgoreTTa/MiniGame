@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Damage
@@ -6,25 +5,22 @@ public class Damage
     private BaseMob _owner;
     private GameObject _parent;
     private TypeDamage _typeDamage;
-    private List<BaseEffect> _effects;
+    private float _countDamage;
 
-    public Damage (
-        BaseMob owner, 
-        GameObject parent, 
+    public BaseMob Owner => _owner;
+    public GameObject Parent => _parent;
+    public TypeDamage TypeDamage => _typeDamage;
+    public float CountDamage => _countDamage;
+
+    public Damage(
+        BaseMob owner,
+        GameObject parent,
         TypeDamage typeDamage,
-        BaseEffect[] effects)
+        float countDamage)
     {
         _owner = owner;
         _parent = parent;
         _typeDamage = typeDamage;
-        _effects = effects;
+        _countDamage = countDamage;
     }
-
-}
-
-public enum TypeDamage
-{
-    Physical,
-    Magical,
-    Clear
 }
