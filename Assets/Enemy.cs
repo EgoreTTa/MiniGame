@@ -39,7 +39,10 @@ public class Enemy : BaseMob
             &&
             _targetToAttack.gameObject.activeSelf)
         {
-            if (Vector3.Distance(_targetToAttack.transform.position, transform.position) > _viewRadius)
+            var distanceToMob = Vector3.Distance(
+                _targetToPickUp.transform.position,
+                transform.position);
+            if (distanceToMob > _viewRadius)
             {
                 _targetToAttack = null;
                 return;
@@ -59,7 +62,10 @@ public class Enemy : BaseMob
             &&
             _targetToPickUp.gameObject.activeSelf)
         {
-            if (Vector3.Distance(_targetToPickUp.transform.position, transform.position) > _viewRadius)
+            var distanceToItem = Vector3.Distance(
+                _targetToPickUp.transform.position, 
+                transform.position);
+            if (distanceToItem > _viewRadius)
             {
                 _targetToPickUp = null;
                 return;
