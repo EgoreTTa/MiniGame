@@ -5,16 +5,15 @@ public class DayTime : MonoBehaviour
     [SerializeField] private DayParts _dayTime;
     private float _time;
 
-    public DayParts PartOfDay
-    {
-        get => _dayTime;
-    }
+    public DayParts partOfDay => _dayTime;
 
-// Update is called once per frame
-    void Update()
+    private const int PartOfDayForSecond = 21600;
+    private const int SecondsOfDay = 86400;
+
+    private void Update()
     {
         _time += Time.deltaTime*10000;
-        switch ((int)_time / 21600)
+        switch ((int)_time / PartOfDayForSecond)
         {
             case 0:
                 _dayTime = DayParts.Night;
@@ -29,9 +28,8 @@ public class DayTime : MonoBehaviour
                 _dayTime = DayParts.Evening;
                 break;
             default:
-                _time -= 86400;
+                _time -= SecondsOfDay;
                 break;
         }
-        Debug.Log(_dayTime);
     }
 }
