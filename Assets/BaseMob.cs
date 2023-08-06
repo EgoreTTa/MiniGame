@@ -19,7 +19,7 @@ public abstract class BaseMob : MonoBehaviour
 
     [Header("Остальные хар-ки")] 
     [SerializeField] protected string _firstname;
-    [SerializeField] protected float _damage;
+    [SerializeField] protected float _damageCount;
     [SerializeField] protected float _viewRadius;
     [SerializeField] protected float _turningSpeed;
     protected bool _live = true;
@@ -45,8 +45,6 @@ public abstract class BaseMob : MonoBehaviour
             _health = value;
         }
     }
-
-    protected virtual void DecreaseHealth() { }
 
     public int Stamina
     {
@@ -93,13 +91,13 @@ public abstract class BaseMob : MonoBehaviour
 
     public string Firstname => _firstname;
 
-    public float Damage
+    public float DamageCount
     {
-        get => _damage;
+        get => _damageCount;
         set
         {
             if (value < 0) value = 0;
-            _damage = value;
+            _damageCount = value;
         }
     }
 
@@ -125,16 +123,23 @@ public abstract class BaseMob : MonoBehaviour
 
     public bool Live => _live;
 
-    protected virtual void Walk()
-    {
-        transform.position += transform.up.normalized * _moveSpeed * Time.deltaTime;
-    }
+    protected virtual void DecreaseHealth() { }
+
     protected virtual void PickItem() { }
 
-    protected virtual void Rotate(float axisX)
+    public void TakeDamage(Damage damage)
     {
-        axisX = axisX > 0 ? 1 : -1;
-        transform.Rotate(0f, 0f, _turningSpeed * Time.deltaTime * axisX);
+        Health -= damage.CountDamage;
+        if (_live is false)
+        {
+            damage.Owner.Scorer.KilledEnemy(this);
+        }
+    }
+
+    protected virtual void Walk(Vector3 vector)
+    {
+        vector = vector.normalized;
+        transform.position += vector * _moveSpeed * Time.deltaTime;
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
