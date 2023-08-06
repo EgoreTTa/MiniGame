@@ -164,12 +164,7 @@ public class Kamikaze : BaseMob
     private void MoveToPosition(Vector3 targetPosition)
     {
         var direction = targetPosition - transform.position;
-        var axis = Vector3.SignedAngle(
-            direction,
-            transform.up,
-            Vector3.back);
-        Rotate(axis);
-        Walk();
+        Walk(direction);
     }
 
     private void LookAround()
