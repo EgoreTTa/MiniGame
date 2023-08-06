@@ -64,18 +64,15 @@ public class Player : BaseMob
 
     private void Update()
     {
-        var axisX = 0;
-        if (Input.GetKey(KeyCode.A)) axisX++;
-        if (Input.GetKey(KeyCode.D)) axisX--;
-
-        if (Input.GetKey(KeyCode.W))
+        var axis = Vector3.zero;
+        if (Input.GetKey(KeyCode.D)) axis.x++;
+        if (Input.GetKey(KeyCode.A)) axis.x--;
+        if (Input.GetKey(KeyCode.W)) axis.y++;
+        if (Input.GetKey(KeyCode.S)) axis.y--;
+        
+        if (axis != Vector3.zero)
         {
-            Walk();
-        }
-
-        if (axisX is not 0)
-        {
-            Rotate(axisX);
+            Walk(axis);
         }
 
         if (_timerIntervalForAttack <= _intervalForAttack)
