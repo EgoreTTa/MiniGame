@@ -432,6 +432,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2090430178449355298, guid: b6ce417270d7d604788d7c4c0bbbb94d, type: 3}
+      propertyPath: _health
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2090430178449355298, guid: b6ce417270d7d604788d7c4c0bbbb94d, type: 3}
+      propertyPath: _maxHealth
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2090430178449355298, guid: b6ce417270d7d604788d7c4c0bbbb94d, type: 3}
       propertyPath: _throwingCone
       value: 1
       objectReference: {fileID: 0}
