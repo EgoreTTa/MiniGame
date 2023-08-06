@@ -151,4 +151,3 @@ MonoBehaviour:
   _turningSpeed: 10
   _score: 0
   _targetToAttack: {fileID: 0}
-  _targetToPickUp: {fileID: 0}

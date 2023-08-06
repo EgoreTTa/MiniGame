@@ -7,7 +7,6 @@ public class Enemy : BaseMob
     [SerializeField] private int _score;
     [SerializeField] private BaseMob _targetToAttack;
     [SerializeField] private BaseItem _targetToPickUp;
-    [SerializeField] private Vector3? _targetToExplore;
 
     public BaseMob TargetToAttack
     {
@@ -39,46 +38,26 @@ public class Enemy : BaseMob
             &&
             _targetToAttack.gameObject.activeSelf)
         {
-            if (Vector3.Distance(_targetToAttack.transform.position, transform.position) > _viewRadius)
+            if (_health <= _maxHealth / 100 * 20)
             {
-                _targetToAttack = null;
-                return;
-            }
-
-            if (_health > _maxHealth / 100 * 20)
-            {
-                MoveToPosition(_targetToAttack.transform.position);
+                MoveToTarget(_targetToAttack.gameObject);
                 return;
             }
 
             Retreat();
-            return;
         }
 
         if (_targetToPickUp != null
             &&
             _targetToPickUp.gameObject.activeSelf)
         {
-            if (Vector3.Distance(_targetToPickUp.transform.position, transform.position) > _viewRadius)
-            {
-                _targetToPickUp = null;
-                return;
-            }
-            MoveToPosition(_targetToPickUp.transform.position);
-            return;
-        }
-
-        var target = LookAround();
-        if (target is false)
-        {
-            if (_targetToExplore == null) FindPositionToExplore();
-            if (_targetToExplore != null) MoveToPosition(_targetToExplore.Value);
+            MoveToTarget(_targetToPickUp.gameObject);
         }
     }
 
-    private void MoveToPosition(Vector3 targetPosition)
+    private void MoveToTarget(GameObject target)
     {
-        var direction = targetPosition - transform.position;
+        var direction = _targetToAttack.transform.position - transform.position;
         var axis = Vector3.SignedAngle(
             direction,
             transform.up,
@@ -87,7 +66,7 @@ public class Enemy : BaseMob
         Walk();
     }
 
-    private bool LookAround()
+    private void LookAround()
     {
         var casted = Physics2D.CircleCastAll(
             transform.position,
@@ -103,7 +82,7 @@ public class Enemy : BaseMob
         if (mobs.Length > 0)
         {
             TargetToAttack = mobs.First();
-            return true;
+            return;
         }
 
         var items = casted.Where(x => x.transform.GetComponent<BaseItem>())
@@ -113,9 +92,7 @@ public class Enemy : BaseMob
         if (items.Length > 0)
         {
             TargetToPickUp = items.First();
-            return true;
         }
-        return false;
     }
 
     private void Retreat()
@@ -127,12 +104,5 @@ public class Enemy : BaseMob
             Vector3.back);
         Rotate(-axis);
         Walk();
-    }
-
-    private void FindPositionToExplore()
-    {
-        _targetToExplore = new Vector3(
-            Random.Range(-5, 5),
-            Random.Range(-5, 5));
     }
 }
