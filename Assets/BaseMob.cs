@@ -47,8 +47,6 @@ public abstract class BaseMob : MonoBehaviour
         }
     }
 
-    protected virtual void DecreaseHealth() { }
-
     public int Stamina
     {
         get => _stamina;
@@ -127,12 +125,15 @@ public abstract class BaseMob : MonoBehaviour
     public bool Live => _live;
     public ScoreCounter Scorer => _scorer;
 
+    protected virtual void DecreaseHealth() { }
+
+    protected virtual void PickItem() { }
+
     protected virtual void Walk(Vector3 vector)
     {
         vector = vector.normalized;
         transform.position += vector * _moveSpeed * Time.deltaTime;
     }
-    protected virtual void PickItem() { }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
