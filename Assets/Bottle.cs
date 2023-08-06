@@ -71,7 +71,6 @@ public class Bottle : MonoBehaviour
         {
             mob.TakeDamage(_damage);
             Fall(transform.position);
-            Destroy(this);
         }
     }
 }
