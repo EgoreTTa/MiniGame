@@ -149,17 +149,12 @@ public abstract class BaseMob : MonoBehaviour
     public bool Live => _live;
     public ScoreCounter Scorer => _scorer;
 
-    protected virtual void Walk()
+    protected virtual void Walk(Vector3 vector)
     {
-        transform.position += transform.up.normalized * _moveSpeed * Time.deltaTime;
+        vector = vector.normalized;
+        transform.position += vector * _moveSpeed * Time.deltaTime;
     }
     protected virtual void PickItem() { }
-
-    protected virtual void Rotate(float axisX)
-    {
-        axisX = axisX > 0 ? 1 : -1;
-        transform.Rotate(0f, 0f, _turningSpeed * Time.deltaTime * axisX);
-    }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
