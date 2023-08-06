@@ -90,6 +90,27 @@ public abstract class BaseMob : MonoBehaviour
         }
     }
 
+    public float MinMoveSpeed
+    {
+        get => _minMoveSpeed;
+        set
+        {
+            if (value < 0) value = 0;
+            if (value > _maxMoveSpeed) value = _maxMoveSpeed;
+            _minMoveSpeed = value;
+        }
+    }
+
+    public float MaxMoveSpeed
+    {
+        get => _maxMoveSpeed;
+        set
+        {
+            if (value < _minMoveSpeed) value = _minMoveSpeed;
+            _maxMoveSpeed = value;
+        }
+    }
+
     public string Firstname => _firstname;
 
     public float Damage
@@ -118,6 +139,7 @@ public abstract class BaseMob : MonoBehaviour
         set
         {
             if (value < 0) value = 0;
+            if (value > 360) value = 360;
             _turningSpeed = value;
         }
     }
