@@ -19,10 +19,11 @@ public abstract class BaseMob : MonoBehaviour
 
     [Header("Остальные хар-ки")] 
     [SerializeField] protected string _firstname;
-    [SerializeField] protected float _damage;
+    [SerializeField] protected float _damageCount;
     [SerializeField] protected float _viewRadius;
     [SerializeField] protected float _turningSpeed;
     protected bool _live = true;
+    private ScoreCounter _scorer = new();
 
     public float Health
     {
@@ -45,8 +46,6 @@ public abstract class BaseMob : MonoBehaviour
             _health = value;
         }
     }
-
-    protected virtual void DecreaseHealth() { }
 
     public int Stamina
     {
@@ -91,15 +90,36 @@ public abstract class BaseMob : MonoBehaviour
         }
     }
 
-    public string Firstname => _firstname;
-
-    public float Damage
+    public float MinMoveSpeed
     {
-        get => _damage;
+        get => _minMoveSpeed;
         set
         {
             if (value < 0) value = 0;
-            _damage = value;
+            if (value > _maxMoveSpeed) value = _maxMoveSpeed;
+            _minMoveSpeed = value;
+        }
+    }
+
+    public float MaxMoveSpeed
+    {
+        get => _maxMoveSpeed;
+        set
+        {
+            if (value < _minMoveSpeed) value = _minMoveSpeed;
+            _maxMoveSpeed = value;
+        }
+    }
+
+    public string Firstname => _firstname;
+
+    public float DamageCount
+    {
+        get => _damageCount;
+        set
+        {
+            if (value < 0) value = 0;
+            _damageCount = value;
         }
     }
 
@@ -119,30 +139,42 @@ public abstract class BaseMob : MonoBehaviour
         set
         {
             if (value < 0) value = 0;
+            if (value > 360) value = 360;
             _turningSpeed = value;
         }
     }
 
     public bool Live => _live;
+    public ScoreCounter Scorer => _scorer;
 
-    protected virtual void Walk()
-    {
-        transform.position += transform.up.normalized * _moveSpeed * Time.deltaTime;
-    }
+    protected virtual void DecreaseHealth() { }
+
     protected virtual void PickItem() { }
 
-    protected virtual void Rotate(float axisX)
+    public void TakeDamage(Damage damage)
     {
-        axisX = axisX > 0 ? 1 : -1;
-        transform.Rotate(0f, 0f, _turningSpeed * Time.deltaTime * axisX);
+        Health -= damage.CountDamage;
+        if (_live is false)
+        {
+            damage.Owner.Scorer.KilledEnemy(this);
+        }
+    }
+
+    protected virtual void Walk(Vector3 vector)
+    {
+        vector = vector.normalized;
+        transform.position += vector * _moveSpeed * Time.deltaTime;
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.GetComponent<BaseItem>() is { } item)
         {
-            item.Use(this);
             PickItem();
+            if (item.GetComponent<IUsable>() is { } usable)
+            {
+                usable.Use(this);
+            }
         }
     }
 }

@@ -3,14 +3,12 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class Player : BaseMob
 {
-    private BumStats _stats = new();
     [SerializeField] private float _increaseCharacteristicsOnMurder;
     [SerializeField] private float _intervalForAttack;
     [SerializeField] private CircleCollider2D _triggerForAttack;
     [SerializeField] private float _offsetForAttack;
     private float _timerIntervalForAttack;
-
-    public BumStats Stats => _stats;
+    private Inventory _inventory;
 
     public void Attack()
     {
@@ -31,10 +29,10 @@ public class Player : BaseMob
                         &&
                         enemy != this)
                     {
-                        enemy.Health -= _damage;
+                        var damage = new Damage(this, null, TypeDamage.Clear, _damageCount);
+                        enemy.TakeDamage(damage);
                         if (enemy.Live is false)
                         {
-                            Stats.KilledEnemy();
                             IncreaseCharacteristics();
                         }
 
@@ -55,7 +53,7 @@ public class Player : BaseMob
                 _health *= _increaseCharacteristicsOnMurder;
                 break;
             case 1:
-                _damage *= _increaseCharacteristicsOnMurder;
+                _damageCount *= _increaseCharacteristicsOnMurder;
                 break;
             case 2:
                 _moveSpeed *= _increaseCharacteristicsOnMurder;
@@ -66,18 +64,15 @@ public class Player : BaseMob
 
     private void Update()
     {
-        var axisX = 0;
-        if (Input.GetKey(KeyCode.A)) axisX++;
-        if (Input.GetKey(KeyCode.D)) axisX--;
-
-        if (Input.GetKey(KeyCode.W))
+        var axis = Vector3.zero;
+        if (Input.GetKey(KeyCode.D)) axis.x++;
+        if (Input.GetKey(KeyCode.A)) axis.x--;
+        if (Input.GetKey(KeyCode.W)) axis.y++;
+        if (Input.GetKey(KeyCode.S)) axis.y--;
+        
+        if (axis != Vector3.zero)
         {
-            Walk();
-        }
-
-        if (axisX is not 0)
-        {
-            Rotate(axisX);
+            Walk(axis);
         }
 
         if (_timerIntervalForAttack <= _intervalForAttack)
@@ -96,11 +91,6 @@ public class Player : BaseMob
 
     protected override void DecreaseHealth()
     {
-        Stats.ClearStreak();
-    }
-
-    protected override void PickItem()
-    {
-        Stats.PickItem();
+        Scorer.ClearStreak();
     }
 }

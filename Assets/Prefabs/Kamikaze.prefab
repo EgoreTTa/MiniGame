@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 4455685455898522901}
   - component: {fileID: 4455685455898522898}
   - component: {fileID: 2333678910982951190}
+  - component: {fileID: 1045222121333475769}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Kamikaze
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -123,3 +124,35 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &1045222121333475769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4455685455898522903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24e1935fbba1cbd4bad26d7648e6ce8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 100
+  _minHealth: 0
+  _maxHealth: 100
+  _stamina: 50
+  _minStamina: 0
+  _maxStamina: 50
+  _moveSpeed: 3
+  _minMoveSpeed: 0
+  _maxMoveSpeed: 3
+  _firstname: Kamikaze
+  _damage: 100
+  _viewRadius: 5
+  _turningSpeed: 3
+  _score: 0
+  _stateOfEnemy: 0
+  _targetToAttack: {fileID: 0}
+  _timeForIdle: 10
+  _timeForDetonation: 3
+  _explosionRadius: 3
+  _detonationRadius: 1
