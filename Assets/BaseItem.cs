@@ -13,6 +13,5 @@ public abstract class BaseItem : MonoBehaviour
     public Sprite SpriteItem => _spriteItem;
 
     public abstract void PickUp(BaseMob parent);
-    public abstract void Use(BaseMob parent);
     public virtual void PickDown(BaseMob parent) { }
 }
