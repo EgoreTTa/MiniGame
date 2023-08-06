@@ -23,6 +23,7 @@ public abstract class BaseMob : MonoBehaviour
     [SerializeField] protected float _viewRadius;
     [SerializeField] protected float _turningSpeed;
     protected bool _live = true;
+    private ScoreCounter _scorer = new();
 
     public float Health
     {
@@ -122,28 +123,27 @@ public abstract class BaseMob : MonoBehaviour
     }
 
     public bool Live => _live;
+    public ScoreCounter Scorer => _scorer;
 
     protected virtual void DecreaseHealth() { }
 
     protected virtual void PickItem() { }
 
-    protected virtual void Walk()
+    protected virtual void Walk(Vector3 vector)
     {
-        transform.position += transform.up.normalized * _moveSpeed * Time.deltaTime;
-    }
-
-    protected virtual void Rotate(float axisX)
-    {
-        axisX = axisX > 0 ? 1 : -1;
-        transform.Rotate(0f, 0f, _turningSpeed * Time.deltaTime * axisX);
+        vector = vector.normalized;
+        transform.position += vector * _moveSpeed * Time.deltaTime;
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.GetComponent<BaseItem>() is { } item)
         {
-            item.Use(this);
             PickItem();
+            if (item.GetComponent<IUsable>() is { } usable)
+            {
+                usable.Use(this);
+            }
         }
     }
 }

@@ -12,9 +12,9 @@ public class Boyara : BaseItem
         _damageBoost = Random.Range(_minRange, _maxRange);
     }
 
-    public override void Use(BaseMob target)
+    public override void PickUp(BaseMob parent)
     {
-        target.Damage += _damageBoost;
+        parent.Damage += _damageBoost;
         Destroy(gameObject);
     }
 }

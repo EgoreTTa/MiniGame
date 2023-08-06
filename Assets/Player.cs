@@ -3,14 +3,12 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class Player : BaseMob
 {
-    private BumStats _stats = new();
     [SerializeField] private float _increaseCharacteristicsOnMurder;
     [SerializeField] private float _intervalForAttack;
     [SerializeField] private CircleCollider2D _triggerForAttack;
     [SerializeField] private float _offsetForAttack;
     private float _timerIntervalForAttack;
-
-    public BumStats Stats => _stats;
+    private Inventory _inventory;
 
     public void Attack()
     {
@@ -34,7 +32,7 @@ public class Player : BaseMob
                         enemy.Health -= _damage;
                         if (enemy.Live is false)
                         {
-                            Stats.KilledEnemy();
+                            Scorer.KilledEnemy(enemy);
                             IncreaseCharacteristics();
                         }
 
@@ -66,18 +64,15 @@ public class Player : BaseMob
 
     private void Update()
     {
-        var axisX = 0;
-        if (Input.GetKey(KeyCode.A)) axisX++;
-        if (Input.GetKey(KeyCode.D)) axisX--;
-
-        if (Input.GetKey(KeyCode.W))
+        var axis = Vector3.zero;
+        if (Input.GetKey(KeyCode.D)) axis.x++;
+        if (Input.GetKey(KeyCode.A)) axis.x--;
+        if (Input.GetKey(KeyCode.W)) axis.y++;
+        if (Input.GetKey(KeyCode.S)) axis.y--;
+        
+        if (axis != Vector3.zero)
         {
-            Walk();
-        }
-
-        if (axisX is not 0)
-        {
-            Rotate(axisX);
+            Walk(axis);
         }
 
         if (_timerIntervalForAttack <= _intervalForAttack)
@@ -96,11 +91,6 @@ public class Player : BaseMob
 
     protected override void DecreaseHealth()
     {
-        Stats.ClearStreak();
-    }
-
-    protected override void PickItem()
-    {
-        Stats.PickItem();
+        Scorer.ClearStreak();
     }
 }
