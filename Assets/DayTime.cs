@@ -1,18 +1,20 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class DayTime : MonoBehaviour
 {
+    private const int PartOfDayForSecond = 21600;
+    private const int SecondsOfDay = 86400;
     [SerializeField] private DayParts _dayTime;
     private float _time;
 
-    public DayParts partOfDay => _dayTime;
+    public DayParts PartOfDay => _dayTime;
 
-    private const int PartOfDayForSecond = 21600;
-    private const int SecondsOfDay = 86400;
-
+    [UsedImplicitly]
     private void Update()
     {
-        _time += Time.deltaTime*10000;
+        _time += Time.deltaTime * 10000;
+
         switch ((int)_time / PartOfDayForSecond)
         {
             case 0:
