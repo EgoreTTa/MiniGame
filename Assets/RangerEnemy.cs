@@ -16,26 +16,18 @@ public class RangerEnemy : BaseMob
         get => _targetToAttack;
         set
         {
-            if (value.activeSelf)
-            {
-                _targetToAttack = value;
-            }
+            if (value.activeSelf) _targetToAttack = value;
         }
     }
-    
+
     private void Update()
     {
-        if (_timerIntervalAttack < _intervalAttack)
-        {
-            _timerIntervalAttack += Time.deltaTime;
-        }
+        if (_timerIntervalAttack < _intervalAttack) _timerIntervalAttack += Time.deltaTime;
 
         if (_targetToAttack != null
             &&
             _targetToAttack.activeSelf)
-        {
             ChoiceOfAction();
-        }
     }
 
     private void ChoiceOfAction()
@@ -43,13 +35,15 @@ public class RangerEnemy : BaseMob
         var distance = Vector3.Distance(
             transform.position,
             _targetToAttack.transform.position);
+
         if (distance > _rangeOfAttack)
         {
-            MoveToRangeOfAttack();
+            MoveToRangeOfAttack(_targetToAttack);
         }
         else
         {
             var direction = _targetToAttack.transform.position - transform.position;
+
             if (Vector3.Angle(direction, transform.up) > _throwingCone)
             {
                 var axis = Vector3.SignedAngle(
@@ -69,21 +63,23 @@ public class RangerEnemy : BaseMob
         }
     }
 
-    private void MoveToRangeOfAttack()
+    private void Rotate(float axis)
     {
-        var direction = _targetToAttack.transform.position - transform.position;
-        var axis = Vector3.SignedAngle(
-            direction,
-            transform.up,
-            Vector3.back);
-        Rotate(axis);
-        Walk();
+        axis = axis > 0 ? 1 : -1;
+        transform.Rotate(0f, 0f, _turningSpeed * Time.deltaTime * axis);
+    }
+
+    private void MoveToRangeOfAttack(GameObject target)
+    {
+        var direction = target.transform.position - transform.position;
+        Walk(direction);
     }
 
     private void BottleThrow()
     {
         var directionThrow = transform.up.normalized;
         var bottle = Instantiate(_bottle, transform.position, Quaternion.identity).GetComponent<Bottle>();
+
         if (bottle != null)
         {
             var damage = new Damage(this, null, TypeDamage.Clear, _damage);

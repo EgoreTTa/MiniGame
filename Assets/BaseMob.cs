@@ -47,8 +47,6 @@ public abstract class BaseMob : MonoBehaviour
         }
     }
 
-    protected virtual void DecreaseHealth() { }
-
     public int Stamina
     {
         get => _stamina;
@@ -92,6 +90,27 @@ public abstract class BaseMob : MonoBehaviour
         }
     }
 
+    public float MinMoveSpeed
+    {
+        get => _minMoveSpeed;
+        set
+        {
+            if (value < 0) value = 0;
+            if (value > _maxMoveSpeed) value = _maxMoveSpeed;
+            _minMoveSpeed = value;
+        }
+    }
+
+    public float MaxMoveSpeed
+    {
+        get => _maxMoveSpeed;
+        set
+        {
+            if (value < _minMoveSpeed) value = _minMoveSpeed;
+            _maxMoveSpeed = value;
+        }
+    }
+
     public string Firstname => _firstname;
 
     public float Damage
@@ -120,6 +139,7 @@ public abstract class BaseMob : MonoBehaviour
         set
         {
             if (value < 0) value = 0;
+            if (value > 360) value = 360;
             _turningSpeed = value;
         }
     }
@@ -127,10 +147,8 @@ public abstract class BaseMob : MonoBehaviour
     public bool Live => _live;
     public ScoreCounter Scorer => _scorer;
 
-    protected virtual void Walk()
-    {
-        transform.position += transform.up.normalized * _moveSpeed * Time.deltaTime;
-    }
+    protected virtual void DecreaseHealth() { }
+
     protected virtual void PickItem() { }
 
     public void TakeDamage(Damage damage)
@@ -142,10 +160,10 @@ public abstract class BaseMob : MonoBehaviour
         }
     }
 
-    protected virtual void Rotate(float axisX)
+    protected virtual void Walk(Vector3 vector)
     {
-        axisX = axisX > 0 ? 1 : -1;
-        transform.Rotate(0f, 0f, _turningSpeed * Time.deltaTime * axisX);
+        vector = vector.normalized;
+        transform.position += vector * _moveSpeed * Time.deltaTime;
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
