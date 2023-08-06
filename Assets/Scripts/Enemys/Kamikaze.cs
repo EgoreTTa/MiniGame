@@ -85,7 +85,7 @@ public class Kamikaze : BaseMob
                 if (_targetToAttack != null)
                 {
                     _stateOfEnemy = StatesOfEnemy.Pursuit;
-                    return;
+                    break;
                 }
 
                 if (_timerTimeForIdle > _timeForIdle)
@@ -93,7 +93,7 @@ public class Kamikaze : BaseMob
                     _timerTimeForIdle -= _timeForIdle;
                     FindPositionToExplore();
                     _stateOfEnemy = StatesOfEnemy.Explore;
-                    return;
+                    break;
                 }
 
                 Idle();
@@ -102,13 +102,13 @@ public class Kamikaze : BaseMob
                 if (_targetToAttack != null)
                 {
                     _stateOfEnemy = StatesOfEnemy.Pursuit;
-                    return;
+                    break;
                 }
 
                 if (_targetToExplore == null)
                 {
                     _stateOfEnemy = StatesOfEnemy.Idle;
-                    return;
+                    break;
                 }
 
                 Explore();
@@ -117,7 +117,7 @@ public class Kamikaze : BaseMob
                 if (_targetToAttack == null)
                 {
                     _stateOfEnemy = StatesOfEnemy.Idle;
-                    return;
+                    break;
                 }
 
                 var distanceToTarget = Vector3.Distance(
@@ -127,19 +127,17 @@ public class Kamikaze : BaseMob
                 if (distanceToTarget < _detonationRadius)
                 {
                     _stateOfEnemy = StatesOfEnemy.Detonation;
-                    return;
+                    break;
                 }
 
                 Pursuit();
                 break;
             case StatesOfEnemy.Detonation:
-            {
                 Detonation();
-                return;
-            }
+                break;
+            default:
+                throw new Exception("FSM: not valid state");
         }
-
-        throw new Exception("FSM: not valid state");
     }
 
     private void Idle() { _timerTimeForIdle += Time.deltaTime; }
