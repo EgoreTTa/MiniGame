@@ -146,7 +146,7 @@ MonoBehaviour:
   _minMoveSpeed: 0
   _maxMoveSpeed: 3
   _firstname: Kamikaze
-  _damage: 100
+  _damageCount: 100
   _viewRadius: 5
   _turningSpeed: 3
   _score: 0
