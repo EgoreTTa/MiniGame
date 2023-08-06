@@ -19,7 +19,7 @@ public abstract class BaseMob : MonoBehaviour
 
     [Header("Остальные хар-ки")] 
     [SerializeField] protected string _firstname;
-    [SerializeField] protected float _damage;
+    [SerializeField] protected float _damageCount;
     [SerializeField] protected float _viewRadius;
     [SerializeField] protected float _turningSpeed;
     protected bool _live = true;
@@ -113,13 +113,13 @@ public abstract class BaseMob : MonoBehaviour
 
     public string Firstname => _firstname;
 
-    public float Damage
+    public float DamageCount
     {
-        get => _damage;
+        get => _damageCount;
         set
         {
             if (value < 0) value = 0;
-            _damage = value;
+            _damageCount = value;
         }
     }
 

@@ -82,7 +82,7 @@ public class RangerEnemy : BaseMob
 
         if (bottle != null)
         {
-            var damage = new Damage(this, null, TypeDamage.Clear, _damage);
+            var damage = new Damage(this, null, TypeDamage.Clear, _damageCount);
             bottle.Direction = directionThrow;
             bottle.Damage = damage;
             bottle.Speed = _bottleSpeed;

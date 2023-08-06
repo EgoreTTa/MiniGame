@@ -29,7 +29,7 @@ public class Player : BaseMob
                         &&
                         enemy != this)
                     {
-                        var damage = new Damage(this, null, TypeDamage.Clear, _damage);
+                        var damage = new Damage(this, null, TypeDamage.Clear, _damageCount);
                         enemy.TakeDamage(damage);
                         if (enemy.Live is false)
                         {
@@ -53,7 +53,7 @@ public class Player : BaseMob
                 _health *= _increaseCharacteristicsOnMurder;
                 break;
             case 1:
-                _damage *= _increaseCharacteristicsOnMurder;
+                _damageCount *= _increaseCharacteristicsOnMurder;
                 break;
             case 2:
                 _moveSpeed *= _increaseCharacteristicsOnMurder;
