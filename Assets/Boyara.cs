@@ -14,7 +14,7 @@ public class Boyara : BaseItem
 
     public override void PickUp(BaseMob parent)
     {
-        parent.Damage += _damageBoost;
+        parent.DamageCount += _damageBoost;
         Destroy(gameObject);
     }
 }
