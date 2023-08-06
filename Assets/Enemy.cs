@@ -30,7 +30,12 @@ public class Enemy : BaseMob
 
     private void MoveToTarget(GameObject target)
     {
-        var direction = target.transform.position - transform.position;
-        Walk(direction);
+        var direction = _targetToAttack.transform.position - transform.position;
+        var axis = Vector3.SignedAngle(
+            direction,
+            transform.up,
+            Vector3.back);
+        Rotate(axis);
+        Walk();
     }
 }

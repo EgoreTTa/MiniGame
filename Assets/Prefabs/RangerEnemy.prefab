@@ -146,12 +146,12 @@ MonoBehaviour:
   _minMoveSpeed: 0
   _maxMoveSpeed: 2
   _firstname: "\u0412\u0430\u0441\u044F\u043D"
-  _damageCount: 0
+  _damage: 10
   _viewRadius: 20
   _turningSpeed: 25
   _score: 0
   _targetToAttack: {fileID: 0}
-  _bottle: {fileID: 54425826382435967, guid: 4c3dd2a8ec89c3845b913d8b09651419, type: 3}
+  _bottle: {fileID: 0}
   _bottleSpeed: 2
   _rangeOfAttack: 5
   _intervalAttack: 5

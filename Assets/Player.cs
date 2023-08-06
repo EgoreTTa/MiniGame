@@ -31,10 +31,10 @@ public class Player : BaseMob
                         &&
                         enemy != this)
                     {
-                        var damage = new Damage(this, null, TypeDamage.Clear, _damageCount);
-                        enemy.TakeDamage(damage);
+                        enemy.Health -= _damage;
                         if (enemy.Live is false)
                         {
+                            Stats.KilledEnemy();
                             IncreaseCharacteristics();
                         }
 
@@ -55,7 +55,7 @@ public class Player : BaseMob
                 _health *= _increaseCharacteristicsOnMurder;
                 break;
             case 1:
-                _damageCount *= _increaseCharacteristicsOnMurder;
+                _damage *= _increaseCharacteristicsOnMurder;
                 break;
             case 2:
                 _moveSpeed *= _increaseCharacteristicsOnMurder;
@@ -66,15 +66,18 @@ public class Player : BaseMob
 
     private void Update()
     {
-        var axis = Vector3.zero;
-        if (Input.GetKey(KeyCode.D)) axis.x++;
-        if (Input.GetKey(KeyCode.A)) axis.x--;
-        if (Input.GetKey(KeyCode.W)) axis.y++;
-        if (Input.GetKey(KeyCode.S)) axis.y--;
-        
-        if (axis != Vector3.zero)
+        var axisX = 0;
+        if (Input.GetKey(KeyCode.A)) axisX++;
+        if (Input.GetKey(KeyCode.D)) axisX--;
+
+        if (Input.GetKey(KeyCode.W))
         {
-            Walk(axis);
+            Walk();
+        }
+
+        if (axisX is not 0)
+        {
+            Rotate(axisX);
         }
 
         if (_timerIntervalForAttack <= _intervalForAttack)
