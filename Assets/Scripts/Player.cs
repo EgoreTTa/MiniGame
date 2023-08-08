@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -5,87 +6,99 @@ public class Player : BaseMob
 {
     [SerializeField] private float _increaseCharacteristicsOnMurder;
     [SerializeField] private float _intervalForAttack;
-    [SerializeField] private CircleCollider2D _triggerForAttack;
-    [SerializeField] private float _offsetForAttack;
     private float _timerIntervalForAttack;
     private Inventory _inventory;
+    [SerializeField] private StatesOfPlayer _stateOfPlayer;
+    private IDash _dash;
+    private IAttack _attack;
 
-    public void Attack()
+    public enum StatesOfPlayer
     {
-        if (_stamina > 0)
-        {
-            var triggerPosition =
-                transform.position +
-                transform.up * _offsetForAttack;
-            var casted = Physics2D.CircleCastAll(
-                triggerPosition,
-                _triggerForAttack.radius,
-                Vector2.zero);
-            if (casted.Length > 0)
-            {
-                foreach (var hit in casted)
-                {
-                    if (hit.collider.GetComponent<BaseMob>() is { } enemy
-                        &&
-                        enemy != this)
-                    {
-                        var damage = new Damage(this, null, TypeDamage.Clear, _damageCount);
-                        enemy.TakeDamage(damage);
-                        if (enemy.Live is false)
-                        {
-                            IncreaseCharacteristics();
-                        }
-
-                        break;
-                    }
-                }
-            }
-
-            _stamina--;
-        }
+        Idle,
+        Move,
+        Dash,
+        Attack,
     }
 
-    private void IncreaseCharacteristics()
+    public StatesOfPlayer StateOfPlayer => _stateOfPlayer;
+
+    private void Awake()
     {
-        switch (Random.Range(0, 3))
-        {
-            case 0:
-                _health *= _increaseCharacteristicsOnMurder;
-                break;
-            case 1:
-                _damageCount *= _increaseCharacteristicsOnMurder;
-                break;
-            case 2:
-                _moveSpeed *= _increaseCharacteristicsOnMurder;
-                break;
-            default: break;
-        }
+        _dash = GetComponent<IDash>();
+        _attack = GetComponent<IAttack>();
     }
 
     private void Update()
     {
-        var axis = Vector3.zero;
-        if (Input.GetKey(KeyCode.D)) axis.x++;
-        if (Input.GetKey(KeyCode.A)) axis.x--;
-        if (Input.GetKey(KeyCode.W)) axis.y++;
-        if (Input.GetKey(KeyCode.S)) axis.y--;
-        
-        if (axis != Vector3.zero)
-        {
-            Walk(axis);
-        }
-
         if (_timerIntervalForAttack <= _intervalForAttack)
         {
             _timerIntervalForAttack += Time.deltaTime;
         }
 
-        if (Input.GetKeyDown(KeyCode.E)
-            &&
-            _timerIntervalForAttack > _intervalForAttack)
+        ActionChoice();
+    }
+
+    private void ActionChoice()
+    {
+
+        var axis = Vector3.zero;
+        if (Input.GetKey(KeyCode.D)) axis.x++;
+        if (Input.GetKey(KeyCode.A)) axis.x--;
+        if (Input.GetKey(KeyCode.W)) axis.y++;
+        if (Input.GetKey(KeyCode.S)) axis.y--;
+
+        var isAttack = Input.GetKeyDown(KeyCode.E)
+                       &&
+                       _timerIntervalForAttack > _intervalForAttack;
+        var isDash = Input.GetKeyDown(KeyCode.Space);
+
+        switch (_stateOfPlayer)
         {
-            _timerIntervalForAttack -= _intervalForAttack;
-            Attack();
+            case StatesOfPlayer.Idle or StatesOfPlayer.Move:
+                if (isAttack)
+                {
+                    _timerIntervalForAttack -= _intervalForAttack;
+                    _attack.Attack();
+                    _stateOfPlayer = StatesOfPlayer.Attack;
+                    return;
+                }
+
+                if (isDash)
+                {
+                    _dash.Dash();
+                    _stateOfPlayer = StatesOfPlayer.Dash;
+                    return;
+                }
+
+                if (axis != Vector3.zero)
+                {
+                    Walk(axis);
+                    _stateOfPlayer = StatesOfPlayer.Move;
+                    return;
+                }
+
+                _stateOfPlayer = StatesOfPlayer.Idle;
+                break;
+            case StatesOfPlayer.Dash:
+                if (_dash.StateOfDash == StatesOfDash.Idle)
+                {
+                    _stateOfPlayer = StatesOfPlayer.Idle;
+                    return;
+                }
+
+                _dash.Dash();
+                break;
+            case StatesOfPlayer.Attack:
+                if (_attack.StateOfAttack == StatesOfAttack.Idle)
+                {
+                    _stateOfPlayer = StatesOfPlayer.Idle;
+                    return;
+                }
+
+                _attack.Attack();
+                break;
+            default:
+                throw new Exception("FSM: not valid state");
         }
     }
 
