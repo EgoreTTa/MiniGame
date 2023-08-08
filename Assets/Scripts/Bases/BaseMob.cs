@@ -24,6 +24,9 @@ public abstract class BaseMob : MonoBehaviour
     [SerializeField] protected float _turningSpeed;
     protected bool _live = true;
     private ScoreCounter _scorer = new();
+    private Vector3 _direction;
+
+    public Vector3 Direction => _direction;
 
     public float Health
     {
@@ -162,8 +165,8 @@ public abstract class BaseMob : MonoBehaviour
 
     protected virtual void Walk(Vector3 vector)
     {
-        vector = vector.normalized;
-        transform.position += vector * _moveSpeed * Time.deltaTime;
+        _direction = vector.normalized;
+        transform.position += _direction * _moveSpeed * Time.deltaTime;
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
