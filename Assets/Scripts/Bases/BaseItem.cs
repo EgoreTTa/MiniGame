@@ -1,6 +1,7 @@
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer),
+[RequireComponent(
+    typeof(SpriteRenderer),
     typeof(Rigidbody2D),
     typeof(Collider2D))]
 public abstract class BaseItem : MonoBehaviour
