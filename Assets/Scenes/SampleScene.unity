@@ -203,10 +203,8 @@ MonoBehaviour:
   _nameItem: Iron Armor
   _description: Iron Armor Description
   _scoreCount: 0
-  _spriteItem: {fileID: 0}
-  _typeEquipment: 1
   _changeMaxHealth: 100
-  _parent: {fileID: 0}
+  _typeEquipment: 1
 --- !u!50 &368560147
 Rigidbody2D:
   serializedVersion: 4
