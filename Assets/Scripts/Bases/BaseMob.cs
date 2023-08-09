@@ -195,7 +195,6 @@ public abstract class BaseMob : MonoBehaviour
     {
         if (collider.gameObject.GetComponent<BaseItem>() is { } item)
         {
-            Debug.Log($"{_firstname} ןמהבטנאוע {item.NameItem}");
             _inventory.Put(item);
             if (item.GetComponent<IUsable>() is { } usable)
             {
