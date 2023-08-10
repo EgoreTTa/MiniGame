@@ -10,7 +10,7 @@ public abstract class BaseItem : MonoBehaviour
     [SerializeField] protected string _description;
     [SerializeField] protected int _scoreCount;
 
-    protected BaseMob _parent;
+    protected BaseMob _owner;
     protected SpriteRenderer _spriteRenderer;
     protected Rigidbody2D _rigidbody;
     protected Collider2D _collider;
@@ -26,18 +26,18 @@ public abstract class BaseItem : MonoBehaviour
         _collider = GetComponent<Collider2D>();
     }
 
-    public virtual void PickUp(BaseMob parent)
+    public virtual void PickUp(BaseMob owner)
     {
-        _parent = parent;
+        _owner = owner;
         _spriteRenderer.enabled = false;
         _rigidbody.simulated = false;
         _collider.enabled = false;
     }
 
-    public virtual void PickDown(BaseMob parent)
+    public virtual void PickDown(BaseMob owner)
     {
-        transform.position = parent.transform.position;
-        _parent = null;
+        transform.position = owner.transform.position;
+        _owner = null;
         _spriteRenderer.enabled = true;
         _rigidbody.simulated = true;
         _collider.enabled = true;
