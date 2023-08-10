@@ -18,7 +18,7 @@ public class DefaultAttack : MonoBehaviour, IAttack
 
     [SerializeField] private StatesOfAttack _stateOfAttack;
     private BaseMob _mob;
-    private List<BaseMob> _affectedTargets;
+    private List<BaseMob> _affectedTargets = new();
 
     public StatesOfAttack StateOfAttack => _stateOfAttack;
 
@@ -107,6 +107,7 @@ public class DefaultAttack : MonoBehaviour, IAttack
                 if (_timerHitting > _timeHitting)
                 {
                     _timerHitting -= _timeHitting;
+                    _affectedTargets.Clear();
                     _stateOfAttack = StatesOfAttack.Recovery;
                     return;
                 }
