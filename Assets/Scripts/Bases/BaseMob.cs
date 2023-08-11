@@ -64,7 +64,7 @@ public abstract class BaseMob : MonoBehaviour
         get => _maxHealth;
         set
         {
-            if (value <= _minHealth) value = _minHealth + 1;
+            if (value <= _minHealth) value = _minHealth;
             _maxHealth = value;
         }
     }
