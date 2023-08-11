@@ -23,13 +23,13 @@ public class Player : BaseMob
                 Vector2.zero);
             if (casted.Length > 0)
             {
+                var damage = new Damage(this, null, TypeDamage.Clear, _damageCount);
                 foreach (var hit in casted)
                 {
                     if (hit.collider.GetComponent<BaseMob>() is { } enemy
                         &&
                         enemy != this)
                     {
-                        var damage = new Damage(this, null, TypeDamage.Clear, _damageCount);
                         enemy.TakeDamage(damage);
                         if (enemy.Live is false)
                         {
@@ -37,6 +37,11 @@ public class Player : BaseMob
                         }
 
                         break;
+                    }
+
+                    if (hit.collider.GetComponent<IHealthSystem>() is { } healthSystem)
+                    {
+                        healthSystem.TakeDamage(damage);
                     }
                 }
             }
