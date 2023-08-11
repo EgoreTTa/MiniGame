@@ -2,26 +2,20 @@ using UnityEngine;
 
 public abstract class BaseMob : MonoBehaviour
 {
-    [Header("Здоровье")] 
     [SerializeField] protected float _health;
     [SerializeField] protected float _minHealth;
     [SerializeField] protected float _maxHealth;
-
-    [Header("Выносливость")] 
     [SerializeField] protected int _stamina;
     [SerializeField] protected int _minStamina;
     [SerializeField] protected int _maxStamina;
-
-    [Header("Скорость передвижения")] 
     [SerializeField] protected float _moveSpeed;
     [SerializeField] protected float _minMoveSpeed;
     [SerializeField] protected float _maxMoveSpeed;
-
-    [Header("Остальные хар-ки")] 
     [SerializeField] protected string _firstname;
     [SerializeField] protected float _damageCount;
     [SerializeField] protected float _viewRadius;
     [SerializeField] protected float _turningSpeed;
+    [SerializeField] protected GroupsMobs _groupMobs;
     protected bool _live = true;
     private ScoreCounter _scorer = new();
 
@@ -147,6 +141,8 @@ public abstract class BaseMob : MonoBehaviour
     public bool Live => _live;
     public ScoreCounter Scorer => _scorer;
 
+    public GroupsMobs GroupMobs => _groupMobs;
+
     protected virtual void DecreaseHealth() { }
 
     protected virtual void PickItem() { }
@@ -163,7 +159,7 @@ public abstract class BaseMob : MonoBehaviour
     protected virtual void Walk(Vector3 vector)
     {
         vector = vector.normalized;
-        transform.position += vector * _moveSpeed * Time.deltaTime;
+        transform.position += vector.normalized * _moveSpeed * Time.deltaTime;
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
