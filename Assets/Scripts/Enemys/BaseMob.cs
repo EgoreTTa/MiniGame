@@ -159,7 +159,7 @@ public abstract class BaseMob : MonoBehaviour
     protected virtual void Walk(Vector3 vector)
     {
         vector = vector.normalized;
-        transform.position += vector.normalized * _moveSpeed * Time.deltaTime;
+        transform.position += vector * _moveSpeed * Time.deltaTime;
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
