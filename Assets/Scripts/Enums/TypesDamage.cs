@@ -1,4 +1,4 @@
-public enum TypeDamage
+public enum TypesDamage
 {
     Physical,
     Magical,

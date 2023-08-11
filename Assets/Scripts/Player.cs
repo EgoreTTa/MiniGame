@@ -29,7 +29,7 @@ public class Player : BaseMob
                         &&
                         enemy != this)
                     {
-                        var damage = new Damage(this, null, TypeDamage.Clear, _damageCount);
+                        var damage = new Damage(this, null, TypesDamage.Clear, _damageCount);
                         enemy.TakeDamage(damage);
                         if (enemy.Live is false)
                         {
