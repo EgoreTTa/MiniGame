@@ -167,7 +167,7 @@ public class Kamikaze : BaseMob
         var mobs = GetMobsForRadius(_viewRadius);
 
         _targetToAttack = null;
-        if (mobs.Any()) TargetToAttack = mobs.Single();
+        if (mobs.Any()) TargetToAttack = mobs.First();
     }
 
     private void FindPositionToExplore()
