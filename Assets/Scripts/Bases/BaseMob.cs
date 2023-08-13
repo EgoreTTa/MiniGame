@@ -154,7 +154,9 @@ public abstract class BaseMob : MonoBehaviour
     public void TakeDamage(Damage damage)
     {
         Health -= damage.CountDamage;
-        if (_live is false)
+        if (_live is false
+            &&
+            damage.Owner != null)
         {
             damage.Owner.Scorer.KilledEnemy(this);
         }
