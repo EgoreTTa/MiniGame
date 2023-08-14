@@ -367,6 +367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _firstName: "\u0422\u043E\u0440\u0433\u0430\u0448"
+  _isInteract: 0
 --- !u!58 &920579605
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -803,11 +804,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7521055551434040987, guid: 7da9e4eda9f10d14ca820e0846f592bc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.5
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 7521055551434040987, guid: 7da9e4eda9f10d14ca820e0846f592bc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7521055551434040987, guid: 7da9e4eda9f10d14ca820e0846f592bc, type: 3}
       propertyPath: m_LocalPosition.z
