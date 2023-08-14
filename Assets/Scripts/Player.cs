@@ -11,6 +11,7 @@ public class Player : BaseMob
     [SerializeField] private StatesOfPlayer _stateOfPlayer;
     private IDash _dash;
     private IAttack _attack;
+    private bool _isInteract;
 
     public enum StatesOfPlayer
     {
@@ -18,6 +19,7 @@ public class Player : BaseMob
         Move,
         Dash,
         Attack,
+        Interaction,
     }
 
     public StatesOfPlayer StateOfPlayer => _stateOfPlayer;
@@ -40,7 +42,6 @@ public class Player : BaseMob
 
     private void ActionChoice()
     {
-
         var axis = Vector3.zero;
         if (Input.GetKey(KeyCode.D)) axis.x++;
         if (Input.GetKey(KeyCode.A)) axis.x--;
@@ -51,6 +52,8 @@ public class Player : BaseMob
                        &&
                        _timerIntervalForAttack > _intervalForAttack;
         var isDash = Input.GetKeyDown(KeyCode.Space);
+
+        var isInteraction = Input.GetKeyDown(KeyCode.I);
 
         switch (_stateOfPlayer)
         {
@@ -77,6 +80,15 @@ public class Player : BaseMob
                     return;
                 }
 
+                if (isInteraction
+                    &&
+                    _interaction != null)
+                {
+                    Interaction();
+                    _stateOfPlayer = StatesOfPlayer.Interaction;
+                    return;
+                }
+
                 _stateOfPlayer = StatesOfPlayer.Idle;
                 break;
             case StatesOfPlayer.Dash:
@@ -97,8 +109,26 @@ public class Player : BaseMob
 
                 _attack.Attack();
                 break;
+            case StatesOfPlayer.Interaction:
+                if (_interaction.IsInteract is false)
+                {
+                    _stateOfPlayer = StatesOfPlayer.Idle;
+                    return;
+                }
+
+                Interaction();
+                break;
             default:
                 throw new Exception("FSM: not valid state");
+        }
+    }
+
+    private void Interaction()
+    {
+        if (_interaction?.IsInteract is false)
+        {
+            Debug.Log($"{_firstname} обратился к {_interaction?.FirstName}");
+            _interaction?.Interact(this);
         }
     }
 
