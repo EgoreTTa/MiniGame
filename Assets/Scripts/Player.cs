@@ -117,7 +117,7 @@ public class Player : BaseMob
                 Interaction();
                 break;
             default:
-                throw new Exception("FSM: not valid state");
+                throw new Exception("FSM of Player: not valid state");
         }
     }
 
