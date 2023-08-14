@@ -80,9 +80,7 @@ public class Player : BaseMob
                     return;
                 }
 
-                if (isInteraction
-                    &&
-                    _interaction != null)
+                if (isInteraction)
                 {
                     Interaction();
                     _stateOfPlayer = StatesOfPlayer.Interaction;
@@ -110,7 +108,7 @@ public class Player : BaseMob
                 _attack.Attack();
                 break;
             case StatesOfPlayer.Interaction:
-                if (_interaction.IsInteract is false)
+                if (_isInteract is false)
                 {
                     _stateOfPlayer = StatesOfPlayer.Idle;
                     return;
@@ -125,10 +123,27 @@ public class Player : BaseMob
 
     private void Interaction()
     {
-        if (_interaction?.IsInteract is false)
+        if (_interaction != null)
         {
-            Debug.Log($"{_firstname} обратился к {_interaction?.FirstName}");
-            _interaction?.Interact(this);
+            if (_interaction.IsInteract is false
+                ||
+                _isInteract is false)
+            {
+                if (_isInteract is false)
+                {
+                    Debug.Log($"{_firstname} обратился к {_interaction?.FirstName}");
+                    _interaction?.Interact(this);
+                    _isInteract = true;
+                }
+                else
+                {
+                    _isInteract = false;
+                }
+            }
+        }
+        else
+        {
+            _isInteract = false;
         }
     }
 
