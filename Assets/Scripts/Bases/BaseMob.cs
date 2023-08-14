@@ -25,6 +25,7 @@ public abstract class BaseMob : MonoBehaviour
     protected bool _live = true;
     private ScoreCounter _scorer = new();
     private Vector3 _direction;
+    protected IInteraction _interaction;
 
     public Vector3 Direction => _direction;
 
@@ -178,6 +179,11 @@ public abstract class BaseMob : MonoBehaviour
             {
                 usable.Use(this);
             }
+        }
+
+        if (collider.gameObject.GetComponent<IInteraction>() is { } interaction)
+        {
+            _interaction = interaction;
         }
     }
 }
