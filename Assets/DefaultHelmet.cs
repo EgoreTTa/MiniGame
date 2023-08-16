@@ -8,7 +8,13 @@ public class DefaultHelmet : BaseItem, IEquipment
 
     public TypesEquipment TypeEquipment => _typeEquipment;
 
-    public void Equip() { _parent.MaxHealth += _changeMaxHealth; }
+    public void Equip()
+    {
+        _owner.MaxHealth += _changeMaxHealth;
+    }
 
-    public void Unequip() { _parent.MaxHealth -= _changeMaxHealth; }
+    public void Unequip()
+    {
+        _owner.MaxHealth -= _changeMaxHealth;
+    }
 }
