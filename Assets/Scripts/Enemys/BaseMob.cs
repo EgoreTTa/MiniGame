@@ -2,22 +2,15 @@ using UnityEngine;
 
 public abstract class BaseMob : MonoBehaviour
 {
-    [Header("Здоровье")] 
     [SerializeField] protected float _health;
     [SerializeField] protected float _minHealth;
     [SerializeField] protected float _maxHealth;
-
-    [Header("Выносливость")]
     [SerializeField] protected int _stamina;
     [SerializeField] protected int _minStamina;
     [SerializeField] protected int _maxStamina;
-
-    [Header("Скорость передвижения")]
     [SerializeField] protected float _moveSpeed;
     [SerializeField] protected float _minMoveSpeed;
     [SerializeField] protected float _maxMoveSpeed;
-
-    [Header("Остальные хар-ки")]
     [SerializeField] protected string _firstname;
     [SerializeField] protected float _damageCount;
     [SerializeField] protected float _viewRadius;
@@ -172,6 +165,8 @@ public abstract class BaseMob : MonoBehaviour
 
     public bool Live => _live;
     public ScoreCounter Scorer => _scorer;
+    public GroupsMobs GroupMobs => _groupMobs;
+
     public GroupsMobs GroupMobs => _groupMobs;
 
     protected virtual void DecreaseHealth()

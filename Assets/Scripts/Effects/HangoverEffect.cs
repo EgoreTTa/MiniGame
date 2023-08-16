@@ -23,7 +23,7 @@ public class HangoverEffect : BaseEffect
 
     private void TakeDamage()
     {
-        var damage = new Damage(null, null, TypeDamage.Clear, _damage);
+        var damage = new Damage(null, null, TypesDamage.Clear, _damage);
         _target.TakeDamage(damage);
     }
 
