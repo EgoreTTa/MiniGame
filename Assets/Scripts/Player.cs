@@ -98,7 +98,7 @@ public class Player : BaseMob
                 _attack.Attack();
                 break;
             default:
-                throw new Exception("FSM: not valid state");
+                throw new Exception("FSM of Player: not valid state");
         }
     }
 
