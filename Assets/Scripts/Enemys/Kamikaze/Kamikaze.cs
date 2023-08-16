@@ -7,26 +7,18 @@ using Random = UnityEngine.Random;
 [DisallowMultipleComponent]
 public class Kamikaze : BaseMob
 {
-    public enum StatesOfEnemy
-    {
-        Idle,
-        Explore,
-        Pursuit,
-        Detonation
-    }
-
     [SerializeField] private int _score;
-    [SerializeField] private StatesOfEnemy _stateOfEnemy = StatesOfEnemy.Idle;
+    [SerializeField] private StatesOfKamikaze _stateOfKamikaze = StatesOfKamikaze.Idle;
     [SerializeField] private BaseMob _targetToAttack;
     [SerializeField] private Vector3? _targetToExplore;
-    [SerializeField] private float _timeForIdle = default!;
+    [SerializeField] private float _timeForIdle;
     private float _timerTimeForIdle;
-    [SerializeField] private float _timeForDetonation = default!;
+    [SerializeField] private float _timeForDetonation;
     private float _timerTimeForDetonation;
-    [SerializeField] private float _explosionRadius = default!;
-    [SerializeField] private float _detonationRadius = default;
+    [SerializeField] private float _explosionRadius;
+    [SerializeField] private float _detonationRadius;
 
-    public StatesOfEnemy StateOfEnemy => _stateOfEnemy;
+    public StatesOfKamikaze StateOfKamikaze => _stateOfKamikaze;
 
     public BaseMob TargetToAttack
     {
@@ -54,7 +46,7 @@ public class Kamikaze : BaseMob
     {
         var mobs = GetMobsForRadius(_explosionRadius);
 
-        var damage = new Damage(this, null, TypeDamage.Clear, _damageCount);
+        var damage = new Damage(this, null, TypesDamage.Clear, _damageCount);
         foreach (var mob in mobs) mob.TakeDamage(damage);
 
         Destroy(gameObject);
@@ -81,12 +73,12 @@ public class Kamikaze : BaseMob
 
     private void ActionChoice()
     {
-        switch (_stateOfEnemy)
+        switch (_stateOfKamikaze)
         {
-            case StatesOfEnemy.Idle:
+            case StatesOfKamikaze.Idle:
                 if (_targetToAttack != null)
                 {
-                    _stateOfEnemy = StatesOfEnemy.Pursuit;
+                    _stateOfKamikaze = StatesOfKamikaze.Pursuit;
                     break;
                 }
 
@@ -94,31 +86,31 @@ public class Kamikaze : BaseMob
                 {
                     _timerTimeForIdle -= _timeForIdle;
                     FindPositionToExplore();
-                    _stateOfEnemy = StatesOfEnemy.Explore;
+                    _stateOfKamikaze = StatesOfKamikaze.Explore;
                     break;
                 }
 
                 Idle();
                 break;
-            case StatesOfEnemy.Explore:
+            case StatesOfKamikaze.Explore:
                 if (_targetToAttack != null)
                 {
-                    _stateOfEnemy = StatesOfEnemy.Pursuit;
+                    _stateOfKamikaze = StatesOfKamikaze.Pursuit;
                     break;
                 }
 
                 if (_targetToExplore == null)
                 {
-                    _stateOfEnemy = StatesOfEnemy.Idle;
+                    _stateOfKamikaze = StatesOfKamikaze.Idle;
                     break;
                 }
 
                 Explore();
                 break;
-            case StatesOfEnemy.Pursuit:
+            case StatesOfKamikaze.Pursuit:
                 if (_targetToAttack == null)
                 {
-                    _stateOfEnemy = StatesOfEnemy.Idle;
+                    _stateOfKamikaze = StatesOfKamikaze.Idle;
                     break;
                 }
 
@@ -128,13 +120,13 @@ public class Kamikaze : BaseMob
 
                 if (distanceToTarget < _detonationRadius)
                 {
-                    _stateOfEnemy = StatesOfEnemy.Detonation;
+                    _stateOfKamikaze = StatesOfKamikaze.Detonation;
                     break;
                 }
 
                 Pursuit();
                 break;
-            case StatesOfEnemy.Detonation:
+            case StatesOfKamikaze.Detonation:
                 Detonation();
                 break;
             default:
@@ -142,7 +134,10 @@ public class Kamikaze : BaseMob
         }
     }
 
-    private void Idle() { _timerTimeForIdle += Time.deltaTime; }
+    private void Idle()
+    {
+        _timerTimeForIdle += Time.deltaTime;
+    }
 
     private void Explore()
     {
