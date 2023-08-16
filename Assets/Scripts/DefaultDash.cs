@@ -54,7 +54,6 @@ public class DefaultDash : MonoBehaviour, IDash
                 {
                     _timerSwing -= _timeSwing;
                     _owner.GetComponent<Rigidbody2D>().excludeLayers = _onlyDynamic;
-                    _owner.GetComponent<CircleCollider2D>().enabled = false;
                     _stateOfDash = StatesOfDash.Moving;
                     return;
                 }
@@ -66,7 +65,6 @@ public class DefaultDash : MonoBehaviour, IDash
                 {
                     _timerMoving -= _timeMoving;
                     _owner.GetComponent<Rigidbody2D>().excludeLayers = _nothing;
-                    _owner.GetComponent<CircleCollider2D>().enabled = true;
                     _stateOfDash = StatesOfDash.Recovery;
                     return;
                 }
