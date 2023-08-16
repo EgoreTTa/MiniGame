@@ -24,6 +24,7 @@ public abstract class BaseMob : MonoBehaviour
     [SerializeField] protected float _turningSpeed;
     protected bool _live = true;
     private ScoreCounter _scorer = new();
+    private Inventory _inventory;
 
     public float Health
     {
@@ -44,6 +45,27 @@ public abstract class BaseMob : MonoBehaviour
             }
 
             _health = value;
+        }
+    }
+
+    public float MinHealth
+    {
+        get => _minHealth;
+        set
+        {
+            if (value <= 0) value = 0;
+            if (value > _maxHealth) value = _maxHealth;
+            _minHealth = value;
+        }
+    }
+
+    public float MaxHealth
+    {
+        get => _maxHealth;
+        set
+        {
+            if (value <= _minHealth) value = _minHealth;
+            _maxHealth = value;
         }
     }
 
@@ -147,9 +169,12 @@ public abstract class BaseMob : MonoBehaviour
     public bool Live => _live;
     public ScoreCounter Scorer => _scorer;
 
-    protected virtual void DecreaseHealth() { }
+    private void Awake()
+    {
+        _inventory = new Inventory(this);
+    }
 
-    protected virtual void PickItem() { }
+    protected virtual void DecreaseHealth() { }
 
     public void TakeDamage(Damage damage)
     {
@@ -170,10 +195,15 @@ public abstract class BaseMob : MonoBehaviour
     {
         if (collider.gameObject.GetComponent<BaseItem>() is { } item)
         {
-            PickItem();
+            _inventory.Put(item);
             if (item.GetComponent<IUsable>() is { } usable)
             {
                 usable.Use(this);
+            }
+
+            if (item.GetComponent<IEquipment>() is { } equipment)
+            {
+                _inventory.Equip(equipment);
             }
         }
     }
