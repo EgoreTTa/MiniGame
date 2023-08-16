@@ -1,30 +1,25 @@
 using UnityEngine;
 
-public abstract class BaseMob : MonoBehaviour
+public abstract class BaseMob : MonoBehaviour, IHealthSystem
 {
-    [Header("Здоровье")] 
     [SerializeField] protected float _health;
     [SerializeField] protected float _minHealth;
     [SerializeField] protected float _maxHealth;
-
-    [Header("Выносливость")] 
     [SerializeField] protected int _stamina;
     [SerializeField] protected int _minStamina;
     [SerializeField] protected int _maxStamina;
-
-    [Header("Скорость передвижения")] 
     [SerializeField] protected float _moveSpeed;
     [SerializeField] protected float _minMoveSpeed;
     [SerializeField] protected float _maxMoveSpeed;
-
-    [Header("Остальные хар-ки")] 
     [SerializeField] protected string _firstname;
     [SerializeField] protected float _damageCount;
     [SerializeField] protected float _viewRadius;
     [SerializeField] protected float _turningSpeed;
+    [SerializeField] protected GroupsMobs _groupMobs;
     protected bool _live = true;
     private ScoreCounter _scorer = new();
-    private Vector3 _direction;
+    private Vector3 _direction = Vector3.up;
+    protected Inventory _inventory;
 
     public Vector3 Direction => _direction;
 
@@ -47,6 +42,27 @@ public abstract class BaseMob : MonoBehaviour
             }
 
             _health = value;
+        }
+    }
+
+    public float MinHealth
+    {
+        get => _minHealth;
+        set
+        {
+            if (value <= 0) value = 0;
+            if (value > _maxHealth) value = _maxHealth;
+            _minHealth = value;
+        }
+    }
+
+    public float MaxHealth
+    {
+        get => _maxHealth;
+        set
+        {
+            if (value <= _minHealth) value = _minHealth;
+            _maxHealth = value;
         }
     }
 
@@ -149,10 +165,9 @@ public abstract class BaseMob : MonoBehaviour
 
     public bool Live => _live;
     public ScoreCounter Scorer => _scorer;
+    public GroupsMobs GroupMobs => _groupMobs;
 
     protected virtual void DecreaseHealth() { }
-
-    protected virtual void PickItem() { }
 
     public void TakeDamage(Damage damage)
     {
@@ -173,10 +188,15 @@ public abstract class BaseMob : MonoBehaviour
     {
         if (collider.gameObject.GetComponent<BaseItem>() is { } item)
         {
-            PickItem();
+            _inventory?.Put(item);
             if (item.GetComponent<IUsable>() is { } usable)
             {
                 usable.Use(this);
+            }
+
+            if (item.GetComponent<IEquipment>() is { } equipment)
+            {
+                _inventory?.Equip(equipment);
             }
         }
     }
