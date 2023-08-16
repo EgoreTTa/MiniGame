@@ -12,13 +12,13 @@ public class DefaultDash : MonoBehaviour, IDash
     private float _timerRecovery;
     [SerializeField] private float _speedMoving;
     [SerializeField] private StatesOfDash _stateOfDash;
-    private BaseMob _mob;
+    private BaseMob _owner;
 
     public StatesOfDash StateOfDash => _stateOfDash;
 
     private void Awake()
     {
-        _mob = GetComponent<BaseMob>();
+        _owner = GetComponent<BaseMob>();
     }
 
     private void Moving()
@@ -32,7 +32,7 @@ public class DefaultDash : MonoBehaviour, IDash
 
     private void Move()
     {
-        _mob.transform.position += _mob.Direction * _speedMoving * Time.deltaTime;
+        _owner.transform.position += _owner.Direction * _speedMoving * Time.deltaTime;
     }
 
     private void Update()
@@ -51,7 +51,7 @@ public class DefaultDash : MonoBehaviour, IDash
                 if (_timerSwing > _timeSwing)
                 {
                     _timerSwing -= _timeSwing;
-                    _mob.GetComponent<CircleCollider2D>().enabled = false;
+                    _owner.GetComponent<CircleCollider2D>().enabled = false;
                     _stateOfDash = StatesOfDash.Moving;
                     return;
                 }
@@ -62,7 +62,7 @@ public class DefaultDash : MonoBehaviour, IDash
                 if (_timerMoving > _timeMoving)
                 {
                     _timerMoving -= _timeMoving;
-                    _mob.GetComponent<CircleCollider2D>().enabled = true;
+                    _owner.GetComponent<CircleCollider2D>().enabled = true;
                     _stateOfDash = StatesOfDash.Recovery;
                     return;
                 }
