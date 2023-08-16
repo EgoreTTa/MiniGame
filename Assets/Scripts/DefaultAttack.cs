@@ -12,17 +12,18 @@ public class DefaultAttack : MonoBehaviour, IAttack
     private float _timerHitting;
     [SerializeField] private float _timeRecovery;
     private float _timerRecovery;
-
     [SerializeField] private float _offsetForAttack;
     [SerializeField] private float _radiusForAttack;
-
     [SerializeField] private StatesOfAttack _stateOfAttack;
     private BaseMob _mob;
-    private List<BaseMob> _affectedTargets = new();
+    private readonly List<BaseMob> _affectedTargets = new();
 
     public StatesOfAttack StateOfAttack => _stateOfAttack;
 
-    private void Awake() { _mob = GetComponent<BaseMob>(); }
+    private void Awake()
+    {
+        _mob = GetComponent<BaseMob>();
+    }
 
     public void Attack()
     {
@@ -48,7 +49,7 @@ public class DefaultAttack : MonoBehaviour, IAttack
     {
         var triggerPosition =
             transform.position +
-            transform.up * _offsetForAttack;
+            _mob.Direction * _offsetForAttack;
 
         var mobs = GetMobsForRadius(triggerPosition, _radiusForAttack);
 
@@ -125,7 +126,7 @@ public class DefaultAttack : MonoBehaviour, IAttack
                 Recovery();
                 break;
             default:
-                throw new Exception("FSM: not valid state");
+                throw new Exception("FSM of DefaultAttack: not valid state");
         }
     }
 
