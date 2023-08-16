@@ -70,7 +70,9 @@ public class Kamikaze : BaseMob
             .Where(x =>
                 x.transform.GetComponent<BaseMob>()
                 &&
-                x.transform.GetComponent<BaseMob>() != this)
+                x.transform.GetComponent<BaseMob>() != this
+                &&
+                x.transform.GetComponent<BaseMob>().GroupMobs != _groupMobs)
             .Distinct()
             .Select(x => x.transform.GetComponent<BaseMob>())
             .ToArray();
