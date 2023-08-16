@@ -15,23 +15,23 @@ public class DefaultAttack : MonoBehaviour, IAttack
     [SerializeField] private float _offsetForAttack;
     [SerializeField] private float _radiusForAttack;
     [SerializeField] private StatesOfAttack _stateOfAttack;
-    private BaseMob _mob;
-    private readonly List<BaseMob> _affectedTargets = new();
+    private BaseMob _owner;
+    private readonly List<IHealthSystem> _affectedTargets = new();
 
     public StatesOfAttack StateOfAttack => _stateOfAttack;
 
     private void Awake()
     {
-        _mob = GetComponent<BaseMob>();
+        _owner = GetComponent<BaseMob>();
     }
 
     public void Attack()
     {
         if (_stateOfAttack != StatesOfAttack.Idle) return;
 
-        if (_mob.Stamina > 0)
+        if (_owner.Stamina > 0)
         {
-            _mob.Stamina--;
+            _owner.Stamina--;
             _stateOfAttack = StatesOfAttack.Swing;
         }
     }
@@ -49,7 +49,7 @@ public class DefaultAttack : MonoBehaviour, IAttack
     {
         var triggerPosition =
             transform.position +
-            _mob.Direction * _offsetForAttack;
+            _owner.Direction * _offsetForAttack;
 
         var mobs = GetMobsForRadius(triggerPosition, _radiusForAttack);
 
@@ -57,7 +57,7 @@ public class DefaultAttack : MonoBehaviour, IAttack
             foreach (var hit in mobs)
                 if (_affectedTargets.Contains(hit) is false)
                 {
-                    var damage = new Damage(_mob, null, TypeDamage.Clear, _mob.DamageCount);
+                    var damage = new Damage(_owner, null, TypeDamage.Clear, _owner.DamageCount);
                     hit.TakeDamage(damage);
                     _affectedTargets.Add(hit);
 
@@ -65,7 +65,7 @@ public class DefaultAttack : MonoBehaviour, IAttack
                 }
     }
 
-    private BaseMob[] GetMobsForRadius(Vector3 zero, float radius)
+    private IHealthSystem[] GetMobsForRadius(Vector3 zero, float radius)
     {
         var casted = Physics2D.CircleCastAll(
             zero,
@@ -73,11 +73,11 @@ public class DefaultAttack : MonoBehaviour, IAttack
             Vector2.zero);
         var mobs = casted
             .Where(x =>
-                x.transform.GetComponent<BaseMob>()
+                x.transform.GetComponent<IHealthSystem>() != null
                 &&
-                x.transform.GetComponent<BaseMob>() != this)
+                x.transform.GetComponent<IHealthSystem>() as BaseMob != _owner)
             .Distinct()
-            .Select(x => x.transform.GetComponent<BaseMob>())
+            .Select(x => x.transform.GetComponent<IHealthSystem>())
             .ToArray();
         return mobs;
     }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class BaseMob : MonoBehaviour
+public abstract class BaseMob : MonoBehaviour, IHealthSystem
 {
     [SerializeField] protected float _health;
     [SerializeField] protected float _minHealth;
@@ -167,11 +167,7 @@ public abstract class BaseMob : MonoBehaviour
     public ScoreCounter Scorer => _scorer;
     public GroupsMobs GroupMobs => _groupMobs;
 
-    public GroupsMobs GroupMobs => _groupMobs;
-
-    protected virtual void DecreaseHealth()
-    {
-    }
+    protected virtual void DecreaseHealth() { }
 
     public void TakeDamage(Damage damage)
     {
