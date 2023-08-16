@@ -4,10 +4,6 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class Player : BaseMob
 {
-    [SerializeField] private float _increaseCharacteristicsOnMurder;
-    [SerializeField] private float _intervalForAttack;
-    private float _timerIntervalForAttack;
-    private Inventory _inventory;
     [SerializeField] private StatesOfPlayer _stateOfPlayer;
     private IDash _dash;
     private IAttack _attack;
@@ -26,17 +22,15 @@ public class Player : BaseMob
 
     private void Awake()
     {
-        _dash = GetComponent<IDash>();
-        _attack = GetComponent<IAttack>();
+        _inventory = new Inventory(this);
+        if (GetComponent<IDash>() is { } iDash) _dash = iDash;
+        else throw new Exception("Player not instance IDash");
+        if (GetComponent<IAttack>() is { } iAttack) _attack = iAttack;
+        else throw new Exception("Player not instance IAttack");
     }
 
     private void Update()
     {
-        if (_timerIntervalForAttack <= _intervalForAttack)
-        {
-            _timerIntervalForAttack += Time.deltaTime;
-        }
-
         ActionChoice();
     }
 
@@ -48,9 +42,7 @@ public class Player : BaseMob
         if (Input.GetKey(KeyCode.W)) axis.y++;
         if (Input.GetKey(KeyCode.S)) axis.y--;
 
-        var isAttack = Input.GetKeyDown(KeyCode.E)
-                       &&
-                       _timerIntervalForAttack > _intervalForAttack;
+        var isAttack = Input.GetKeyDown(KeyCode.E);
         var isDash = Input.GetKeyDown(KeyCode.Space);
 
         var isInteraction = Input.GetKeyDown(KeyCode.I);
@@ -60,7 +52,6 @@ public class Player : BaseMob
             case StatesOfPlayer.Idle or StatesOfPlayer.Move:
                 if (isAttack)
                 {
-                    _timerIntervalForAttack -= _intervalForAttack;
                     _attack.Attack();
                     _stateOfPlayer = StatesOfPlayer.Attack;
                     return;
@@ -93,19 +84,15 @@ public class Player : BaseMob
                 if (_dash.StateOfDash == StatesOfDash.Idle)
                 {
                     _stateOfPlayer = StatesOfPlayer.Idle;
-                    return;
                 }
 
-                _dash.Dash();
                 break;
             case StatesOfPlayer.Attack:
                 if (_attack.StateOfAttack == StatesOfAttack.Idle)
                 {
                     _stateOfPlayer = StatesOfPlayer.Idle;
-                    return;
                 }
 
-                _attack.Attack();
                 break;
             case StatesOfPlayer.Interaction:
                 if (_isInteract is false)
