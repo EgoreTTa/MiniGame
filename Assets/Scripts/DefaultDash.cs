@@ -11,13 +11,15 @@ public class DefaultDash : MonoBehaviour, IDash
     [SerializeField] private float _timeRecovery;
     private float _timerRecovery;
     [SerializeField] private float _speedMoving;
-
     [SerializeField] private StatesOfDash _stateOfDash;
     private BaseMob _mob;
 
     public StatesOfDash StateOfDash => _stateOfDash;
 
-    private void Awake() { _mob = GetComponent<BaseMob>(); }
+    private void Awake()
+    {
+        _mob = GetComponent<BaseMob>();
+    }
 
     private void Moving()
     {
@@ -78,7 +80,7 @@ public class DefaultDash : MonoBehaviour, IDash
                 Recovery();
                 break;
             default:
-                throw new Exception("FSM: not valid state");
+                throw new Exception("FSM of DefaultDash: not valid state");
         }
     }
 
