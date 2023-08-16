@@ -167,8 +167,6 @@ public abstract class BaseMob : MonoBehaviour
     public ScoreCounter Scorer => _scorer;
     public GroupsMobs GroupMobs => _groupMobs;
 
-    public GroupsMobs GroupMobs => _groupMobs;
-
     protected virtual void DecreaseHealth()
     {
     }
