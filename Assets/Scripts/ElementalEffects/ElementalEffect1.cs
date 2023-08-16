@@ -39,9 +39,9 @@ public class ElementalEffect1 : BaseElementalEffect
     private void MakeDamage()
     {
         var damage = new Damage(
+            _owner,
             null,
-            null,
-            TypeDamage.Magical,
+            TypesDamage.Magical,
             _damageCount);
         _target.TakeDamage(damage);
     }
