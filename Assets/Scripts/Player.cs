@@ -8,7 +8,6 @@ public class Player : BaseMob
     [SerializeField] private CircleCollider2D _triggerForAttack;
     [SerializeField] private float _offsetForAttack;
     private float _timerIntervalForAttack;
-    private Inventory _inventory;
 
     public void Attack()
     {
