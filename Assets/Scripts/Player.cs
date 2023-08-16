@@ -118,8 +118,8 @@ public class Player : BaseMob
             {
                 if (_isInteract is false)
                 {
-                    Debug.Log($"{_firstname} обратился к {_interaction?.FirstName}");
-                    _interaction?.Interact(this);
+                    Debug.Log($"{_firstname} обратился к {_interaction.FirstName}");
+                    _interaction.Interact(this);
                     _isInteract = true;
                 }
                 else
