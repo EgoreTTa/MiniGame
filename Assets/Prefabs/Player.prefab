@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7521055551434040987}
   - component: {fileID: 7521055551434040986}
   - component: {fileID: 7521055551434040989}
-  - component: {fileID: -5490155425871438926}
+  - component: {fileID: 6616300577017040700}
   - component: {fileID: 538700676723179093}
   - component: {fileID: 7521055551434040985}
   - component: {fileID: 8271300038052910820}
@@ -117,7 +117,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &-5490155425871438926
+--- !u!58 &6616300577017040700
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -199,9 +199,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886a4d5259ff3c240baea15e051ac4e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 80
+  _health: 400
   _minHealth: 0
-  _maxHealth: 100
+  _maxHealth: 500
   _stamina: 40
   _minStamina: 0
   _maxStamina: 50
@@ -212,8 +212,7 @@ MonoBehaviour:
   _damageCount: 0
   _viewRadius: 5
   _turningSpeed: 45
-  _increaseCharacteristicsOnMurder: 1.1
-  _intervalForAttack: 1
+  _groupMobs: 0
   _stateOfPlayer: 0
 --- !u!114 &8271300038052910820
 MonoBehaviour:

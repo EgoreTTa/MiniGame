@@ -175,7 +175,7 @@ public abstract class BaseMob : MonoBehaviour, IHealthSystem
         Health -= damage.CountDamage;
         if (_live is false)
         {
-            damage.Owner.Scorer.KilledEnemy(this);
+            damage.Owner?.Scorer.KilledEnemy(this);
         }
     }
 

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3751452355733058227}
   - component: {fileID: 3751452355733058228}
   - component: {fileID: -2857597380012149813}
-  - component: {fileID: 2090430178449355298}
+  - component: {fileID: 6031402757887284502}
   m_Layer: 0
   m_Name: RangerEnemy
   m_TagString: Untagged
@@ -149,7 +149,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &2090430178449355298
+--- !u!114 &6031402757887284502
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -161,23 +161,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ca055ccbe2638649b03c29f9a048f75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 90
+  _health: 0
   _minHealth: 0
-  _maxHealth: 90
-  _stamina: 50
+  _maxHealth: 0
+  _stamina: 0
   _minStamina: 0
-  _maxStamina: 50
-  _moveSpeed: 2
+  _maxStamina: 0
+  _moveSpeed: 0
   _minMoveSpeed: 0
-  _maxMoveSpeed: 2
-  _firstname: "\u0412\u0430\u0441\u044F\u043D"
+  _maxMoveSpeed: 0
+  _firstname: 
   _damageCount: 0
-  _viewRadius: 20
-  _turningSpeed: 25
+  _viewRadius: 0
+  _turningSpeed: 0
   _groupMobs: 1
   _score: 0
   _targetToAttack: {fileID: 0}
-  _bottle: {fileID: 54425826382435967, guid: 4c3dd2a8ec89c3845b913d8b09651419, type: 3}
-  _bottleSpeed: 2
-  _rangeOfAttack: 5
-  _intervalAttack: 5
+  _bottle: {fileID: 0}
+  _bottleSpeed: 0
+  _rangeOfAttack: 0
+  _intervalAttack: 0

@@ -158,27 +158,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 4455685455898522903}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24e1935fbba1cbd4bad26d7648e6ce8d, type: 3}
+  m_Script: {fileID: 11500000, guid: 286ee509cc711c946838de3b9fe342e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 100
+  _health: 50
   _minHealth: 0
   _maxHealth: 100
-  _stamina: 50
+  _stamina: 3
   _minStamina: 0
-  _maxStamina: 50
-  _moveSpeed: 3
+  _maxStamina: 2
+  _moveSpeed: 2
   _minMoveSpeed: 0
-  _maxMoveSpeed: 3
-  _firstname: Kamikaze
+  _maxMoveSpeed: 2
+  _firstname: "\u0423\u0431\u0438\u0432\u0435\u0446"
   _damageCount: 100
-  _viewRadius: 5
-  _turningSpeed: 3
+  _viewRadius: 3
+  _turningSpeed: 0
   _groupMobs: 1
   _score: 0
-  _stateOfEnemy: 0
+  _stateOfKamikaze: 0
   _targetToAttack: {fileID: 0}
   _timeForIdle: 10
   _timeForDetonation: 3
-  _explosionRadius: 3
-  _detonationRadius: 1
+  _explosionRadius: 1
+  _detonationRadius: 5
