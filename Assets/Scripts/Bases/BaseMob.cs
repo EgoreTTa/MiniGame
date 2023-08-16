@@ -7,28 +7,28 @@ public abstract class BaseMob : MonoBehaviour
     [SerializeField] protected float _minHealth;
     [SerializeField] protected float _maxHealth;
 
-    [Header("Выносливость")] 
+    [Header("Выносливость")]
     [SerializeField] protected int _stamina;
     [SerializeField] protected int _minStamina;
     [SerializeField] protected int _maxStamina;
 
-    [Header("Скорость передвижения")] 
+    [Header("Скорость передвижения")]
     [SerializeField] protected float _moveSpeed;
     [SerializeField] protected float _minMoveSpeed;
     [SerializeField] protected float _maxMoveSpeed;
 
-    [Header("Остальные хар-ки")] 
+    [Header("Остальные хар-ки")]
     [SerializeField] protected string _firstname;
     [SerializeField] protected float _damageCount;
     [SerializeField] protected float _viewRadius;
     [SerializeField] protected float _turningSpeed;
     protected bool _live = true;
     private ScoreCounter _scorer = new();
-    private Vector3 _direction;
+    private Vector3 _direction = Vector3.up;
     private Inventory _inventory;
 
     public Vector3 Direction => _direction;
-	
+
     public float Health
     {
         get => _health;
@@ -172,12 +172,9 @@ public abstract class BaseMob : MonoBehaviour
     public bool Live => _live;
     public ScoreCounter Scorer => _scorer;
 
-    private void Awake()
+    protected virtual void DecreaseHealth()
     {
-        _inventory = new Inventory(this);
     }
-
-    protected virtual void DecreaseHealth() { }
 
     public void TakeDamage(Damage damage)
     {
@@ -198,7 +195,7 @@ public abstract class BaseMob : MonoBehaviour
     {
         if (collider.gameObject.GetComponent<BaseItem>() is { } item)
         {
-            _inventory.Put(item);
+            _inventory?.Put(item);
             if (item.GetComponent<IUsable>() is { } usable)
             {
                 usable.Use(this);
@@ -206,7 +203,7 @@ public abstract class BaseMob : MonoBehaviour
 
             if (item.GetComponent<IEquipment>() is { } equipment)
             {
-                _inventory.Equip(equipment);
+                _inventory?.Equip(equipment);
             }
         }
     }
