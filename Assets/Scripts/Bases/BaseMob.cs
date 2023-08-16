@@ -22,6 +22,7 @@ public abstract class BaseMob : MonoBehaviour
     [SerializeField] protected float _damageCount;
     [SerializeField] protected float _viewRadius;
     [SerializeField] protected float _turningSpeed;
+    [SerializeField] protected GroupsMobs _groupMobs;
     protected bool _live = true;
     private ScoreCounter _scorer = new();
     private Vector3 _direction = Vector3.up;
@@ -171,6 +172,7 @@ public abstract class BaseMob : MonoBehaviour
 
     public bool Live => _live;
     public ScoreCounter Scorer => _scorer;
+    public GroupsMobs GroupMobs => _groupMobs;
 
     protected virtual void DecreaseHealth()
     {
