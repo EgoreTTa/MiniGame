@@ -18,7 +18,10 @@ public abstract class BaseMob : MonoBehaviour
     [SerializeField] protected GroupsMobs _groupMobs;
     protected bool _live = true;
     private ScoreCounter _scorer = new();
-    private Inventory _inventory;
+    private Vector3 _direction = Vector3.up;
+    protected Inventory _inventory;
+
+    public Vector3 Direction => _direction;
 
     public float Health
     {
@@ -162,10 +165,13 @@ public abstract class BaseMob : MonoBehaviour
 
     public bool Live => _live;
     public ScoreCounter Scorer => _scorer;
+    public GroupsMobs GroupMobs => _groupMobs;
 
     public GroupsMobs GroupMobs => _groupMobs;
 
-    protected virtual void DecreaseHealth() { }
+    protected virtual void DecreaseHealth()
+    {
+    }
 
     public void TakeDamage(Damage damage)
     {
@@ -178,15 +184,15 @@ public abstract class BaseMob : MonoBehaviour
 
     protected virtual void Walk(Vector3 vector)
     {
-        vector = vector.normalized;
-        transform.position += vector * _moveSpeed * Time.deltaTime;
+        _direction = vector.normalized;
+        transform.position += _direction * _moveSpeed * Time.deltaTime;
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.GetComponent<BaseItem>() is { } item)
         {
-            _inventory.Put(item);
+            _inventory?.Put(item);
             if (item.GetComponent<IUsable>() is { } usable)
             {
                 usable.Use(this);
@@ -194,7 +200,7 @@ public abstract class BaseMob : MonoBehaviour
 
             if (item.GetComponent<IEquipment>() is { } equipment)
             {
-                _inventory.Equip(equipment);
+                _inventory?.Equip(equipment);
             }
         }
     }
