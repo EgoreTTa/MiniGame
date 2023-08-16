@@ -7,6 +7,7 @@ public class Player : BaseMob
     [SerializeField] private StatesOfPlayer _stateOfPlayer;
     private IDash _dash;
     private IAttack _attack;
+    private bool _isInteract;
 
     public enum StatesOfPlayer
     {
@@ -14,6 +15,7 @@ public class Player : BaseMob
         Move,
         Dash,
         Attack,
+        Interaction,
     }
 
     public StatesOfPlayer StateOfPlayer => _stateOfPlayer;
@@ -43,6 +45,8 @@ public class Player : BaseMob
         var isAttack = Input.GetKeyDown(KeyCode.E);
         var isDash = Input.GetKeyDown(KeyCode.Space);
 
+        var isInteraction = Input.GetKeyDown(KeyCode.I);
+
         switch (_stateOfPlayer)
         {
             case StatesOfPlayer.Idle or StatesOfPlayer.Move:
@@ -67,6 +71,13 @@ public class Player : BaseMob
                     return;
                 }
 
+                if (isInteraction)
+                {
+                    Interaction();
+                    _stateOfPlayer = StatesOfPlayer.Interaction;
+                    return;
+                }
+
                 _stateOfPlayer = StatesOfPlayer.Idle;
                 break;
             case StatesOfPlayer.Dash:
@@ -83,8 +94,43 @@ public class Player : BaseMob
                 }
 
                 break;
+            case StatesOfPlayer.Interaction:
+                if (_isInteract is false)
+                {
+                    _stateOfPlayer = StatesOfPlayer.Idle;
+                    return;
+                }
+
+                Interaction();
+                break;
             default:
                 throw new Exception("FSM of Player: not valid state");
+        }
+    }
+
+    private void Interaction()
+    {
+        if (_interaction != null)
+        {
+            if (_interaction.IsInteract is false
+                ||
+                _isInteract is false)
+            {
+                if (_isInteract is false)
+                {
+                    Debug.Log($"{_firstname} обратился к {_interaction.FirstName}");
+                    _interaction.Interact(this);
+                    _isInteract = true;
+                }
+                else
+                {
+                    _isInteract = false;
+                }
+            }
+        }
+        else
+        {
+            _isInteract = false;
         }
     }
 
