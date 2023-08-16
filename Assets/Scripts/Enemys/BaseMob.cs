@@ -18,6 +18,7 @@ public abstract class BaseMob : MonoBehaviour, IHealthSystem
     [SerializeField] protected GroupsMobs _groupMobs;
     protected bool _live = true;
     private ScoreCounter _scorer = new();
+    protected IInteraction _interaction;
     private Vector3 _direction = Vector3.up;
     protected Inventory _inventory;
 
@@ -198,6 +199,11 @@ public abstract class BaseMob : MonoBehaviour, IHealthSystem
             {
                 _inventory?.Equip(equipment);
             }
+        }
+
+        if (collider.gameObject.GetComponent<IInteraction>() is { } interaction)
+        {
+            _interaction = interaction;
         }
     }
 }

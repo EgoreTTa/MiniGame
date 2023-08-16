@@ -30,6 +30,7 @@ public class Environment : MonoBehaviour, IHealthSystem
     private void Destruction()
     {
         GetComponent<SpriteRenderer>().color = Color.white.linear * .2f;
+        ItemDropSystem.Drop(transform.position);
         Destroy(GetComponent<Rigidbody2D>());
         Destroy(GetComponent<Collider2D>());
         Destroy(this);

@@ -12,6 +12,8 @@ public class DefaultDash : MonoBehaviour, IDash
     private float _timerRecovery;
     [SerializeField] private float _speedMoving;
     [SerializeField] private StatesOfDash _stateOfDash;
+    private int _onlyDynamic = 1024;
+    private int _nothing = 0;
     private BaseMob _owner;
 
     public StatesOfDash StateOfDash => _stateOfDash;
@@ -51,7 +53,7 @@ public class DefaultDash : MonoBehaviour, IDash
                 if (_timerSwing > _timeSwing)
                 {
                     _timerSwing -= _timeSwing;
-                    _owner.GetComponent<CircleCollider2D>().enabled = false;
+                    _owner.GetComponent<Rigidbody2D>().excludeLayers = _onlyDynamic;
                     _stateOfDash = StatesOfDash.Moving;
                     return;
                 }
@@ -62,7 +64,7 @@ public class DefaultDash : MonoBehaviour, IDash
                 if (_timerMoving > _timeMoving)
                 {
                     _timerMoving -= _timeMoving;
-                    _owner.GetComponent<CircleCollider2D>().enabled = true;
+                    _owner.GetComponent<Rigidbody2D>().excludeLayers = _nothing;
                     _stateOfDash = StatesOfDash.Recovery;
                     return;
                 }
