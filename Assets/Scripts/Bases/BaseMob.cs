@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class BaseMob : MonoBehaviour
+public abstract class BaseMob : MonoBehaviour, IHealthSystem
 {
     [Header("Çהמנמגüו")] 
     [SerializeField] protected float _health;
