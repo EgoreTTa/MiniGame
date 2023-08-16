@@ -25,7 +25,7 @@ public abstract class BaseMob : MonoBehaviour
     protected bool _live = true;
     private ScoreCounter _scorer = new();
     private Vector3 _direction = Vector3.up;
-    private Inventory _inventory;
+    protected Inventory _inventory;
 
     public Vector3 Direction => _direction;
 
