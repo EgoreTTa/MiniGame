@@ -167,8 +167,6 @@ public abstract class BaseMob : MonoBehaviour
     public ScoreCounter Scorer => _scorer;
     public GroupsMobs GroupMobs => _groupMobs;
 
-    public GroupsMobs GroupMobs => _groupMobs;
-
     protected virtual void DecreaseHealth()
     {
     }
@@ -176,11 +174,9 @@ public abstract class BaseMob : MonoBehaviour
     public void TakeDamage(Damage damage)
     {
         Health -= damage.CountDamage;
-        if (_live is false
-            &&
-            damage.Owner != null)
+        if (_live is false)
         {
-            damage.Owner.Scorer.KilledEnemy(this);
+            damage.Owner?.Scorer.KilledEnemy(this);
         }
     }
 
