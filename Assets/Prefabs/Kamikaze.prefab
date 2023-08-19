@@ -180,5 +180,5 @@ MonoBehaviour:
   _targetToAttack: {fileID: 0}
   _timeForIdle: 10
   _timeForDetonation: 3
-  _explosionRadius: 1
-  _detonationRadius: 5
+  _explosionRadius: 5
+  _detonationRadius: 1

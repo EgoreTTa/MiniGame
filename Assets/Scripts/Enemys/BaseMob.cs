@@ -187,7 +187,15 @@ public abstract class BaseMob : MonoBehaviour, IHealthSystem
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.GetComponent<BaseItem>() is { } item)
+        if (collider.gameObject.GetComponent<IInteraction>() is { } interaction)
+        {
+            _interaction = interaction;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<BaseItem>() is { } item)
         {
             _inventory?.Put(item);
             if (item.GetComponent<IUsable>() is { } usable)
@@ -199,11 +207,6 @@ public abstract class BaseMob : MonoBehaviour, IHealthSystem
             {
                 _inventory?.Equip(equipment);
             }
-        }
-
-        if (collider.gameObject.GetComponent<IInteraction>() is { } interaction)
-        {
-            _interaction = interaction;
         }
     }
 }
