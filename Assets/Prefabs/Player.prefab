@@ -209,7 +209,7 @@ MonoBehaviour:
   _minMoveSpeed: 1
   _maxMoveSpeed: 3
   _firstname: "\u0421\u0442\u0430\u0441\u044F\u043D"
-  _damageCount: 0
+  _damageCount: 100
   _viewRadius: 5
   _turningSpeed: 45
   _groupMobs: 0
@@ -226,9 +226,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78bb57f2159cbe4ab7dbb73be77393f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeSwing: 1
-  _timeHitting: 3
-  _timeRecovery: 1
+  _timeSwing: 0.2
+  _timeHitting: 0.5
+  _timeRecovery: 0.2
   _offsetForAttack: 0.5
   _radiusForAttack: 0.5
   _stateOfAttack: 0

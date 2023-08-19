@@ -161,23 +161,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ca055ccbe2638649b03c29f9a048f75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 0
+  _health: 50
   _minHealth: 0
-  _maxHealth: 0
-  _stamina: 0
+  _maxHealth: 75
+  _stamina: 3
   _minStamina: 0
-  _maxStamina: 0
-  _moveSpeed: 0
+  _maxStamina: 3
+  _moveSpeed: 2
   _minMoveSpeed: 0
-  _maxMoveSpeed: 0
-  _firstname: 
-  _damageCount: 0
-  _viewRadius: 0
+  _maxMoveSpeed: 2
+  _firstname: "\u0420\u0435\u043D\u0436\u043E\u0432\u0438\u043A"
+  _damageCount: 15
+  _viewRadius: 2
   _turningSpeed: 0
   _groupMobs: 1
   _score: 0
   _targetToAttack: {fileID: 0}
-  _bottle: {fileID: 0}
-  _bottleSpeed: 0
-  _rangeOfAttack: 0
-  _intervalAttack: 0
+  _bottle: {fileID: 54425826382435967, guid: 4c3dd2a8ec89c3845b913d8b09651419, type: 3}
+  _bottleSpeed: 2
+  _rangeOfAttack: 3
+  _intervalAttack: 10
