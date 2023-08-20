@@ -44,11 +44,10 @@ public class ElementalEffect12 : BaseElementalEffect
 
     private void MakeDamage()
     {
-        var damage = new Damage(
+        var health = new Health(
             _owner,
             null,
-            TypesDamage.Magical,
             _damageCount);
-        _target.TakeDamage(damage);
+        (_target as IHealthSystem).ChangeHealth(health);
     }
 }

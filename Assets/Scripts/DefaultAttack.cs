@@ -57,8 +57,8 @@ public class DefaultAttack : MonoBehaviour, IAttack
             foreach (var hit in mobs)
                 if (_affectedTargets.Contains(hit) is false)
                 {
-                    var damage = new Damage(_owner, null, TypesDamage.Clear, _owner.DamageCount);
-                    hit.TakeDamage(damage);
+                    var health = new Health(_owner, null, _owner.DamageCount);
+                    hit.ChangeHealth(health);
                     _affectedTargets.Add(hit);
 
                     break;

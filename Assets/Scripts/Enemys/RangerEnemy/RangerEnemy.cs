@@ -82,9 +82,9 @@ public class RangerEnemy : BaseMob
 
         if (bottle != null)
         {
-            var damage = new Damage(this, null, TypesDamage.Clear, _damageCount);
+            var bottleHealth = new Health(this, null, _damageCount);
             bottle.Direction = directionThrow;
-            bottle.Damage = damage;
+            bottle.Health = bottleHealth;
             bottle.Speed = _bottleSpeed;
             bottle.Parent = gameObject;
             bottle.Distance = Vector3.Distance(

@@ -57,13 +57,13 @@ public class Environment : MonoBehaviour, IHealthSystem
         }
     }
 
-    public void TakeDamage(Damage damage)
+    public void ChangeHealth(Health health)
     {
-        Health -= damage.TypeDamage switch
+        Health -= health.TypeDamage switch
         {
-            TypesDamage.Physical => damage.CountDamage / 2,
-            TypesDamage.Magical => damage.CountDamage * 2,
-            TypesDamage.Clear => damage.CountDamage,
+            TypesDamage.Physical => health.CountHealth / 2,
+            TypesDamage.Magical => health.CountHealth * 2,
+            TypesDamage.Clear => health.CountHealth,
             _ => throw new ArgumentOutOfRangeException()
         };
     }
