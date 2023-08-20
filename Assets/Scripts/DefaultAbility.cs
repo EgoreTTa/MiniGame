@@ -12,8 +12,6 @@ public class DefaultAbility : MonoBehaviour, IAbility
     [SerializeField] private float _radius;
     private BaseMob _owner;
     [SerializeField] private bool _isReady;
-    private ElementalEffect2 _effect;
-
     public StatesOfAbility StateOfAbility => _stateOfAbility;
 
     private void Awake()
