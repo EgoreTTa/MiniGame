@@ -4,5 +4,5 @@ public interface IHealthSystem
     public float MinHealth { get; set; }
     public float MaxHealth { get; set; }
 
-    public void TakeDamage(Damage damage);
+    public void ChangeHealth(Health health);
 }
