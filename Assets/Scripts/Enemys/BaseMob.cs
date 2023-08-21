@@ -179,9 +179,9 @@ public abstract class BaseMob : MonoBehaviour, IHealthSystem
     {
         Health -= damage.TypeDamage switch
         {
-            TypesDamage.Physical => damage.CountHealth / 2,
-            TypesDamage.Magical => damage.CountHealth * 2,
-            TypesDamage.Clear => damage.CountHealth,
+            TypesDamage.Physical => damage.CountDamage / 2,
+            TypesDamage.Magical => damage.CountDamage * 2,
+            TypesDamage.Clear => damage.CountDamage,
             _ => throw new ArgumentOutOfRangeException()
         };
         if (_live is false)
