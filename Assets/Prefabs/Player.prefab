@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7521055551434040985}
   - component: {fileID: 8271300038052910820}
   - component: {fileID: 5133062833684486613}
+  - component: {fileID: 3742912805406011607}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -249,3 +250,21 @@ MonoBehaviour:
   _timeRecovery: 0.1
   _speedMoving: 15
   _stateOfDash: 0
+--- !u!114 &3742912805406011607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7521055551434040984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71b3bcea382669941b8154b233f4c132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateOfAbility: 0
+  _timeToSwing: 0.5
+  _timeToCasted: 0.5
+  _timeToRecovery: 0.5
+  _timeReload: 20
+  _radius: 5
