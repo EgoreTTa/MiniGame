@@ -5,7 +5,7 @@ public class Bottle : MonoBehaviour
     private Vector3 _direction;
     private float _distance;
     private float _speed;
-    private Health _health;
+    private Damage _damage;
     private GameObject _parent;
 
     public Vector3 Direction
@@ -26,10 +26,10 @@ public class Bottle : MonoBehaviour
         set => _parent = value;
     }
 
-    public Health Health
+    public Damage Damage
     {
-        get => _health;
-        set => _health = value;
+        get => _damage;
+        set => _damage = value;
     }
 
     public float Distance
@@ -69,7 +69,7 @@ public class Bottle : MonoBehaviour
             &&
             collider.gameObject.GetComponent<IHealthSystem>() is { } healthSystem)
         {
-            healthSystem.TakeHealth(_health);
+            healthSystem.TakeDamage(_damage);
             Fall(transform.position);
         }
     }
