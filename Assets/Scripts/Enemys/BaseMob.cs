@@ -17,6 +17,8 @@ public abstract class BaseMob : MonoBehaviour, IHealthSystem
     [SerializeField] protected float _viewRadius;
     [SerializeField] protected float _turningSpeed;
     [SerializeField] protected GroupsMobs _groupMobs;
+    [SerializeField] private Collider2D _collider;
+    [SerializeField] private Collider2D _trigger;
     protected bool _live = true;
     private ScoreCounter _scorer = new();
     protected IInteraction _interaction;
@@ -193,31 +195,32 @@ public abstract class BaseMob : MonoBehaviour, IHealthSystem
     protected virtual void Walk(Vector3 vector)
     {
         _direction = vector.normalized;
+        transform.up = _direction;
         transform.position += _direction * _moveSpeed * Time.deltaTime;
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.GetComponent<IInteraction>() is { } interaction)
-        {
-            _interaction = interaction;
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.GetComponent<BaseItem>() is { } item)
-        {
-            _inventory?.Put(item);
-            if (item.GetComponent<IUsable>() is { } usable)
+        if (_trigger.IsTouching(collider))
+            if (collider.gameObject.GetComponent<IInteraction>() is { } interaction)
             {
-                usable.Use(this);
+                _interaction = interaction;
             }
 
-            if (item.GetComponent<IEquipment>() is { } equipment)
+        if (_collider.IsTouching(collider))
+            if (collider.gameObject.GetComponent<BaseItem>() is { } item)
             {
-                _inventory?.Equip(equipment);
+                _inventory?.Put(item);
+                if (item.GetComponent<IUsable>() is { } usable)
+                {
+                    usable.Use(this);
+                }
+
+                if (item.GetComponent<IEquipment>() is { } equipment)
+                {
+                    _inventory?.Equip(equipment);
+                }
             }
-        }
+
     }
 }
