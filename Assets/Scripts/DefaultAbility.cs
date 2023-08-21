@@ -1,7 +1,6 @@
-using System.Linq;
+using System;
 using UnityEngine;
 
-[RequireComponent(typeof(BaseMob))]
 public class DefaultAbility : MonoBehaviour, IAbility
 {
     [SerializeField] private StatesOfAbility _stateOfAbility;
@@ -9,14 +8,19 @@ public class DefaultAbility : MonoBehaviour, IAbility
     [SerializeField] private float _timeToCasted;
     [SerializeField] private float _timeToRecovery;
     [SerializeField] private float _timeReload;
-    [SerializeField] private float _radius;
     private BaseMob _owner;
     [SerializeField] private bool _isReady;
+    private SpriteRenderer _spriteRenderer;
+    private CircleCollider2D _circleCollider;
+
     public StatesOfAbility StateOfAbility => _stateOfAbility;
 
     private void Awake()
     {
-        _owner = GetComponent<BaseMob>();
+        if (GetComponentInParent<BaseMob>() is { } baseMob) _owner = baseMob;
+        else throw new Exception("Default Ability not instance BaseMob");
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _circleCollider = GetComponent<CircleCollider2D>();
     }
 
     private void Ready()
@@ -26,35 +30,18 @@ public class DefaultAbility : MonoBehaviour, IAbility
 
     private void IntoCasted()
     {
+        _spriteRenderer.enabled = true;
+        _circleCollider.enabled = true;
         _stateOfAbility = StatesOfAbility.Casted;
-        Casted();
         Invoke(nameof(IntoRecovery), _timeToCasted);
     }
 
     private void IntoRecovery()
     {
+        _spriteRenderer.enabled = false;
+        _circleCollider.enabled = false;
         _stateOfAbility = StatesOfAbility.Recovery;
         Invoke(nameof(IntoStandby), _timeToRecovery);
-    }
-
-    private void Casted()
-    {
-        var casted = Physics2D.CircleCastAll(
-            transform.position,
-            _radius,
-            Vector2.zero);
-        var mobs = casted
-            .Where(x =>
-                x.transform.GetComponent<BaseMob>() != null
-                &&
-                x.transform.GetComponent<BaseMob>() != _owner)
-            .Distinct()
-            .Select(x => x.transform.GetComponent<BaseMob>())
-            .ToArray();
-        foreach (var mob in mobs)
-        {
-            mob.gameObject.AddComponent<ElementalEffect2>();
-        }
     }
 
     private void IntoStandby()
@@ -77,5 +64,14 @@ public class DefaultAbility : MonoBehaviour, IAbility
     {
         _stateOfAbility = StatesOfAbility.Swing;
         Invoke(nameof(IntoCasted), _timeToSwing);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.GetComponent<BaseMob>() is { } baseMob)
+        {
+            if (baseMob != _owner)
+                baseMob.gameObject.AddComponent<ElementalEffect2>();
+        }
     }
 }
