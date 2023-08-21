@@ -7,6 +7,7 @@ public class Player : BaseMob
     [SerializeField] private StatesOfPlayer _stateOfPlayer;
     private IDash _dash;
     private IAttack _attack;
+    private IAbility _ability1;
     private bool _isInteract;
 
     public enum StatesOfPlayer
@@ -27,6 +28,7 @@ public class Player : BaseMob
         else throw new Exception("Player not instance IDash");
         if (GetComponent<IAttack>() is { } iAttack) _attack = iAttack;
         else throw new Exception("Player not instance IAttack");
+        _ability1 = GetComponent<IAbility>();
     }
 
     private void Update()
@@ -47,6 +49,8 @@ public class Player : BaseMob
 
         var isInteraction = Input.GetKeyDown(KeyCode.I);
 
+        var isAbility1 = Input.GetKeyDown(KeyCode.Alpha1);
+
         switch (_stateOfPlayer)
         {
             case StatesOfPlayer.Idle or StatesOfPlayer.Move:
@@ -57,6 +61,13 @@ public class Player : BaseMob
                     return;
                 }
 
+                if (isAbility1)
+                {
+                    _ability1?.Cast();
+                    _stateOfPlayer = StatesOfPlayer.Attack;
+                    return;
+                }
+                
                 if (isDash)
                 {
                     _dash.Dash();
@@ -88,7 +99,9 @@ public class Player : BaseMob
 
                 break;
             case StatesOfPlayer.Attack:
-                if (_attack.StateOfAttack == StatesOfAttack.Idle)
+                if (_attack.StateOfAttack == StatesOfAttack.Idle
+                    &&
+                    _ability1.StateOfAbility == StatesOfAbility.Standby)
                 {
                     _stateOfPlayer = StatesOfPlayer.Idle;
                 }
