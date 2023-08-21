@@ -57,9 +57,9 @@ public class Environment : MonoBehaviour, IHealthSystem
         }
     }
 
-    public void TikeHealth(Health health) { }
+    public void TakeHealth(Health health) { }
 
-    public void TikeDamage(Damage damage)
+    public void TakeDamage(Damage damage)
     {
         Health -= damage.TypeDamage switch
         {

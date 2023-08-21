@@ -4,6 +4,6 @@ public interface IHealthSystem
     public float MinHealth { get; set; }
     public float MaxHealth { get; set; }
 
-    public void TikeHealth(Health health);
-    public void TikeDamage(Damage damage);
+    public void TakeHealth(Health health);
+    public void TakeDamage(Damage damage);
 }

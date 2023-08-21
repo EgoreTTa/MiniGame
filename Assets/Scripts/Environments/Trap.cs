@@ -56,7 +56,7 @@ public class Trap : MonoBehaviour
 
     private void Damaged()
     {
-        foreach (var healthSystem in _healthSystems) healthSystem.TikeDamage(_damage);
+        foreach (var healthSystem in _healthSystems) healthSystem.TakeDamage(_damage);
     }
 
     private void OnTriggerEnter2D(Collider2D collider)

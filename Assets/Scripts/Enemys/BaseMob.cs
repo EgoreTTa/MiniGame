@@ -170,12 +170,12 @@ public abstract class BaseMob : MonoBehaviour, IHealthSystem
     public GroupsMobs GroupMobs => _groupMobs;
 
     protected virtual void DecreaseHealth() { }
-    public void TikeHealth(Health health)
+    public void TakeHealth(Health health)
     {
         Health += health.CountHealth;
     }
 
-    public void TikeDamage(Damage damage)
+    public void TakeDamage(Damage damage)
     {
         Health -= damage.TypeDamage switch
         {

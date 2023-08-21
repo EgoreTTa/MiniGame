@@ -58,7 +58,7 @@ public class DefaultAttack : MonoBehaviour, IAttack
                 if (_affectedTargets.Contains(hit) is false)
                 {
                     var damage = new Damage(_owner, null, _owner.DamageCount, TypesDamage.Clear);
-                    hit.TikeDamage(damage);
+                    hit.TakeDamage(damage);
                     _affectedTargets.Add(hit);
 
                     break;

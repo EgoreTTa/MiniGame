@@ -43,6 +43,6 @@ public class ElementalEffect1 : BaseElementalEffect
             null,
             _damageCount,
             TypesDamage.Clear);
-        (_target as IHealthSystem).TikeDamage(damage);
+        (_target as IHealthSystem).TakeDamage(damage);
     }
 }
