@@ -57,13 +57,15 @@ public class Environment : MonoBehaviour, IHealthSystem
         }
     }
 
-    public void ChangeHealth(Health health)
+    public void TikeHealth(Health health) { }
+
+    public void TikeDamage(Damage damage)
     {
-        Health -= health.TypeDamage switch
+        Health -= damage.TypeDamage switch
         {
-            TypesDamage.Physical => health.CountHealth / 2,
-            TypesDamage.Magical => health.CountHealth * 2,
-            TypesDamage.Clear => health.CountHealth,
+            TypesDamage.Physical => damage.CountHealth / 2,
+            TypesDamage.Magical => damage.CountHealth * 2,
+            TypesDamage.Clear => damage.CountHealth,
             _ => throw new ArgumentOutOfRangeException()
         };
     }

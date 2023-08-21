@@ -38,10 +38,11 @@ public class ElementalEffect1 : BaseElementalEffect
 
     private void MakeDamage()
     {
-        var health = new Health(
+        var damage = new Damage(
             _owner,
             null,
-            _damageCount);
-        (_target as IHealthSystem).ChangeHealth(health);
+            _damageCount,
+            TypesDamage.Clear);
+        (_target as IHealthSystem).TikeDamage(damage);
     }
 }

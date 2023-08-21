@@ -69,7 +69,7 @@ public class Bottle : MonoBehaviour
             &&
             collider.gameObject.GetComponent<IHealthSystem>() is { } healthSystem)
         {
-            healthSystem.ChangeHealth(_health);
+            healthSystem.TikeHealth(_health);
             Fall(transform.position);
         }
     }

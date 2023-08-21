@@ -170,28 +170,23 @@ public abstract class BaseMob : MonoBehaviour, IHealthSystem
     public GroupsMobs GroupMobs => _groupMobs;
 
     protected virtual void DecreaseHealth() { }
-
-    public void ChangeHealth(Health health)
-
+    public void TikeHealth(Health health)
     {
-        if (health.CountHealth > 0)
+        Health += health.CountHealth;
+    }
+
+    public void TikeDamage(Damage damage)
+    {
+        Health -= damage.TypeDamage switch
         {
-            Health += health.CountHealth;
-        }
-        else
+            TypesDamage.Physical => damage.CountHealth / 2,
+            TypesDamage.Magical => damage.CountHealth * 2,
+            TypesDamage.Clear => damage.CountHealth,
+            _ => throw new ArgumentOutOfRangeException()
+        };
+        if (_live is false)
         {
-            Health -= health.TypeDamage switch
-            {
-                TypesDamage.Physical => health.CountHealth / 2,
-                TypesDamage.Magical => health.CountHealth * 2,
-                TypesDamage.Clear => health.CountHealth,
-                null => throw new NullReferenceException(),
-                _ => throw new ArgumentOutOfRangeException()
-            };
-            if (_live is false)
-            {
-                health.Owner?.Scorer.KilledEnemy(this);
-            }
+            damage.Owner?.Scorer.KilledEnemy(this);
         }
     }
 

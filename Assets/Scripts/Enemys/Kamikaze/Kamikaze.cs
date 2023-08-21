@@ -46,8 +46,8 @@ public class Kamikaze : BaseMob
     {
         var mobs = GetMobsForRadius(_explosionRadius);
 
-        var health = new Health(this, null, _damageCount);
-        foreach (var mob in mobs) (mob as IHealthSystem).ChangeHealth(health);
+        var damage = new Damage(this, null, _damageCount, TypesDamage.Clear);
+        foreach (var mob in mobs) (mob as IHealthSystem).TikeDamage(damage);
 
         Destroy(gameObject);
     }

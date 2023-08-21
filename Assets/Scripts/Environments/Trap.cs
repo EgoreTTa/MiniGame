@@ -16,7 +16,7 @@ public class Trap : MonoBehaviour
     [SerializeField] private float _timeCharging;
     [SerializeField] private float _timeAttack;
     [SerializeField] private float _damageCount;
-    private Health _health;
+    private Damage _damage;
     private SpriteRenderer _spriteRenderer;
     [SerializeField] private Sprite _spriteStandby;
     [SerializeField] private Sprite _spriteCharging;
@@ -28,7 +28,7 @@ public class Trap : MonoBehaviour
 
     private void Awake()
     {
-        _health = new Health(null, gameObject, _damageCount);
+        _damage = new Damage(null, gameObject, _damageCount, TypesDamage.Clear);
         _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -56,7 +56,7 @@ public class Trap : MonoBehaviour
 
     private void Damaged()
     {
-        foreach (var healthSystem in _healthSystems) healthSystem.ChangeHealth(_health);
+        foreach (var healthSystem in _healthSystems) healthSystem.TikeDamage(_damage);
     }
 
     private void OnTriggerEnter2D(Collider2D collider)

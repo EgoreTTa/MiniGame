@@ -9,7 +9,7 @@ public class Vodka : BaseItem
     {
         var health = new Health(parent, gameObject, _heal);
         parent.Scorer.PickItem(this);
-        (parent as IHealthSystem).ChangeHealth(health);
+        (parent as IHealthSystem).TikeHealth(health);
         Destroy(gameObject);
     }
 }
