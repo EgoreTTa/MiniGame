@@ -26,9 +26,10 @@ public class Player : BaseMob
         _inventory = new Inventory(this);
         if (GetComponent<IDash>() is { } iDash) _dash = iDash;
         else throw new Exception("Player not instance IDash");
-        if (GetComponent<IAttack>() is { } iAttack) _attack = iAttack;
+        if (GetComponentInChildren<IAttack>() is { } iAttack) _attack = iAttack;
         else throw new Exception("Player not instance IAttack");
-        _ability1 = GetComponent<IAbility>();
+        if (GetComponentInChildren<IAbility>() is { } iAbility) _ability1 = iAbility;
+        else throw new Exception("Player not instance IAbility");
     }
 
     private void Update()
