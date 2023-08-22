@@ -633,7 +633,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -1120,10 +1120,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 7521055551434040984, guid: 7da9e4eda9f10d14ca820e0846f592bc, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 7521055551434040987, guid: 7da9e4eda9f10d14ca820e0846f592bc, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.5
@@ -1163,6 +1159,10 @@ PrefabInstance:
     - target: {fileID: 7521055551434040987, guid: 7da9e4eda9f10d14ca820e0846f592bc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7521055551434040989, guid: 7da9e4eda9f10d14ca820e0846f592bc, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 1536
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1519,6 +1519,10 @@ PrefabInstance:
     - target: {fileID: 4776387964351650883, guid: db2215a8bc906c148bec2f2d7d79e7a6, type: 3}
       propertyPath: m_Name
       value: Iron Armor
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776387964351650889, guid: db2215a8bc906c148bec2f2d7d79e7a6, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4776387964351650894, guid: db2215a8bc906c148bec2f2d7d79e7a6, type: 3}
       propertyPath: m_RootOrder
