@@ -99,7 +99,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7521055551434040984}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -214,9 +214,9 @@ MonoBehaviour:
   _viewRadius: 5
   _turningSpeed: 45
   _groupMobs: 0
-  _stateOfPlayer: 0
   _collider: {fileID: 6616300577017040700}
   _trigger: {fileID: 538700676723179093}
+  _stateOfPlayer: 0
 --- !u!114 &5133062833684486613
 MonoBehaviour:
   m_ObjectHideFlags: 0
