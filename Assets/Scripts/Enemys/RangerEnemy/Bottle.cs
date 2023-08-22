@@ -67,9 +67,9 @@ public class Bottle : MonoBehaviour
     {
         if (collider.gameObject != _parent
             &&
-            collider.gameObject.GetComponent<BaseMob>() is { } mob)
+            collider.gameObject.GetComponent<IHealthSystem>() is { } healthSystem)
         {
-            mob.TakeDamage(_damage);
+            healthSystem.TakeDamage(_damage);
             Fall(transform.position);
         }
     }

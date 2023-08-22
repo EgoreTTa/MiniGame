@@ -47,8 +47,8 @@ public class ElementalEffect12 : BaseElementalEffect
         var damage = new Damage(
             _owner,
             null,
-            TypesDamage.Magical,
-            _damageCount);
-        _target.TakeDamage(damage);
+            _damageCount,
+            TypesDamage.Clear);
+        (_target as IHealthSystem).TakeDamage(damage);
     }
 }

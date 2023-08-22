@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class BaseMob : MonoBehaviour, IHealthSystem
@@ -27,7 +28,7 @@ public abstract class BaseMob : MonoBehaviour, IHealthSystem
     public float Health
     {
         get => _health;
-        set
+        private set
         {
             if (value < _health) DecreaseHealth();
             if (value < _minHealth)
@@ -169,10 +170,20 @@ public abstract class BaseMob : MonoBehaviour, IHealthSystem
     public GroupsMobs GroupMobs => _groupMobs;
 
     protected virtual void DecreaseHealth() { }
+    public void TakeHealth(Health health)
+    {
+        Health += health.CountHealth;
+    }
 
     public void TakeDamage(Damage damage)
     {
-        Health -= damage.CountDamage;
+        Health -= damage.TypeDamage switch
+        {
+            TypesDamage.Physical => damage.CountDamage / 2,
+            TypesDamage.Magical => damage.CountDamage * 2,
+            TypesDamage.Clear => damage.CountDamage,
+            _ => throw new ArgumentOutOfRangeException()
+        };
         if (_live is false)
         {
             damage.Owner?.Scorer.KilledEnemy(this);

@@ -28,7 +28,7 @@ public class Trap : MonoBehaviour
 
     private void Awake()
     {
-        _damage = new Damage(null, gameObject, TypesDamage.Physical, _damageCount);
+        _damage = new Damage(null, gameObject, _damageCount, TypesDamage.Clear);
         _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 

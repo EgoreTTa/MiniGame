@@ -3,24 +3,24 @@ using UnityEngine;
 public class Damage
 {
     private BaseMob _owner;
-    private GameObject _damagedBy;
-    private TypesDamage _typeDamage;
+    private GameObject _damageBy;
     private float _countDamage;
+    private TypesDamage _typeDamage;
 
     public BaseMob Owner => _owner;
-    public GameObject DamagedBy => _damagedBy;
-    public TypesDamage TypeDamage => _typeDamage;
+    public GameObject DamageBy => _damageBy;
     public float CountDamage => _countDamage;
+    public TypesDamage TypeDamage => _typeDamage;
 
     public Damage(
         BaseMob owner,
-        GameObject damagedBy,
-        TypesDamage typeDamage,
-        float countDamage)
+        GameObject damageBy,
+        float countDamage,
+        TypesDamage typeDamage)
     {
         _owner = owner;
-        _damagedBy = damagedBy;
-        _typeDamage = typeDamage;
+        _damageBy = damageBy;
         _countDamage = countDamage;
+        _typeDamage = typeDamage;
     }
 }

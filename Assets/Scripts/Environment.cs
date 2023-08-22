@@ -57,6 +57,8 @@ public class Environment : MonoBehaviour, IHealthSystem
         }
     }
 
+    public void TakeHealth(Health health) { }
+
     public void TakeDamage(Damage damage)
     {
         Health -= damage.TypeDamage switch
