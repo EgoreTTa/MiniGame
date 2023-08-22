@@ -10,7 +10,7 @@ public class SmoothCamera : MonoBehaviour
     private void Update()
     {
         if (_target != null) transform.position = Vector3.Lerp(
-            transform.position, 
+            transform.position,
             _target.transform.position,
             _speed);
     }
