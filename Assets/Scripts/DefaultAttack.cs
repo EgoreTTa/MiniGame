@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DefaultAttack : MonoBehaviour, IAttack
@@ -14,7 +13,6 @@ public class DefaultAttack : MonoBehaviour, IAttack
     private BaseMob _owner;
     private SpriteRenderer _spriteRenderer;
     private CircleCollider2D _circleCollider;
-    private readonly List<IHealthSystem> _affectedTargets = new();
 
     public StatesOfAttack StateOfAttack => _stateOfAttack;
 
@@ -42,19 +40,6 @@ public class DefaultAttack : MonoBehaviour, IAttack
         if (_timerHitting <= _timeHitting)
         {
             _timerHitting += Time.deltaTime;
-            Hit();
-        }
-    }
-
-    private void Hit()
-    {
-        foreach (var hit in _affectedTargets)
-        {
-            var damage = new Damage(_owner, null, _owner.DamageCount, TypesDamage.Clear);
-            hit.TakeDamage(damage);
-            _affectedTargets.Remove(hit);
-
-            break;
         }
     }
 
@@ -88,7 +73,6 @@ public class DefaultAttack : MonoBehaviour, IAttack
                     _spriteRenderer.enabled = false;
                     _circleCollider.enabled = false;
                     _timerHitting -= _timeHitting;
-                    _affectedTargets.Clear();
                     _stateOfAttack = StatesOfAttack.Recovery;
                     return;
                 }
@@ -125,7 +109,10 @@ public class DefaultAttack : MonoBehaviour, IAttack
         if (collider.GetComponent<IHealthSystem>() is { } healthSystem)
         {
             if (collider.gameObject != _owner.gameObject)
-                _affectedTargets.Add(healthSystem);
+            {
+                var damage = new Damage(_owner, null, _owner.DamageCount, TypesDamage.Clear);
+                healthSystem.TakeDamage(damage);
+            }
         }
     }
 }
