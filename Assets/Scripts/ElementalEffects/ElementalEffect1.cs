@@ -1,48 +1,54 @@
-﻿using UnityEngine;
-
-[DisallowMultipleComponent]
-public class ElementalEffect1 : BaseElementalEffect
+﻿namespace Assets.Scripts.ElementalEffects
 {
-    [SerializeField] private float _damageCount = 2f;
-    [SerializeField] private float _timeOfAction = 10f;
-    private float _timerOfAction;
-    [SerializeField] private float _timeDamage = .2f;
-    private float _timerDamage;
+    using Enums;
+    using Interfaces;
+    using NoMonoBehaviour;
+    using UnityEngine;
 
-    private void Start()
+    [DisallowMultipleComponent]
+    public class ElementalEffect1 : BaseElementalEffect
     {
-        _typeElement = TypesElement.ElementalEffect1;
-        CombineEffect();
-    }
+        [SerializeField] private float _damageCount = 2f;
+        [SerializeField] private float _timeOfAction = 10f;
+        private float _timerOfAction;
+        [SerializeField] private float _timeDamage = .2f;
+        private float _timerDamage;
 
-    private void Update()
-    {
-        if (_timerOfAction < _timeOfAction)
+        private void Start()
         {
-            _timerOfAction += Time.deltaTime;
-            if (_timerDamage < _timeDamage)
+            _typeElement = TypesElement.ElementalEffect1;
+            CombineEffect();
+        }
+
+        private void Update()
+        {
+            if (_timerOfAction < _timeOfAction)
             {
-                _timerDamage += Time.deltaTime;
+                _timerOfAction += Time.deltaTime;
+                if (_timerDamage < _timeDamage)
+                {
+                    _timerDamage += Time.deltaTime;
+                }
+                else
+                {
+                    _timerDamage -= _timeDamage;
+                    MakeDamage();
+                }
             }
             else
             {
-                _timerDamage -= _timeDamage;
-                MakeDamage();
+                Destroy(this);
             }
         }
-        else
-        {
-            Destroy(this);
-        }
-    }
 
-    private void MakeDamage()
-    {
-        var damage = new Damage(
-            _owner,
-            null,
-            _damageCount,
-            TypesDamage.Clear);
-        (_target as IHealthSystem).TakeDamage(damage);
+        private void MakeDamage()
+        {
+            var damage = new Damage(
+                _owner,
+                null,
+                _damageCount,
+                TypesDamage.Clear);
+            (_target as IHealthSystem).TakeDamage(damage);
+        }
     }
 }

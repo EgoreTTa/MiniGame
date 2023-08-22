@@ -1,6 +1,11 @@
-public interface IAbility
+namespace Assets.Scripts.Interfaces
 {
-    public StatesOfAbility StateOfAbility { get; }
-    
-    public void Cast();
+    using Enums;
+
+    public interface IAbility
+    {
+        public StatesOfAbility StateOfAbility { get; }
+
+        public void Cast();
+    }
 }

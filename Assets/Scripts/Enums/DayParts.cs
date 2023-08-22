@@ -1,7 +1,10 @@
-public enum DayParts
+namespace Assets.Scripts.Enums
 {
-    Night,
-    Morning,
-    Afternoon,
-    Evening
+    public enum DayParts
+    {
+        Night,
+        Morning,
+        Afternoon,
+        Evening
+    }
 }

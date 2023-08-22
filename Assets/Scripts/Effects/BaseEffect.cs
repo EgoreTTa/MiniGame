@@ -1,10 +1,14 @@
-using UnityEngine;
-
-public abstract class BaseEffect : MonoBehaviour
+namespace Assets.Scripts.Effects
 {
-    [SerializeField] protected string _effectName;
+    using Enemies;
+    using UnityEngine;
 
-    public string EffectName => _effectName;
+    public abstract class BaseEffect : MonoBehaviour
+    {
+        [SerializeField] protected string _effectName;
 
-    public abstract void StartEffect(BaseMob target);
+        public string EffectName => _effectName;
+
+        public abstract void StartEffect(BaseMob target);
+    }
 }

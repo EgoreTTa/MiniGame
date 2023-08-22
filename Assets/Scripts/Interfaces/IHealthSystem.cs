@@ -1,9 +1,14 @@
-public interface IHealthSystem
+namespace Assets.Scripts.Interfaces
 {
-    public float Health { get; }
-    public float MinHealth { get; set; }
-    public float MaxHealth { get; set; }
+    using NoMonoBehaviour;
 
-    public void TakeHealth(Health health);
-    public void TakeDamage(Damage damage);
+    public interface IHealthSystem
+    {
+        public float Health { get; }
+        public float MinHealth { get; set; }
+        public float MaxHealth { get; set; }
+
+        public void TakeHealth(Health health);
+        public void TakeDamage(Damage damage);
+    }
 }

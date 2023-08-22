@@ -1,9 +1,13 @@
-public interface IInteraction
+namespace Assets.Scripts.Interfaces
 {
-    public string FirstName { get; }
+    using Enemies;
 
-    public bool IsInteract { get; }
+    public interface IInteraction
+    {
+        public string FirstName { get; }
 
-    void Interact(BaseMob mob);
+        public bool IsInteract { get; }
 
+        public void Interact(BaseMob mob);
+    }
 }

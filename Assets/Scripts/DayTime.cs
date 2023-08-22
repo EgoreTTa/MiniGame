@@ -1,37 +1,41 @@
-using JetBrains.Annotations;
-using UnityEngine;
-
-public class DayTime : MonoBehaviour
+namespace Assets.Scripts
 {
-    private const int PartOfDayForSecond = 21600;
-    private const int SecondsOfDay = 86400;
-    [SerializeField] private DayParts _dayTime;
-    private float _time;
+    using Enums;
+    using JetBrains.Annotations;
+    using UnityEngine;
 
-    public DayParts PartOfDay => _dayTime;
-
-    [UsedImplicitly]
-    private void Update()
+    public class DayTime : MonoBehaviour
     {
-        _time += Time.deltaTime * 10000;
+        private const int PartOfDayForSecond = 21600;
+        private const int SecondsOfDay = 86400;
+        [SerializeField] private DayParts _dayTime;
+        private float _time;
 
-        switch ((int)_time / PartOfDayForSecond)
+        public DayParts PartOfDay => _dayTime;
+
+        [UsedImplicitly]
+        private void Update()
         {
-            case 0:
-                _dayTime = DayParts.Night;
-                break;
-            case 1:
-                _dayTime = DayParts.Morning;
-                break;
-            case 2:
-                _dayTime = DayParts.Afternoon;
-                break;
-            case 3:
-                _dayTime = DayParts.Evening;
-                break;
-            default:
-                _time -= SecondsOfDay;
-                break;
+            _time += Time.deltaTime * 10000;
+
+            switch ((int)_time / PartOfDayForSecond)
+            {
+                case 0:
+                    _dayTime = DayParts.Night;
+                    break;
+                case 1:
+                    _dayTime = DayParts.Morning;
+                    break;
+                case 2:
+                    _dayTime = DayParts.Afternoon;
+                    break;
+                case 3:
+                    _dayTime = DayParts.Evening;
+                    break;
+                default:
+                    _time -= SecondsOfDay;
+                    break;
+            }
         }
     }
 }
