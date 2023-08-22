@@ -175,6 +175,8 @@ MonoBehaviour:
   _viewRadius: 3
   _turningSpeed: 0
   _groupMobs: 1
+  _collider: {fileID: 2333678910982951190}
+  _trigger: {fileID: 0}
   _score: 0
   _stateOfKamikaze: 0
   _targetToAttack: {fileID: 0}
