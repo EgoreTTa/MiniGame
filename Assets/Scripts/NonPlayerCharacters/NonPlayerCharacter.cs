@@ -1,18 +1,23 @@
-using UnityEngine;
-
-public class NonPlayerCharacter : MonoBehaviour, IInteraction
+namespace Assets.Scripts.NonPlayerCharacters
 {
-    [SerializeField] private string _firstName;
-    [SerializeField] private bool _isInteract;
+    using Enemies;
+    using Interfaces;
+    using UnityEngine;
 
-    public string FirstName => _firstName;
-
-    public bool IsInteract => _isInteract;
-
-    public void Interact(BaseMob mob)
+    public class NonPlayerCharacter : MonoBehaviour, IInteraction
     {
-        if (_isInteract == false) _isInteract = true;
+        [SerializeField] private string _firstName;
+        [SerializeField] private bool _isInteract;
 
-        Debug.Log($"{_firstName} отвечает {mob.Firstname}");
+        public string FirstName => _firstName;
+
+        public bool IsInteract => _isInteract;
+
+        public void Interact(BaseMob mob)
+        {
+            if (_isInteract == false) _isInteract = true;
+
+            Debug.Log($"{_firstName} отвечает {mob.Firstname}");
+        }
     }
 }

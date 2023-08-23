@@ -1,24 +1,24 @@
-using UnityEngine;
-
-[DisallowMultipleComponent]
-public class Vasilin : BaseItem
+namespace Assets.Scripts.Items
 {
-    [SerializeField] private float _changeMaxMoveSpeed;
-    [SerializeField] private float _changeMoveSpeed;
-    [SerializeField] private float _changeTurningSpeed;
+    using Enemies;
+    using UnityEngine;
 
-    public override void PickUp(BaseMob parent)
+    [DisallowMultipleComponent]
+    public class Vasilin : BaseItem
     {
-        parent.Scorer.PickItem(this);
-        parent.MaxMoveSpeed += _changeMaxMoveSpeed;
-        parent.MoveSpeed += _changeMoveSpeed;
-        parent.TurningSpeed += _changeTurningSpeed;
-    }
+        [SerializeField] private float _changeMaxMoveSpeed;
+        [SerializeField] private float _changeMoveSpeed;
 
-    public override void PickDown(BaseMob parent)
-    {
-        parent.MaxMoveSpeed -= _changeMaxMoveSpeed;
-        parent.MoveSpeed -= _changeMoveSpeed;
-        parent.TurningSpeed -= _changeTurningSpeed;
+        public override void PickUp(BaseMob parent)
+        {
+            parent.MaxMoveSpeed += _changeMaxMoveSpeed;
+            parent.MoveSpeed += _changeMoveSpeed;
+        }
+
+        public override void PickDown(BaseMob parent)
+        {
+            parent.MaxMoveSpeed -= _changeMaxMoveSpeed;
+            parent.MoveSpeed -= _changeMoveSpeed;
+        }
     }
 }

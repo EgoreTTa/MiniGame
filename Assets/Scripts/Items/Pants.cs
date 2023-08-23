@@ -1,4 +1,9 @@
-public class Pants : BaseItem
+namespace Assets.Scripts.Items
 {
-    public override void PickUp(BaseMob parent) { }
+    using Enemies;
+
+    public class Pants : BaseItem
+    {
+        public override void PickUp(BaseMob parent) { }
+    }
 }

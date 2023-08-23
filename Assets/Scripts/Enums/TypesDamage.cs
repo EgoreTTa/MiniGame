@@ -1,6 +1,9 @@
-public enum TypesDamage
+namespace Assets.Scripts.Enums
 {
-    Physical,
-    Magical,
-    Clear
+    public enum TypesDamage
+    {
+        Physical,
+        Magical,
+        Clear
+    }
 }

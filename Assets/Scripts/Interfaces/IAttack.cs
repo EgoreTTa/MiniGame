@@ -1,6 +1,11 @@
-internal interface IAttack
+namespace Assets.Scripts.Interfaces
 {
-    public StatesOfAttack StateOfAttack { get; }
+    using Enums;
 
-    void Attack();
+    public interface IAttack
+    {
+        public StatesOfAttack StateOfAttack { get; }
+
+        public void Attack();
+    }
 }
