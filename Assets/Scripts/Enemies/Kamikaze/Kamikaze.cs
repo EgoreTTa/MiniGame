@@ -49,12 +49,14 @@ namespace Assets.Scripts.Enemies.Kamikaze
 
         private void Explosion()
         {
-            var mobs = GetMobsForRadius(_explosionRadius);
+            if (_live)
+            {
+                var mobs = GetMobsForRadius(_explosionRadius);
 
-            var damage = new Damage(this, null, _damageCount, TypesDamage.Clear);
-            foreach (var mob in mobs) (mob as IHealthSystem).TakeDamage(damage);
-
-            Destroy(gameObject);
+                var damage = new Damage(this, null, _damageCount, TypesDamage.Clear);
+                foreach (var mob in mobs) (mob as IHealthSystem).TakeDamage(damage);
+                Health = _minHealth;
+            }
         }
 
         private BaseMob[] GetMobsForRadius(float radius)
@@ -70,8 +72,8 @@ namespace Assets.Scripts.Enemies.Kamikaze
                     x.transform.GetComponent<BaseMob>() != this
                     &&
                     x.transform.GetComponent<BaseMob>().GroupMobs != _groupMobs)
-                .Distinct()
                 .Select(x => x.transform.GetComponent<BaseMob>())
+                .Distinct()
                 .ToArray();
             return mobs;
         }
