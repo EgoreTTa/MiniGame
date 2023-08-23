@@ -28,28 +28,30 @@ namespace Assets.Scripts.Enemies
         protected IInteraction _interaction;
         private Vector3 _direction = Vector3.up;
         protected Inventory _inventory;
+        [SerializeField] protected ManagerGUI _managerGUI;
 
         public Vector3 Direction => _direction;
 
         public float Health
         {
             get => _health;
-            private set
+            protected set
             {
                 if (value < _health) DecreaseHealth();
-                if (value < _minHealth)
+                if (value <= _minHealth)
                 {
                     value = _minHealth;
                     _live = false;
                     Destroy(gameObject);
                 }
 
-                if (value > _maxHealth)
+                if (value >= _maxHealth)
                 {
                     value = _maxHealth;
                 }
-
+                
                 _health = value;
+                _managerGUI?.UpdateHealthBar(_health, _maxHealth);
             }
         }
 
@@ -71,6 +73,7 @@ namespace Assets.Scripts.Enemies
             {
                 if (value <= _minHealth) value = _minHealth;
                 _maxHealth = value;
+                _managerGUI?.UpdateHealthBar(_health, _maxHealth);
             }
         }
 
@@ -190,13 +193,17 @@ namespace Assets.Scripts.Enemies
 
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            if (_trigger.IsTouching(collider))
+            if (_trigger != null 
+                &&
+                _trigger.IsTouching(collider))
                 if (collider.gameObject.GetComponent<IInteraction>() is { } interaction)
                 {
                     _interaction = interaction;
                 }
 
-            if (_collider.IsTouching(collider))
+            if (_collider != null
+                &&
+                _collider.IsTouching(collider))
                 if (collider.gameObject.GetComponent<BaseItem>() is { } item)
                 {
                     _inventory?.Put(item);
