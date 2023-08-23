@@ -2,6 +2,7 @@ namespace Assets.Scripts.Enemies
 {
     using System;
     using Enums;
+    using GUI;
     using Interfaces;
     using Items;
     using NoMonoBehaviour;
