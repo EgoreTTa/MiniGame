@@ -2,7 +2,6 @@ namespace Assets.Scripts.NoMonoBehaviour
 {
     using System;
     using System.Collections.Generic;
-    using Enemies;
     using Enums;
     using Interfaces;
     using Items;
@@ -13,11 +12,11 @@ namespace Assets.Scripts.NoMonoBehaviour
         private IEquipment _helmet;
         private IEquipment _armor;
         private IEquipment _boot;
-        private BaseMob _parent;
+        private Player _parent;
 
         public BaseItem[] Items => _items.ToArray();
 
-        public Inventory(BaseMob parent)
+        public Inventory(Player parent)
         {
             _parent = parent;
         }
