@@ -6,15 +6,22 @@ namespace Assets.Scripts
     using Enums;
     using Interfaces;
     using UnityEngine;
+    using Items;
+    using GUI;
 
     [DisallowMultipleComponent]
-    public class Player : BaseMob
+    public class Player : BaseMob, IHealthSystem, IMoveSystem
     {
         [SerializeField] private StatesOfPlayer _stateOfPlayer;
         private IJerk _jerk;
         private IAttack _attack;
         private IAbility _ability1;
         private bool _isInteract;
+        protected IInteraction _interaction;
+        protected Inventory _inventory;
+        [SerializeField] protected ManagerGUI _managerGUI;
+        [SerializeField] private Collider2D _collider;
+        [SerializeField] private Collider2D _trigger;
 
         public enum StatesOfPlayer
         {
@@ -26,6 +33,82 @@ namespace Assets.Scripts
         }
 
         public StatesOfPlayer StateOfPlayer => _stateOfPlayer;
+
+        public float Health
+        {
+            get => _health;
+            protected set
+            {
+                if (value <= _minHealth)
+                {
+                    value = _minHealth;
+                    _live = false;
+                    Destroy(gameObject);
+                }
+
+                if (value >= _maxHealth)
+                {
+                    value = _maxHealth;
+                }
+
+                _health = value;
+                _managerGUI?.UpdateHealthBar(_health, _maxHealth);
+            }
+        }
+
+        public float MinHealth
+        {
+            get => _minHealth;
+            set
+            {
+                if (value <= 0) value = 0;
+                if (value > _maxHealth) value = _maxHealth;
+                _minHealth = value;
+            }
+        }
+
+        public float MaxHealth
+        {
+            get => _maxHealth;
+            set
+            {
+                if (value <= _minHealth) value = _minHealth;
+                _maxHealth = value;
+                _managerGUI?.UpdateHealthBar(_health, _maxHealth);
+            }
+        }
+
+        public float MoveSpeed
+        {
+            get => _moveSpeed;
+            set
+            {
+                if (value < _minMoveSpeed) value = _minMoveSpeed;
+                if (value > _maxMoveSpeed) value = _maxMoveSpeed;
+                _moveSpeed = value;
+            }
+        }
+
+        public float MinMoveSpeed
+        {
+            get => _minMoveSpeed;
+            set
+            {
+                if (value < 0) value = 0;
+                if (value > _maxMoveSpeed) value = _maxMoveSpeed;
+                _minMoveSpeed = value;
+            }
+        }
+
+        public float MaxMoveSpeed
+        {
+            get => _maxMoveSpeed;
+            set
+            {
+                if (value < _minMoveSpeed) value = _minMoveSpeed;
+                _maxMoveSpeed = value;
+            }
+        }
 
         private void Awake()
         {
@@ -84,7 +167,7 @@ namespace Assets.Scripts
 
                     if (axis != Vector3.zero)
                     {
-                        Walk(axis);
+                        Move(axis);
                         _stateOfPlayer = StatesOfPlayer.Move;
                         return;
                     }
@@ -154,6 +237,55 @@ namespace Assets.Scripts
             }
         }
 
-        protected override void DecreaseHealth() { }
+        public void TakeHealth(Health health)
+        {
+            Health += health.CountHealth;
+        }
+
+        public void TakeDamage(Damage damage)
+        {
+            Health -= damage.TypeDamage switch
+            {
+                TypesDamage.Physical => damage.CountDamage / 2,
+                TypesDamage.Magical => damage.CountDamage * 2,
+                TypesDamage.Clear => damage.CountDamage,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+
+        public void Move(Vector3 vector)
+        {
+            _direction = vector.normalized;
+            transform.up = _direction;
+            transform.position += _direction * _moveSpeed * Time.deltaTime;
+        }
+
+        private void OnTriggerEnter2D(Collider2D collider)
+        {
+            if (_trigger != null
+                &&
+                _trigger.IsTouching(collider))
+                if (collider.gameObject.GetComponent<IInteraction>() is { } interaction)
+                {
+                    _interaction = interaction;
+                }
+
+            if (_collider != null
+                &&
+                _collider.IsTouching(collider))
+                if (collider.gameObject.GetComponent<BaseItem>() is { } item)
+                {
+                    _inventory?.Put(item);
+                    if (item.GetComponent<IUsable>() is { } usable)
+                    {
+                        usable.Use(this);
+                    }
+
+                    if (item.GetComponent<IEquipment>() is { } equipment)
+                    {
+                        _inventory?.Equip(equipment);
+                    }
+                }
+        }
     }
 }
