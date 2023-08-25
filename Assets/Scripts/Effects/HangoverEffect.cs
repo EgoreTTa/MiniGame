@@ -11,19 +11,16 @@ namespace Assets.Scripts.Effects
     {
         [SerializeField] private float _delay;
         [SerializeField] private float _timeTakeDamage;
-        [SerializeField] private bool _takingDamage;
         [SerializeField] private float _damage;
         private BaseMob _target;
 
         public override void StartEffect(BaseMob target)
         {
-            _takingDamage = true;
             InvokeRepeating(nameof(TakeDamage), 0, _timeTakeDamage);
         }
 
         public void PostponeEffect()
         {
-            _takingDamage = false;
             CancelInvoke(nameof(TakeDamage));
             Invoke(nameof(StartEffect), _delay);
         }
