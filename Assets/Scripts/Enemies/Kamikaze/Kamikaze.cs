@@ -12,14 +12,12 @@ namespace Assets.Scripts.Enemies.Kamikaze
     [DisallowMultipleComponent]
     public class Kamikaze : BaseMob, IHealthSystem
     {
-        [SerializeField] private int _score;
         [SerializeField] private StatesOfKamikaze _stateOfKamikaze = StatesOfKamikaze.Idle;
         [SerializeField] private BaseMob _targetToAttack;
         [SerializeField] private Vector3? _targetToExplore;
         [SerializeField] private float _timeForIdle;
         private float _timerTimeForIdle;
         [SerializeField] private float _timeForDetonation;
-        private float _timerTimeForDetonation;
         [SerializeField] private float _explosionRadius;
         [SerializeField] private float _detonationRadius;
 
@@ -81,12 +79,6 @@ namespace Assets.Scripts.Enemies.Kamikaze
         {
             LookAround();
             ActionChoice();
-        }
-
-        private void Detonation()
-        {
-            _timerTimeForDetonation += Time.deltaTime;
-            if (_timerTimeForDetonation > _timeForDetonation) Explosion();
         }
 
         private void Explosion()
@@ -170,13 +162,13 @@ namespace Assets.Scripts.Enemies.Kamikaze
                     if (distanceToTarget < _detonationRadius)
                     {
                         _stateOfKamikaze = StatesOfKamikaze.Detonation;
+                        Invoke(nameof(Explosion), _timeForDetonation);
                         break;
                     }
 
                     Pursuit();
                     break;
                 case StatesOfKamikaze.Detonation:
-                    Detonation();
                     break;
                 default:
                     throw new Exception("FSM: not valid state");
