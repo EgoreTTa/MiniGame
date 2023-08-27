@@ -110,6 +110,11 @@ namespace Assets.Scripts
             }
         }
 
+        private void Start()
+        {
+            _managerGUI?.UpdateHealthBar(_health, _maxHealth);
+        }
+
         private void Awake()
         {
             _inventory = new Inventory(this);
