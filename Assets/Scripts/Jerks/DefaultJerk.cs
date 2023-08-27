@@ -49,6 +49,7 @@ namespace Assets.Scripts.Jerks
         {
             _stateOfJerk = StatesOfJerk.Recovery;
             _owner.GetComponent<Rigidbody2D>().excludeLayers = _nothing;
+            CancelInvoke(nameof(Move));
             Invoke(nameof(IntoIdle), _timeRecovery);
         }
 
