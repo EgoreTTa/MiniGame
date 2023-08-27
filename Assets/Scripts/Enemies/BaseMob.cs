@@ -167,6 +167,11 @@ namespace Assets.Scripts.Enemies
         public bool Live => _live;
         public GroupsMobs GroupMobs => _groupMobs;
 
+        private void Start()
+        {
+            _managerGUI?.UpdateHealthBar(_health, _maxHealth);
+        }
+
         protected virtual void DecreaseHealth() { }
 
         public void TakeHealth(Health health)
