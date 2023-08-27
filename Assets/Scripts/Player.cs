@@ -18,7 +18,7 @@ namespace Assets.Scripts
         private IAbility _ability1;
         private bool _isInteract;
         protected IInteraction _interaction;
-        protected Inventory _inventory;
+        private Inventory _inventory;
         [SerializeField] private ManagerGUI _managerGUI;
         [SerializeField] private Collider2D _collider;
         [SerializeField] private Collider2D _trigger;
