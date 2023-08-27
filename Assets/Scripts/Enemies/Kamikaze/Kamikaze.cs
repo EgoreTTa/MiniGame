@@ -42,7 +42,7 @@ namespace Assets.Scripts.Enemies.Kamikaze
                 if (value <= _minHealth)
                 {
                     value = _minHealth;
-                    _live = false;
+                    _isLive = false;
                     Destroy(gameObject);
                 }
 
@@ -91,7 +91,7 @@ namespace Assets.Scripts.Enemies.Kamikaze
 
         private void Explosion()
         {
-            if (_live)
+            if (_isLive)
             {
                 var mobs = GetMobsForRadius(_explosionRadius);
 
