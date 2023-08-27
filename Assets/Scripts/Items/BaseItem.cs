@@ -1,6 +1,5 @@
 namespace Assets.Scripts.Items
 {
-    using Enemies;
     using UnityEngine;
 
     [RequireComponent(
@@ -13,7 +12,7 @@ namespace Assets.Scripts.Items
         [SerializeField] protected string _description;
         [SerializeField] protected int _scoreCount;
 
-        protected BaseMob _owner;
+        protected Player _owner;
         protected SpriteRenderer _spriteRenderer;
         protected Rigidbody2D _rigidbody;
         protected Collider2D _collider;
@@ -29,7 +28,7 @@ namespace Assets.Scripts.Items
             _collider = GetComponent<Collider2D>();
         }
 
-        public virtual void PickUp(BaseMob owner)
+        public virtual void PickUp(Player owner)
         {
             _owner = owner;
             _spriteRenderer.enabled = false;
@@ -37,7 +36,7 @@ namespace Assets.Scripts.Items
             _collider.enabled = false;
         }
 
-        public virtual void PickDown(BaseMob owner)
+        public virtual void PickDown(Player owner)
         {
             transform.position = owner.transform.position;
             _owner = null;

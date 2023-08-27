@@ -10,7 +10,7 @@ namespace Assets.Scripts.Enemies.Kamikaze
     using Random = UnityEngine.Random;
 
     [DisallowMultipleComponent]
-    public class Kamikaze : BaseMob
+    public class Kamikaze : BaseMob, IHealthSystem
     {
         [SerializeField] private int _score;
         [SerializeField] private StatesOfKamikaze _stateOfKamikaze = StatesOfKamikaze.Idle;
@@ -34,6 +34,48 @@ namespace Assets.Scripts.Enemies.Kamikaze
             }
         }
 
+        public float Health
+        {
+            get => _health;
+            private set
+            {
+                if (value <= _minHealth)
+                {
+                    value = _minHealth;
+                    _isLive = false;
+                    Destroy(gameObject);
+                }
+
+                if (value >= _maxHealth)
+                {
+                    value = _maxHealth;
+                }
+
+                _health = value;
+            }
+        }
+
+        public float MinHealth
+        {
+            get => _minHealth;
+            set
+            {
+                if (value <= 0) value = 0;
+                if (value > _maxHealth) value = _maxHealth;
+                _minHealth = value;
+            }
+        }
+
+        public float MaxHealth
+        {
+            get => _maxHealth;
+            set
+            {
+                if (value <= _minHealth) value = _minHealth;
+                _maxHealth = value;
+            }
+        }
+
         [UsedImplicitly]
         private void Update()
         {
@@ -49,7 +91,7 @@ namespace Assets.Scripts.Enemies.Kamikaze
 
         private void Explosion()
         {
-            if (_live)
+            if (_isLive)
             {
                 var mobs = GetMobsForRadius(_explosionRadius);
 
@@ -169,12 +211,35 @@ namespace Assets.Scripts.Enemies.Kamikaze
             Walk(direction);
         }
 
+        public void TakeHealth(Health health)
+        {
+            Health += health.CountHealth;
+        }
+
+        public void TakeDamage(Damage damage)
+        {
+            Health -= damage.TypeDamage switch
+            {
+                TypesDamage.Physical => damage.CountDamage / 2,
+                TypesDamage.Magical => damage.CountDamage * 2,
+                TypesDamage.Clear => damage.CountDamage,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+
         private void LookAround()
         {
             var mobs = GetMobsForRadius(_viewRadius);
 
             _targetToAttack = null;
             if (mobs.Any()) TargetToAttack = mobs.First();
+        }
+
+        private void Walk(Vector3 vector)
+        {
+            _direction = vector.normalized;
+            transform.up = _direction;
+            transform.position += _direction * _moveSpeed * Time.deltaTime;
         }
 
         private void FindPositionToExplore()

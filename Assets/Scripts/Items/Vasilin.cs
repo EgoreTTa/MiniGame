@@ -1,6 +1,5 @@
 namespace Assets.Scripts.Items
 {
-    using Enemies;
     using UnityEngine;
 
     [DisallowMultipleComponent]
@@ -9,13 +8,13 @@ namespace Assets.Scripts.Items
         [SerializeField] private float _changeMaxMoveSpeed;
         [SerializeField] private float _changeMoveSpeed;
 
-        public override void PickUp(BaseMob parent)
+        public override void PickUp(Player parent)
         {
             parent.MaxMoveSpeed += _changeMaxMoveSpeed;
             parent.MoveSpeed += _changeMoveSpeed;
         }
 
-        public override void PickDown(BaseMob parent)
+        public override void PickDown(Player parent)
         {
             parent.MaxMoveSpeed -= _changeMaxMoveSpeed;
             parent.MoveSpeed -= _changeMoveSpeed;
