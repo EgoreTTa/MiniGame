@@ -34,11 +34,7 @@ namespace Assets.Scripts.Attacks
         {
             if (_stateOfAttack != StatesOfAttack.Idle) return;
 
-            if (_owner.Stamina > 0)
-            {
-                _owner.Stamina--;
-                _stateOfAttack = StatesOfAttack.Swing;
-            }
+            _stateOfAttack = StatesOfAttack.Swing;
         }
 
         private void Hitting()

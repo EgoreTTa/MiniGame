@@ -79,6 +79,13 @@ namespace Assets.Scripts.Enemies.RangerEnemy
             Walk(direction);
         }
 
+        private void Walk(Vector3 vector)
+        {
+            _direction = vector.normalized;
+            transform.up = _direction;
+            transform.position += _direction * _moveSpeed * Time.deltaTime;
+        }
+
         private void BottleThrow()
         {
             var directionThrow = transform.up.normalized;

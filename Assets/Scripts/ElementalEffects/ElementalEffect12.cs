@@ -18,7 +18,10 @@
         private void Start()
         {
             _typeElement = TypesElement.ElementalEffect12;
-            _target.MoveSpeed -= _changeMoveSpeed;
+            if (_target is IMoveSystem moveSystem)
+                moveSystem.MoveSpeed -= _changeMoveSpeed;
+            else
+                Destroy(this);
         }
 
         private void Update()
@@ -44,7 +47,8 @@
 
         private void OnDestroy()
         {
-            _target.MoveSpeed += _changeMoveSpeed;
+            if (_target is IMoveSystem moveSystem)
+                moveSystem.MoveSpeed += _changeMoveSpeed;
         }
 
         private void MakeDamage()
@@ -54,7 +58,8 @@
                 null,
                 _damageCount,
                 TypesDamage.Clear);
-            (_target as IHealthSystem).TakeDamage(damage);
+            if (_target is IHealthSystem healthSystem)
+                healthSystem.TakeDamage(damage);
         }
     }
 }

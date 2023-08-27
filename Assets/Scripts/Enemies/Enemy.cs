@@ -35,5 +35,12 @@ namespace Assets.Scripts.Enemies
             var direction = target.transform.position - transform.position;
             Walk(direction);
         }
+
+        private void Walk(Vector3 vector)
+        {
+            _direction = vector.normalized;
+            transform.up = _direction;
+            transform.position += _direction * _moveSpeed * Time.deltaTime;
+        }
     }
 }

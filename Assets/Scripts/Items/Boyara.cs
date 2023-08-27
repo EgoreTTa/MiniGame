@@ -1,6 +1,5 @@
 namespace Assets.Scripts.Items
 {
-    using Enemies;
     using UnityEngine;
 
     [DisallowMultipleComponent]
@@ -15,7 +14,7 @@ namespace Assets.Scripts.Items
             _damageBoost = Random.Range(_minRange, _maxRange);
         }
 
-        public override void PickUp(BaseMob parent)
+        public override void PickUp(Player parent)
         {
             parent.DamageCount += _damageBoost;
             Destroy(gameObject);

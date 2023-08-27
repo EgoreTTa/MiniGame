@@ -1,5 +1,6 @@
 ﻿namespace Assets.Scripts.ElementalEffects
 {
+    using Interfaces;
     using UnityEngine;
 
     [DisallowMultipleComponent]
@@ -13,7 +14,10 @@
         {
             _typeElement = TypesElement.ElementalEffect2;
             CombineEffect();
-            _target.MoveSpeed -= _changeMoveSpeed;
+            if (_target is IMoveSystem moveSystem)
+                moveSystem.MoveSpeed -= _changeMoveSpeed;
+            else
+                Destroy(this);
         }
 
         private void Update()
@@ -30,7 +34,8 @@
 
         private void OnDestroy()
         {
-            _target.MoveSpeed += _changeMoveSpeed;
+            if (_target is IMoveSystem moveSystem)
+                moveSystem.MoveSpeed += _changeMoveSpeed;
         }
     }
 }
