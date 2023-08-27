@@ -10,11 +10,8 @@ namespace Assets.Scripts.Attacks
     public class DefaultAttack : MonoBehaviour, IAttack
     {
         [SerializeField] private float _timeSwing;
-        private float _timerSwing;
         [SerializeField] private float _timeHitting;
-        private float _timerHitting;
         [SerializeField] private float _timeRecovery;
-        private float _timerRecovery;
         [SerializeField] private StatesOfAttack _stateOfAttack;
         private BaseMob _owner;
         private SpriteRenderer _spriteRenderer;
@@ -35,75 +32,28 @@ namespace Assets.Scripts.Attacks
             if (_stateOfAttack != StatesOfAttack.Idle) return;
 
             _stateOfAttack = StatesOfAttack.Swing;
+            Invoke(nameof(IntoHitting), _timeSwing);
         }
 
-        private void Hitting()
+        private void IntoHitting()
         {
-            if (_timerHitting <= _timeHitting)
-            {
-                _timerHitting += Time.deltaTime;
-            }
+            _spriteRenderer.enabled = true;
+            _circleCollider.enabled = true;
+            _stateOfAttack = StatesOfAttack.Hitting;
+            Invoke(nameof(IntoRecovery), _timeHitting);
         }
 
-        private void Update()
+        private void IntoRecovery()
         {
-            if (_stateOfAttack == StatesOfAttack.Idle) return;
-            ActionChoice();
+            _spriteRenderer.enabled = false;
+            _circleCollider.enabled = false;
+            _stateOfAttack = StatesOfAttack.Recovery;
+            Invoke(nameof(IntoIdle), _timeRecovery);
         }
 
-        private void ActionChoice()
+        private void IntoIdle()
         {
-            switch (_stateOfAttack)
-            {
-                case StatesOfAttack.Idle:
-                    break;
-                case StatesOfAttack.Swing:
-                    if (_timerSwing > _timeSwing)
-                    {
-                        _spriteRenderer.enabled = true;
-                        _circleCollider.enabled = true;
-                        _timerSwing -= _timeSwing;
-                        _stateOfAttack = StatesOfAttack.Hitting;
-                        return;
-                    }
-
-                    Swing();
-                    break;
-                case StatesOfAttack.Hitting:
-                    if (_timerHitting > _timeHitting)
-                    {
-                        _spriteRenderer.enabled = false;
-                        _circleCollider.enabled = false;
-                        _timerHitting -= _timeHitting;
-                        _stateOfAttack = StatesOfAttack.Recovery;
-                        return;
-                    }
-
-                    Hitting();
-                    break;
-                case StatesOfAttack.Recovery:
-                    if (_timerRecovery > _timeRecovery)
-                    {
-                        _timerRecovery -= _timeRecovery;
-                        _stateOfAttack = StatesOfAttack.Idle;
-                        return;
-                    }
-
-                    Recovery();
-                    break;
-                default:
-                    throw new Exception("FSM of DefaultAttack: not valid state");
-            }
-        }
-
-        private void Recovery()
-        {
-            if (_timerRecovery <= _timeRecovery) _timerRecovery += Time.deltaTime;
-        }
-
-        private void Swing()
-        {
-            if (_timerSwing <= _timeSwing) _timerSwing += Time.deltaTime;
+            _stateOfAttack = StatesOfAttack.Idle;
         }
 
         private void OnTriggerEnter2D(Collider2D collider)
