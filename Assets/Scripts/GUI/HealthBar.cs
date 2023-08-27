@@ -8,7 +8,7 @@ namespace Assets.Scripts.GUI
         [SerializeField] private Image _background;
         [SerializeField] private Image _health;
         [SerializeField] private Text _text;
-        private Gradient gradient = new Gradient();
+        private Gradient gradient = new ();
 
         private void Awake()
         {
