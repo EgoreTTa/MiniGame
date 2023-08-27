@@ -19,7 +19,7 @@ namespace Assets.Scripts
         private bool _isInteract;
         protected IInteraction _interaction;
         protected Inventory _inventory;
-        [SerializeField] protected ManagerGUI _managerGUI;
+        [SerializeField] private ManagerGUI _managerGUI;
         [SerializeField] private Collider2D _collider;
         [SerializeField] private Collider2D _trigger;
 
@@ -221,7 +221,7 @@ namespace Assets.Scripts
                 {
                     if (_isInteract is false)
                     {
-                        Debug.Log($"{_firstname} обратился к {_interaction.FirstName}");
+                        Debug.Log($"{_firstname} Г®ГЎГ°Г ГІГЁГ«Г±Гї ГЄ {_interaction.FirstName}");
                         _interaction.Interact(this);
                         _isInteract = true;
                     }
