@@ -37,7 +37,7 @@ namespace Assets.Scripts.Enemies.Kamikaze
         public float Health
         {
             get => _health;
-            protected set
+            private set
             {
                 if (value <= _minHealth)
                 {

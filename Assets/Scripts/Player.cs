@@ -42,7 +42,7 @@ namespace Assets.Scripts
                 if (value <= _minHealth)
                 {
                     value = _minHealth;
-                    _live = false;
+                    _isLive = false;
                     Destroy(gameObject);
                 }
 
@@ -221,7 +221,7 @@ namespace Assets.Scripts
                 {
                     if (_isInteract is false)
                     {
-                        Debug.Log($"{_firstname} îáðàòèëñÿ ê {_interaction.FirstName}");
+                        Debug.Log($"{_firstname} обратился к {_interaction.FirstName}");
                         _interaction.Interact(this);
                         _isInteract = true;
                     }
@@ -262,17 +262,13 @@ namespace Assets.Scripts
 
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            if (_trigger != null
-                &&
-                _trigger.IsTouching(collider))
+            if (_trigger.IsTouching(collider))
                 if (collider.gameObject.GetComponent<IInteraction>() is { } interaction)
                 {
                     _interaction = interaction;
                 }
 
-            if (_collider != null
-                &&
-                _collider.IsTouching(collider))
+            if (_collider.IsTouching(collider))
                 if (collider.gameObject.GetComponent<BaseItem>() is { } item)
                 {
                     _inventory?.Put(item);
