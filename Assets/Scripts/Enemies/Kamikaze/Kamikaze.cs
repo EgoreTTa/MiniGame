@@ -16,7 +16,6 @@ namespace Assets.Scripts.Enemies.Kamikaze
         [SerializeField] private BaseMob _targetToAttack;
         [SerializeField] private Vector3? _targetToExplore;
         [SerializeField] private float _timeForIdle;
-        private float _timerTimeForIdle;
         [SerializeField] private float _timeForDetonation;
         [SerializeField] private float _explosionRadius;
         [SerializeField] private float _detonationRadius;
@@ -112,6 +111,12 @@ namespace Assets.Scripts.Enemies.Kamikaze
             return mobs;
         }
 
+        private void IntoExplore()
+        {
+            _stateOfKamikaze = StatesOfKamikaze.Explore;
+            FindPositionToExplore();
+        }
+
         private void ActionChoice()
         {
             switch (_stateOfKamikaze)
@@ -120,18 +125,10 @@ namespace Assets.Scripts.Enemies.Kamikaze
                     if (_targetToAttack != null)
                     {
                         _stateOfKamikaze = StatesOfKamikaze.Pursuit;
+                        CancelInvoke(nameof(IntoExplore));
                         break;
                     }
 
-                    if (_timerTimeForIdle > _timeForIdle)
-                    {
-                        _timerTimeForIdle -= _timeForIdle;
-                        FindPositionToExplore();
-                        _stateOfKamikaze = StatesOfKamikaze.Explore;
-                        break;
-                    }
-
-                    Idle();
                     break;
                 case StatesOfKamikaze.Explore:
                     if (_targetToAttack != null)
@@ -143,6 +140,7 @@ namespace Assets.Scripts.Enemies.Kamikaze
                     if (_targetToExplore == null)
                     {
                         _stateOfKamikaze = StatesOfKamikaze.Idle;
+                        Invoke(nameof(IntoExplore), _timeForIdle);
                         break;
                     }
 
@@ -152,6 +150,7 @@ namespace Assets.Scripts.Enemies.Kamikaze
                     if (_targetToAttack == null)
                     {
                         _stateOfKamikaze = StatesOfKamikaze.Idle;
+                        Invoke(nameof(IntoExplore), _timeForIdle);
                         break;
                     }
 
@@ -173,11 +172,6 @@ namespace Assets.Scripts.Enemies.Kamikaze
                 default:
                     throw new Exception("FSM: not valid state");
             }
-        }
-
-        private void Idle()
-        {
-            _timerTimeForIdle += Time.deltaTime;
         }
 
         private void Explore()

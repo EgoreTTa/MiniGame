@@ -61,7 +61,8 @@ namespace Assets.Scripts.Environments
 
         private void Damaged()
         {
-            foreach (var healthSystem in _healthSystems) healthSystem.TakeDamage(_damage);
+            for (var i = _healthSystems.Count - 1; i >= 0; i--)
+                _healthSystems[i].TakeDamage(_damage);
         }
 
         private void OnTriggerEnter2D(Collider2D collider)
