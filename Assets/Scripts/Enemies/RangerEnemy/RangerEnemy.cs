@@ -74,7 +74,7 @@ namespace Assets.Scripts.Enemies.RangerEnemy
         private void Rotate(float axis)
         {
             axis = axis > 0 ? 1 : -1;
-            transform.up = Direction;
+            // transform.up = Direction;
         }
 
         private void MoveToRangeOfAttack(GameObject target)
@@ -85,9 +85,9 @@ namespace Assets.Scripts.Enemies.RangerEnemy
 
         private void Walk(Vector3 vector)
         {
-            _direction = vector.normalized;
-            transform.up = _direction;
-            transform.position += _direction * _moveSpeed * Time.deltaTime;
+            // _direction = vector.normalized;
+            // transform.up = _direction;
+            // transform.position += _direction * _moveSpeed * Time.deltaTime;
         }
 
         private void BottleThrow()
