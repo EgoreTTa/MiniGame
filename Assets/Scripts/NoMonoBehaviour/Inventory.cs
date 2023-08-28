@@ -15,6 +15,9 @@ namespace Assets.Scripts.NoMonoBehaviour
         private Player _parent;
 
         public BaseItem[] Items => _items.ToArray();
+        public IEquipment Helmet => _helmet;
+        public IEquipment Armor => _armor;
+        public IEquipment Boot => _boot;
 
         public Inventory(Player parent)
         {
