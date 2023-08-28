@@ -13,7 +13,7 @@ namespace Assets.Scripts.Enemies.RangerEnemy
         [SerializeField] private float _rangeOfAttack;
         private readonly float _throwingCone = .1f;
         [SerializeField] private float _intervalAttack;
-        private float _timerIntervalAttack;
+        private bool _isReadyForAttack;
 
         public GameObject TargetToAttack
         {
@@ -26,12 +26,15 @@ namespace Assets.Scripts.Enemies.RangerEnemy
 
         private void Update()
         {
-            if (_timerIntervalAttack < _intervalAttack) _timerIntervalAttack += Time.deltaTime;
-
             if (_targetToAttack != null
                 &&
                 _targetToAttack.activeSelf)
                 ChoiceOfAction();
+        }
+
+        private void ReadyAttack()
+        {
+            _isReadyForAttack = true; 
         }
 
         private void ChoiceOfAction()
@@ -58,9 +61,10 @@ namespace Assets.Scripts.Enemies.RangerEnemy
                 }
                 else
                 {
-                    if (_timerIntervalAttack >= _intervalAttack)
+                    if (_isReadyForAttack)
                     {
-                        _timerIntervalAttack -= _intervalAttack;
+                        _isReadyForAttack = false;
+                        Invoke(nameof(ReadyAttack), _intervalAttack);
                         BottleThrow();
                     }
                 }
