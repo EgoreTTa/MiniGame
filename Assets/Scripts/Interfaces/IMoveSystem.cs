@@ -7,6 +7,7 @@ namespace Assets.Scripts.Interfaces
         public float MoveSpeed { get; set; }
         public float MinMoveSpeed { get; set; }
         public float MaxMoveSpeed { get; set; }
+        public Vector3 Direction { get; }
 
         public void Move(Vector3 direction);
     }
