@@ -256,10 +256,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: DefaultAbility
       objectReference: {fileID: 0}
-    - target: {fileID: 3200793715908753286, guid: 7bb1059bf1407ee4c8d65792bec0248f, type: 3}
-      propertyPath: m_IncludeLayers.m_Bits
-      value: 1024
-      objectReference: {fileID: 0}
     - target: {fileID: 4348155879865001770, guid: 7bb1059bf1407ee4c8d65792bec0248f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
