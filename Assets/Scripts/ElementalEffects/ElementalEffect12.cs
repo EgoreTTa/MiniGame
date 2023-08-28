@@ -16,7 +16,7 @@
         private void Start()
         {
             _typeElement = TypesElement.ElementalEffect12;
-            if (_target is IMoveSystem moveSystem)
+            if (_target.GetComponent<IMoveSystem>() is { } moveSystem)
             {
                 moveSystem.MoveSpeed -= _changeMoveSpeed;
                 Destroy(this, _timeOfAction);
@@ -28,7 +28,7 @@
 
         private void OnDestroy()
         {
-            if (_target is IMoveSystem moveSystem)
+            if (_target.GetComponent<IMoveSystem>() is { } moveSystem)
                 moveSystem.MoveSpeed += _changeMoveSpeed;
         }
 

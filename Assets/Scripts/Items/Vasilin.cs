@@ -10,14 +10,14 @@ namespace Assets.Scripts.Items
 
         public override void PickUp(Player parent)
         {
-            parent.MaxMoveSpeed += _changeMaxMoveSpeed;
-            parent.MoveSpeed += _changeMoveSpeed;
+            parent.MoveSystem.MaxMoveSpeed += _changeMaxMoveSpeed;
+            parent.MoveSystem.MoveSpeed += _changeMoveSpeed;
         }
 
         public override void PickDown(Player parent)
         {
-            parent.MaxMoveSpeed -= _changeMaxMoveSpeed;
-            parent.MoveSpeed -= _changeMoveSpeed;
+            parent.MoveSystem.MaxMoveSpeed -= _changeMaxMoveSpeed;
+            parent.MoveSystem.MoveSpeed -= _changeMoveSpeed;
         }
     }
 }
