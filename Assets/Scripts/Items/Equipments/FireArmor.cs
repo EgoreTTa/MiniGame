@@ -9,7 +9,7 @@ namespace Assets.Scripts.Items.Equipments
 
     [DisallowMultipleComponent]
 
-    public class FireHelmet : BaseItem, IEquipment
+    public class FireArmor : BaseItem, IEquipment
     {
         [SerializeField] private float _changeMaxHealth;
         [SerializeField] private float _changeRegeneration;
@@ -30,7 +30,6 @@ namespace Assets.Scripts.Items.Equipments
         {
             _owner.MaxHealth -= _changeMaxHealth;
             CancelInvoke(nameof(Regen));
-        } 
+        }
     }
 }
-
