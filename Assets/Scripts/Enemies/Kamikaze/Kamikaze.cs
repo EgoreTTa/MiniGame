@@ -12,6 +12,14 @@ namespace Assets.Scripts.Enemies.Kamikaze
     [DisallowMultipleComponent]
     public class Kamikaze : BaseMob, IHealthSystem
     {
+        public enum StatesOfKamikaze
+        {
+            Idle,
+            Explore,
+            Pursuit,
+            Detonation
+        }
+
         [SerializeField] private StatesOfKamikaze _stateOfKamikaze = StatesOfKamikaze.Idle;
         [SerializeField] private BaseMob _targetToAttack;
         [SerializeField] private Vector3? _targetToExplore;
@@ -78,6 +86,8 @@ namespace Assets.Scripts.Enemies.Kamikaze
         {
             if (GetComponent<IMoveSystem>() is { } iMoveSystem) _moveSystem = iMoveSystem;
             else throw new Exception("Kamikaze not instance IMoveSystem");
+            _stateOfKamikaze = StatesOfKamikaze.Idle;
+            Invoke(nameof(IntoExplore), _timeForIdle);
         }
 
         [UsedImplicitly]
@@ -177,7 +187,7 @@ namespace Assets.Scripts.Enemies.Kamikaze
                 case StatesOfKamikaze.Detonation:
                     break;
                 default:
-                    throw new Exception("FSM: not valid state");
+                    throw new Exception("Kamikaze FSM: not valid state");
             }
         }
 
