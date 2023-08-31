@@ -6,7 +6,6 @@ namespace Assets.Scripts
     {
         [SerializeField] private GameObject[] _enemys;
         [SerializeField] private float _intervalSpawn;
-        private float _timerIntervalSpawn;
         [SerializeField] private Vector2 _leftTopPosition;
         [SerializeField] private Vector2 _rightDownPosition;
 
@@ -16,17 +15,9 @@ namespace Assets.Scripts
         [SerializeField] private float _freeZoneRadius;
         [SerializeField] private int _numberOfAttemptsSpawn;
 
-        private void Update()
+        private void Start()
         {
-            if (_timerIntervalSpawn < _intervalSpawn)
-            {
-                _timerIntervalSpawn += Time.deltaTime;
-            }
-            else
-            {
-                _timerIntervalSpawn -= _intervalSpawn;
-                Spawn();
-            }
+            InvokeRepeating(nameof(Spawn), 0, _intervalSpawn);
         }
 
         private GameObject SelectForSpawn()
