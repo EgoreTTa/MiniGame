@@ -15,6 +15,9 @@ namespace Assets.Scripts.NoMonoBehaviour
         private Player _parent;
 
         public BaseItem[] Items => _items.ToArray();
+        public IEquipment Helmet => _helmet;
+        public IEquipment Armor => _armor;
+        public IEquipment Boot => _boot;
 
         public Inventory(Player parent)
         {
@@ -38,17 +41,17 @@ namespace Assets.Scripts.NoMonoBehaviour
             switch (equipment.TypeEquipment)
             {
                 case TypesEquipment.Helmet:
-                    if (_helmet != null) Unequip(_helmet);
+                    if (_helmet != null) UnEquip(_helmet);
                     _helmet = equipment;
 
                     break;
                 case TypesEquipment.Armor:
-                    if (_armor != null) Unequip(_armor);
+                    if (_armor != null) UnEquip(_armor);
                     _armor = equipment;
 
                     break;
                 case TypesEquipment.Boot:
-                    if (_boot != null) Unequip(_boot);
+                    if (_boot != null) UnEquip(_boot);
                     _boot = equipment;
 
                     break;
@@ -56,10 +59,11 @@ namespace Assets.Scripts.NoMonoBehaviour
                     throw new Exception("Error Equip");
             }
 
+            _items.Remove(equipment as BaseItem);
             equipment.Equip();
         }
 
-        public void Unequip(IEquipment equipment)
+        public void UnEquip(IEquipment equipment)
         {
             switch (equipment.TypeEquipment)
             {
@@ -76,9 +80,10 @@ namespace Assets.Scripts.NoMonoBehaviour
 
                     break;
                 default:
-                    throw new Exception("Error Unequip");
+                    throw new Exception("Error UnEquip");
             }
 
+            _items.Add(equipment as BaseItem);
             equipment.Unequip();
         }
     }

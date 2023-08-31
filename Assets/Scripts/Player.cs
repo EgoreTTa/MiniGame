@@ -34,7 +34,10 @@ namespace Assets.Scripts
         }
 
         public StatesOfPlayer StateOfPlayer => _stateOfPlayer;
+
         public IMoveSystem MoveSystem => _moveSystem;
+
+        public Inventory Inventory => _inventory;
 
         public float Health
         {
