@@ -23,5 +23,20 @@ namespace Assets.Scripts.GUI
         {
             usable.Use(_player);
         }
+
+        public BaseItem GetHelmet()
+        {
+            return _player.Inventory.Helmet as BaseItem;
+        }
+
+        public BaseItem GetArmor()
+        {
+            return _player.Inventory.Armor as BaseItem;
+        }
+
+        public BaseItem GetBoot()
+        {
+            return _player.Inventory.Boot as BaseItem;
+        }
     }
 }
