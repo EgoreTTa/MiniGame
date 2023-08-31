@@ -10,7 +10,7 @@
     {
         [SerializeField] private float _damageCount = 4f;
         [SerializeField] private float _timeOfAction = 15f;
-        [SerializeField] private float _timeDamage = .1f;
+        [SerializeField] private float _intervalDamage = .1f;
         [SerializeField] private float _changeMoveSpeed = 1.5f;
 
         private void Start()
@@ -20,7 +20,7 @@
             {
                 moveSystem.MoveSpeed -= _changeMoveSpeed;
                 Destroy(this, _timeOfAction);
-                InvokeRepeating(nameof(MakeDamage), 0, _timeDamage);
+                InvokeRepeating(nameof(MakeDamage), 0, _intervalDamage);
             }
             else
                 Destroy(this);
