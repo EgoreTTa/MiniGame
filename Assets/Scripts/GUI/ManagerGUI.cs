@@ -38,5 +38,23 @@ namespace Assets.Scripts.GUI
         {
             return _player.Inventory.Boot as BaseItem;
         }
+
+        public void SetHelmet(BaseItem helmet)
+        {
+            if (helmet is IEquipment equipment)
+                _player.Inventory.Equip(equipment);
+        }
+
+        public void SetArmor(BaseItem armor)
+        {
+            if (armor is IEquipment equipment)
+                _player.Inventory.Equip(equipment);
+        }
+
+        public void SetBoot(BaseItem boot)
+        {
+            if (boot is IEquipment equipment)
+                _player.Inventory.Equip(equipment);
+        }
     }
 }
