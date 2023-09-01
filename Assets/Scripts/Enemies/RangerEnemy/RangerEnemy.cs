@@ -1,111 +1,236 @@
 namespace Assets.Scripts.Enemies.RangerEnemy
 {
+    using Interfaces;
     using Enums;
     using NoMonoBehaviour;
     using UnityEngine;
+    using System;
+    using JetBrains.Annotations;
+    using Random = UnityEngine.Random;
+    using System.Linq;
 
-    public class RangerEnemy : BaseMob
+    public class RangerEnemy : BaseMob, IHealthSystem
     {
-        [SerializeField] private int _score;
-        [SerializeField] private GameObject _targetToAttack;
-        [SerializeField] private GameObject _bottle;
-        [SerializeField] private float _bottleSpeed;
-        [SerializeField] private float _rangeOfAttack;
-        private readonly float _throwingCone = .1f;
-        [SerializeField] private float _intervalAttack;
-        private bool _isReadyForAttack;
+        public enum StatesOfRangerEnemy
+        {
+            Idle,
+            Explore,
+            Pursuit,
+            Attack
+        }
 
-        public GameObject TargetToAttack
+        [SerializeField] private StatesOfRangerEnemy _stateOfRangerEnemy = StatesOfRangerEnemy.Idle;
+        [SerializeField] private BaseMob _targetToAttack;
+        [SerializeField] private Vector3? _targetToExplore;
+        [SerializeField] private float _timeForIdle;
+        [SerializeField] private float _distanceToAttack;
+        private IMoveSystem _moveSystem;
+        private IAttack _attack;
+
+        public StatesOfRangerEnemy StateOfRangerEnemy => _stateOfRangerEnemy;
+
+        public BaseMob TargetToAttack
         {
             get => _targetToAttack;
             set
             {
-                if (value.activeSelf) _targetToAttack = value;
+                if (value.gameObject.activeSelf) _targetToAttack = value;
             }
         }
 
+        public float Health
+        {
+            get => _health;
+            private set
+            {
+                if (value <= _minHealth)
+                {
+                    value = _minHealth;
+                    _isLive = false;
+                    Destroy(gameObject);
+                }
+
+                if (value >= _maxHealth) value = _maxHealth;
+
+                _health = value;
+            }
+        }
+
+        public float MinHealth
+        {
+            get => _minHealth;
+            set
+            {
+                if (value <= 0) value = 0;
+                if (value > _maxHealth) value = _maxHealth;
+                _minHealth = value;
+            }
+        }
+
+        public float MaxHealth
+        {
+            get => _maxHealth;
+            set
+            {
+                if (value <= _minHealth) value = _minHealth;
+                _maxHealth = value;
+            }
+        }
+
+        private void Awake()
+        {
+            if (GetComponent<IMoveSystem>() is { } iMoveSystem) _moveSystem = iMoveSystem;
+            else throw new Exception($"{nameof(RangerEnemy)} not instance {nameof(IMoveSystem)}");
+            if (GetComponentInChildren<IAttack>() is { } iAttack) _attack = iAttack;
+            else throw new Exception($"{nameof(RangerEnemy)} not instance {nameof(IAttack)}");
+            _stateOfRangerEnemy = StatesOfRangerEnemy.Idle;
+            Invoke(nameof(IntoExplore), _timeForIdle);
+        }
+
+        [UsedImplicitly]
         private void Update()
         {
-            if (_targetToAttack != null
-                &&
-                _targetToAttack.activeSelf)
-                ChoiceOfAction();
+            LookAround();
+            ActionChoice();
         }
 
-        private void ReadyAttack()
+        private void IntoExplore()
         {
-            _isReadyForAttack = true; 
+            _stateOfRangerEnemy = StatesOfRangerEnemy.Explore;
+            FindPositionToExplore();
         }
 
-        private void ChoiceOfAction()
+        private void ActionChoice()
         {
-            var distance = Vector3.Distance(
-                transform.position,
-                _targetToAttack.transform.position);
-
-            if (distance > _rangeOfAttack)
+            switch (_stateOfRangerEnemy)
             {
-                MoveToRangeOfAttack(_targetToAttack);
-            }
-            else
-            {
-                var direction = _targetToAttack.transform.position - transform.position;
-
-                if (Vector3.Angle(direction, transform.up) > _throwingCone)
-                {
-                    var axis = Vector3.SignedAngle(
-                        direction,
-                        transform.up,
-                        Vector3.back);
-                    Rotate(axis);
-                }
-                else
-                {
-                    if (_isReadyForAttack)
+                case StatesOfRangerEnemy.Idle:
+                    if (_targetToAttack != null)
                     {
-                        _isReadyForAttack = false;
-                        Invoke(nameof(ReadyAttack), _intervalAttack);
-                        BottleThrow();
+                        _stateOfRangerEnemy = StatesOfRangerEnemy.Pursuit;
+                        CancelInvoke(nameof(IntoExplore));
+                        break;
                     }
-                }
+
+                    break;
+                case StatesOfRangerEnemy.Explore:
+                    if (_targetToAttack != null)
+                    {
+                        _stateOfRangerEnemy = StatesOfRangerEnemy.Pursuit;
+                        break;
+                    }
+
+                    if (_targetToExplore == null)
+                    {
+                        _stateOfRangerEnemy = StatesOfRangerEnemy.Idle;
+                        Invoke(nameof(IntoExplore), _timeForIdle);
+                        break;
+                    }
+
+                    Explore();
+                    break;
+                case StatesOfRangerEnemy.Pursuit:
+                    if (_targetToAttack == null)
+                    {
+                        _stateOfRangerEnemy = StatesOfRangerEnemy.Idle;
+                        Invoke(nameof(IntoExplore), _timeForIdle);
+                        break;
+                    }
+
+                    var distanceToTarget = Vector3.Distance(
+                        _targetToAttack.transform.position,
+                        transform.position + transform.up * .75f);
+
+                    if (distanceToTarget < _distanceToAttack)
+                    {
+                        _stateOfRangerEnemy = StatesOfRangerEnemy.Attack;
+                        transform.up = _targetToAttack.transform.position - transform.position;
+                        _attack.Attack();
+                        break;
+                    }
+
+                    Pursuit();
+                    break;
+                case StatesOfRangerEnemy.Attack:
+                    if (_attack.StateOfAttack == StatesOfAttack.Idle) _stateOfRangerEnemy = StatesOfRangerEnemy.Idle;
+
+                    break;
+                default:
+                    throw new Exception($"{nameof(RangerEnemy)} FSM: not valid state");
             }
         }
 
-        private void Rotate(float axis)
+        private void Explore()
         {
-            axis = axis > 0 ? 1 : -1;
-            // transform.up = Direction;
+            var distanceToTarget = Vector3.Distance(
+                _targetToExplore!.Value,
+                transform.position);
+            if (distanceToTarget < _moveSystem.MoveSpeed * Time.deltaTime)
+                _targetToExplore = null;
+            if (_targetToExplore != null)
+                MoveToPosition(_targetToExplore.Value);
         }
 
-        private void MoveToRangeOfAttack(GameObject target)
+        private void Pursuit()
         {
-            var direction = target.transform.position - transform.position;
-            Walk(direction);
+            if (_targetToAttack != null)
+                MoveToPosition(_targetToAttack.transform.position);
         }
 
-        private void Walk(Vector3 vector)
+        private void MoveToPosition(Vector3 targetPosition)
         {
-            // _direction = vector.normalized;
-            // transform.up = _direction;
-            // transform.position += _direction * _moveSpeed * Time.deltaTime;
+            var direction = targetPosition - transform.position;
+            _moveSystem.Move(direction);
         }
 
-        private void BottleThrow()
+        public void TakeHealth(Health health)
         {
-            var directionThrow = transform.up.normalized;
-            var bottle = Instantiate(_bottle, transform.position, Quaternion.identity).GetComponent<Bottle>();
+            Health += health.CountHealth;
+        }
 
-            if (bottle != null)
+        public void TakeDamage(Damage damage)
+        {
+            Health -= damage.TypeDamage switch
             {
-                var bottleDamage = new Damage(this, null, _damageCount, TypesDamage.Clear);
-                bottle.Direction = directionThrow;
-                bottle.Damage = bottleDamage;
-                bottle.Speed = _bottleSpeed;
-                bottle.Parent = gameObject;
-                bottle.Distance = Vector3.Distance(
-                    transform.position,
-                    _targetToAttack.transform.position);
-            }
+                TypesDamage.Physical => damage.CountDamage / 2,
+                TypesDamage.Magical => damage.CountDamage * 2,
+                TypesDamage.Clear => damage.CountDamage,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+
+        private void LookAround()
+        {
+            var mobs = GetMobsForRadius(_viewRadius);
+
+            _targetToAttack = null;
+            if (mobs.Any()) TargetToAttack = mobs.First();
+        }
+
+        private void FindPositionToExplore()
+        {
+            _targetToExplore = new Vector3(
+                Random.Range(-5, 5),
+                Random.Range(-5, 5));
+        }
+
+        private BaseMob[] GetMobsForRadius(float radius)
+        {
+            var casted = Physics2D.CircleCastAll(
+                transform.position,
+                radius,
+                Vector2.zero);
+            var mobs = casted
+                .Where(x =>
+                    x.transform.GetComponent<BaseMob>()
+                    &&
+                    x.transform.GetComponent<BaseMob>() != this
+                    &&
+                    x.transform.GetComponent<BaseMob>().GroupMobs != _groupMobs)
+                .Select(x => x.transform.GetComponent<BaseMob>())
+                .Distinct()
+                .ToArray();
+            return mobs;
         }
     }
 }
