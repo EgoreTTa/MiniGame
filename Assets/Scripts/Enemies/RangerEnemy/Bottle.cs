@@ -4,12 +4,11 @@ namespace Assets.Scripts.Enemies.RangerEnemy
     using NoMonoBehaviour;
     using UnityEngine;
 
-    public class Bottle : MonoBehaviour
+    public class Bottle : MonoBehaviour, IProjectile
     {
-        [SerializeField] private float _timeFly;
         private float _speed;
         private Damage _damage;
-        private GameObject _parent;
+        private BaseMob _owner;
 
         public Vector3 Direction
         {
@@ -23,10 +22,10 @@ namespace Assets.Scripts.Enemies.RangerEnemy
             set => _speed = value;
         }
 
-        public GameObject Parent
+        public BaseMob Owner
         {
-            get => _parent;
-            set => _parent = value;
+            get => _owner;
+            set => _owner = value;
         }
 
         public Damage Damage
@@ -35,9 +34,15 @@ namespace Assets.Scripts.Enemies.RangerEnemy
             set => _damage = value;
         }
 
-        private void Awake()
+        public void Launch(float speed, Damage damage, Vector3 direction, float timeFly, BaseMob owner)
         {
+            _speed = speed;
+            _damage = damage;
+            transform.up = direction;
+            _owner = owner;
+            Destroy(this, timeFly);
             InvokeRepeating(nameof(Fly), 0, Time.fixedDeltaTime);
+            gameObject.SetActive(true);
         }
 
         private void Fly()
@@ -60,7 +65,7 @@ namespace Assets.Scripts.Enemies.RangerEnemy
         {
             if (collider.isTrigger is false)
             {
-                if (collider.gameObject != _parent
+                if (collider.gameObject != _owner.gameObject
                     &&
                     collider.gameObject.GetComponent<IHealthSystem>() is { } healthSystem)
                 {
