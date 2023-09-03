@@ -162,7 +162,7 @@ namespace Assets.Scripts.Enemies.Enemy
 
                     var distanceToTarget = Vector3.Distance(
                         _targetToAttack.transform.position,
-                        transform.position + transform.up * .75f);
+                        (_attack as MonoBehaviour).gameObject.transform.position);
 
                     if (distanceToTarget < _distanceToAttack)
                     {
