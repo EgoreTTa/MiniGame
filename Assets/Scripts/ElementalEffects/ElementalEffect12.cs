@@ -1,54 +1,46 @@
-﻿using UnityEngine;
-
-[DisallowMultipleComponent]
-public class ElementalEffect12 : BaseElementalEffect
+﻿namespace Assets.Scripts.ElementalEffects
 {
-    [SerializeField] private float _damageCount = 4f;
-    [SerializeField] private float _timeOfAction = 15f;
-    private float _timerOfAction;
-    [SerializeField] private float _timeDamage = .1f;
-    private float _timerDamage;
-    [SerializeField] private float _changeMoveSpeed = 1.5f;
+    using Enums;
+    using Interfaces;
+    using NoMonoBehaviour;
+    using UnityEngine;
 
-    private void Start()
+    [DisallowMultipleComponent]
+    public class ElementalEffect12 : BaseElementalEffect
     {
-        _typeElement = TypesElement.ElementalEffect12;
-        _target.MoveSpeed -= _changeMoveSpeed;
-    }
+        [SerializeField] private float _damageCount = 4f;
+        [SerializeField] private float _timeOfAction = 15f;
+        [SerializeField] private float _intervalDamage = .1f;
+        [SerializeField] private float _changeMoveSpeed = 1.5f;
 
-    private void Update()
-    {
-        if (_timerOfAction < _timeOfAction)
+        private void Start()
         {
-            _timerOfAction += Time.deltaTime;
-            if (_timerDamage < _timeDamage)
+            _typeElement = TypesElement.ElementalEffect12;
+            if (_target.GetComponent<IMoveSystem>() is { } moveSystem)
             {
-                _timerDamage += Time.deltaTime;
+                moveSystem.MoveSpeed -= _changeMoveSpeed;
+                Destroy(this, _timeOfAction);
+                InvokeRepeating(nameof(MakeDamage), 0, _intervalDamage);
             }
             else
-            {
-                _timerDamage -= _timeDamage;
-                MakeDamage();
-            }
+                Destroy(this);
         }
-        else
+
+        private void OnDestroy()
         {
-            Destroy(this);
+            if (_target.GetComponent<IMoveSystem>() is { } moveSystem)
+                moveSystem.MoveSpeed += _changeMoveSpeed;
         }
-    }
 
-    private void OnDestroy()
-    {
-        _target.MoveSpeed += _changeMoveSpeed;
-    }
-
-    private void MakeDamage()
-    {
-        var damage = new Damage(
-            _owner,
-            null,
-            TypesDamage.Magical,
-            _damageCount);
-        _target.TakeDamage(damage);
+        private void MakeDamage()
+        {
+            var damage = new Damage(
+                _owner,
+                null,
+                _damageCount,
+                TypesDamage.Clear);
+            if (_target is IHealthSystem healthSystem)
+                healthSystem.TakeDamage(damage);
+        }
     }
 }

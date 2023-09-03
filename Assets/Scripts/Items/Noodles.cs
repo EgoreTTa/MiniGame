@@ -1,14 +1,14 @@
-public class Noodles : BaseItem, IUsable
+namespace Assets.Scripts.Items
 {
-    public void Use(BaseMob target)
-    {
-        target.MaxStamina --;
-        target.Stamina = target.MaxStamina;
-        Destroy(gameObject);
-    }
+    using Interfaces;
 
-    public override void PickUp(BaseMob parent)
+    public class Noodles : BaseItem, IUsable
     {
-        parent.Scorer.PickItem(this);
+        public void Use(Player player) { }
+
+        public new void PickUp(Player owner)
+        {
+            base.PickUp(owner);
+        }
     }
 }

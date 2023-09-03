@@ -1,33 +1,31 @@
-﻿using UnityEngine;
-
-[DisallowMultipleComponent]
-public class ElementalEffect2 : BaseElementalEffect
+﻿namespace Assets.Scripts.ElementalEffects
 {
-    [SerializeField] private float _changeMoveSpeed = 1f;
-    [SerializeField] private float _timeOfAction = 10f;
-    private float _timerOfAction;
+    using Interfaces;
+    using UnityEngine;
 
-    private void Start()
+    [DisallowMultipleComponent]
+    public class ElementalEffect2 : BaseElementalEffect
     {
-        _typeElement = TypesElement.ElementalEffect2;
-        CombineEffect();
-        _target.MoveSpeed -= _changeMoveSpeed;
-    }
+        [SerializeField] private float _changeMoveSpeed = 1f;
+        [SerializeField] private float _timeOfAction = 10f;
 
-    private void Update()
-    {
-        if (_timerOfAction < _timeOfAction)
+        private void Start()
         {
-            _timerOfAction += Time.deltaTime;
+            _typeElement = TypesElement.ElementalEffect2;
+            CombineEffect();
+            if (_target.GetComponent<IMoveSystem>() is { } moveSystem)
+            {
+                moveSystem.MoveSpeed -= _changeMoveSpeed;
+                Destroy(this, _timeOfAction);
+            }
+            else
+                Destroy(this);
         }
-        else
-        {
-            Destroy(this);
-        }
-    }
 
-    private void OnDestroy()
-    {
-        _target.MoveSpeed += _changeMoveSpeed;
+        private void OnDestroy()
+        {
+            if (_target.GetComponent<IMoveSystem>() is { } moveSystem)
+                moveSystem.MoveSpeed += _changeMoveSpeed;
+        }
     }
 }

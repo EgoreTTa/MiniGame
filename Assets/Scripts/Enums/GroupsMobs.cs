@@ -1,6 +1,9 @@
-public enum GroupsMobs
+namespace Assets.Scripts.Enums
 {
-    Players,
-    Enemies,
-    Other,
+    public enum GroupsMobs
+    {
+        Players,
+        Enemies,
+        Other,
+    }
 }

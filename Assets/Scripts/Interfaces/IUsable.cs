@@ -1,4 +1,7 @@
-public interface IUsable
+namespace Assets.Scripts.Interfaces
 {
-    public void Use(BaseMob target);
+    public interface IUsable
+    {
+        public void Use(Player player);
+    }
 }

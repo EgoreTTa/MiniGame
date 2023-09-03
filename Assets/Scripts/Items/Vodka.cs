@@ -1,14 +1,19 @@
-using UnityEngine;
-
-[DisallowMultipleComponent]
-public class Vodka : BaseItem
+namespace Assets.Scripts.Items
 {
-    [SerializeField] private int _heal;
+    using Interfaces;
+    using NoMonoBehaviour;
+    using UnityEngine;
 
-    public override void PickUp(BaseMob parent)
+    [DisallowMultipleComponent]
+    public class Vodka : BaseItem
     {
-        parent.Scorer.PickItem(this);
-        parent.Health += _heal;
-        Destroy(gameObject);
+        [SerializeField] private float _heal;
+
+        public override void PickUp(Player owner)
+        {
+            var health = new Health(owner, gameObject, _heal);
+            (owner as IHealthSystem).TakeHealth(health);
+            Destroy(gameObject);
+        }
     }
 }

@@ -1,65 +1,59 @@
-using UnityEngine;
-
-public class SpawnerItems : MonoBehaviour
+namespace Assets.Scripts
 {
-    [SerializeField] private GameObject[] _items;
-    [SerializeField] private float _intervalSpawn;
-    private float _timerIntervalSpawn;
-    [SerializeField] private Vector2 _leftTopPosition;
-    [SerializeField] private Vector2 _rightDownPosition;
+    using UnityEngine;
 
-    [SerializeField] private float _freeZoneRadius;
-    [SerializeField] private int _numberOfAttemptsSpawn;
-
-    private void Update()
+    public class SpawnerItems : MonoBehaviour
     {
-        if (_timerIntervalSpawn < _intervalSpawn)
+        [SerializeField] private GameObject[] _items;
+        [SerializeField] private float _intervalSpawn;
+        [SerializeField] private Vector2 _leftTopPosition;
+        [SerializeField] private Vector2 _rightDownPosition;
+
+        [SerializeField] private float _freeZoneRadius;
+        [SerializeField] private int _numberOfAttemptsSpawn;
+
+        private void Start()
         {
-            _timerIntervalSpawn += Time.deltaTime;
+            InvokeRepeating(nameof(Spawn), 0, _intervalSpawn);
         }
-        else
-        {
-            _timerIntervalSpawn -= _intervalSpawn;
-            Spawn();
-        }
-    }
-     
-    private GameObject SelectForSpawn()
-    {
-        var indexItem = Random.Range(0, _items.Length);
-        return _items[indexItem];
-    }
 
-    private void SpawnItem(GameObject item)
-    {
-        for (int i = 0; i < _numberOfAttemptsSpawn; i++)
+        private GameObject SelectForSpawn()
         {
-            var positionForSpawn = new Vector3(
-                Random.Range(
-                    _leftTopPosition.x,
-                    _rightDownPosition.x),
-                Random.Range(
-                    _leftTopPosition.y,
-                    _rightDownPosition.y));
-            if (CheckedFreeZoneForSpawn(positionForSpawn))
+            var indexItem = Random.Range(0, _items.Length);
+            return _items[indexItem];
+        }
+
+        private void SpawnItem(GameObject item)
+        {
+            for (int i = 0; i < _numberOfAttemptsSpawn; i++)
             {
-                Instantiate(item, positionForSpawn, Quaternion.identity);
-                break;
+                var positionForSpawn = new Vector3(
+                    Random.Range(
+                        _leftTopPosition.x,
+                        _rightDownPosition.x),
+                    Random.Range(
+                        _leftTopPosition.y,
+                        _rightDownPosition.y));
+                if (CheckedFreeZoneForSpawn(positionForSpawn))
+                {
+                    Instantiate(item, positionForSpawn, Quaternion.identity);
+                    break;
+                }
             }
         }
-    }
 
-    private void Spawn()
-    {
-        var enemy = SelectForSpawn();
+        private void Spawn()
+        {
+            var enemy = SelectForSpawn();
 
-        SpawnItem(enemy);
-    }
+            SpawnItem(enemy);
+        }
 
-    private bool CheckedFreeZoneForSpawn(Vector3 position)
-    {
-        var casted = Physics2D.CircleCastAll(position, _freeZoneRadius, Vector2.zero);
+        private bool CheckedFreeZoneForSpawn(Vector3 position)
+        {
+            var casted = Physics2D.CircleCastAll(position, _freeZoneRadius, Vector2.zero);
 
-        return casted.Length is 0;
+            return casted.Length is 0;
+        }
     }
 }

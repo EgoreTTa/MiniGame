@@ -1,20 +1,23 @@
-using UnityEngine;
-
-[DisallowMultipleComponent]
-public class Boyara : BaseItem
+namespace Assets.Scripts.Items
 {
-    private int _damageBoost;
-    [SerializeField] private int _minRange;
-    [SerializeField] private int _maxRange;
+    using UnityEngine;
 
-    private void Start()
+    [DisallowMultipleComponent]
+    public class Boyara : BaseItem
     {
-        _damageBoost = Random.Range(_minRange, _maxRange);
-    }
+        private int _damageBoost;
+        [SerializeField] private int _minRange;
+        [SerializeField] private int _maxRange;
 
-    public override void PickUp(BaseMob parent)
-    {
-        parent.DamageCount += _damageBoost;
-        Destroy(gameObject);
+        private void Start()
+        {
+            _damageBoost = Random.Range(_minRange, _maxRange);
+        }
+
+        public override void PickUp(Player parent)
+        {
+            parent.DamageCount += _damageBoost;
+            Destroy(gameObject);
+        }
     }
 }
