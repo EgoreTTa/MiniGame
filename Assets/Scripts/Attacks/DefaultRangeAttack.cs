@@ -17,10 +17,18 @@ namespace Assets.Scripts.Attacks
         [SerializeField] private GameObject _bottle;
         [SerializeField] private float _damageCount;
         [SerializeField] private float _bottleSpeed;
+        [SerializeField] private float _bottleFlyTime;
+        [SerializeField] private float _timeReload;
+        [SerializeField] private bool _isReady;
         private BaseMob _owner;
         private SpriteRenderer _spriteRenderer;
 
         public StatesOfAttack StateOfAttack => _stateOfAttack;
+
+        private void Ready()
+        {
+            _isReady = true;
+        }
 
         private void Awake()
         {
@@ -31,8 +39,12 @@ namespace Assets.Scripts.Attacks
 
         public void Attack()
         {
-            if (_stateOfAttack != StatesOfAttack.Idle) return;
+            if (_stateOfAttack != StatesOfAttack.Idle
+                ||
+                _isReady is false) return;
 
+            _isReady = false;
+            Invoke(nameof(Ready), _timeReload);
             _stateOfAttack = StatesOfAttack.Swing;
             Invoke(nameof(IntoHitting), _timeSwing);
         }
@@ -64,12 +76,9 @@ namespace Assets.Scripts.Attacks
 
             if (bottle != null)
             {
+                var projectile = bottle.GetComponent<IProjectile>();
                 var bottleDamage = new Damage(_owner, null, _damageCount, TypesDamage.Clear);
-                bottle.Direction = directionThrow;
-                bottle.Damage = bottleDamage;
-                bottle.Speed = _bottleSpeed;
-                bottle.Parent = _owner.gameObject;
-                Destroy(bottle.GetComponent<Bottle>(), 5f);
+                projectile.Launch(_bottleSpeed, bottleDamage, directionThrow, _bottleFlyTime, _owner);
             }
         }
     }
