@@ -4,18 +4,16 @@ namespace Assets.Scripts.Enemies.RangerEnemy
     using NoMonoBehaviour;
     using UnityEngine;
 
-    public class Bottle : MonoBehaviour
+    public class Bottle : MonoBehaviour, IProjectile
     {
-        private Vector3 _direction;
-        private float _distance;
         private float _speed;
         private Damage _damage;
-        private GameObject _parent;
+        private BaseMob _owner;
 
         public Vector3 Direction
         {
-            get => _direction;
-            set => _direction = value;
+            get => transform.up;
+            set => transform.up = value;
         }
 
         public float Speed
@@ -24,10 +22,10 @@ namespace Assets.Scripts.Enemies.RangerEnemy
             set => _speed = value;
         }
 
-        public GameObject Parent
+        public BaseMob Owner
         {
-            get => _parent;
-            set => _parent = value;
+            get => _owner;
+            set => _owner = value;
         }
 
         public Damage Damage
@@ -36,29 +34,20 @@ namespace Assets.Scripts.Enemies.RangerEnemy
             set => _damage = value;
         }
 
-        public float Distance
+        public void Launch(float speed, Damage damage, Vector3 direction, float timeFly, BaseMob owner)
         {
-            get => _distance;
-            set => _distance = value;
+            _speed = speed;
+            _damage = damage;
+            transform.up = direction;
+            _owner = owner;
+            Destroy(this, timeFly);
+            InvokeRepeating(nameof(Fly), 0, Time.fixedDeltaTime);
+            gameObject.SetActive(true);
         }
 
-        private void Update()
+        private void Fly()
         {
-            var averageSpeed = _speed * Time.deltaTime;
-            if (_distance > averageSpeed)
-            {
-                Fly(averageSpeed);
-            }
-            else
-            {
-                Fall(transform.position + _direction * averageSpeed);
-            }
-        }
-
-        private void Fly(float averageSpeed)
-        {
-            transform.position += _direction * averageSpeed;
-            _distance -= averageSpeed;
+            transform.position += transform.up * _speed * Time.fixedDeltaTime;
         }
 
         private void Fall(Vector3 point)
@@ -67,14 +56,22 @@ namespace Assets.Scripts.Enemies.RangerEnemy
             Destroy(this);
         }
 
+        private void OnDestroy()
+        {
+            CancelInvoke(nameof(Fly));
+        }
+
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            if (collider.gameObject != _parent
-                &&
-                collider.gameObject.GetComponent<IHealthSystem>() is { } healthSystem)
+            if (collider.isTrigger is false)
             {
-                healthSystem.TakeDamage(_damage);
-                Fall(transform.position);
+                if (collider.gameObject != _owner.gameObject
+                    &&
+                    collider.gameObject.GetComponent<IHealthSystem>() is { } healthSystem)
+                {
+                    healthSystem.TakeDamage(_damage);
+                    Fall(transform.position);
+                }
             }
         }
     }
