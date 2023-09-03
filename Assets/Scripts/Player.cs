@@ -10,10 +10,11 @@ namespace Assets.Scripts
     using GUI;
 
     [DisallowMultipleComponent]
-    public class Player : BaseMob, IHealthSystem, IMoveSystem
+    public class Player : BaseMob, IHealthSystem
     {
         [SerializeField] private StatesOfPlayer _stateOfPlayer;
         private IJerk _jerk;
+        private IMoveSystem _moveSystem;
         private IAttack _attack;
         private IAbility _ability1;
         private bool _isInteract;
@@ -33,6 +34,9 @@ namespace Assets.Scripts
         }
 
         public StatesOfPlayer StateOfPlayer => _stateOfPlayer;
+
+        public IMoveSystem MoveSystem => _moveSystem;
+
         public Inventory Inventory => _inventory;
 
         public float Health
@@ -79,52 +83,22 @@ namespace Assets.Scripts
             }
         }
 
-        public float MoveSpeed
-        {
-            get => _moveSpeed;
-            set
-            {
-                if (value < _minMoveSpeed) value = _minMoveSpeed;
-                if (value > _maxMoveSpeed) value = _maxMoveSpeed;
-                _moveSpeed = value;
-            }
-        }
-
-        public float MinMoveSpeed
-        {
-            get => _minMoveSpeed;
-            set
-            {
-                if (value < 0) value = 0;
-                if (value > _maxMoveSpeed) value = _maxMoveSpeed;
-                _minMoveSpeed = value;
-            }
-        }
-
-        public float MaxMoveSpeed
-        {
-            get => _maxMoveSpeed;
-            set
-            {
-                if (value < _minMoveSpeed) value = _minMoveSpeed;
-                _maxMoveSpeed = value;
-            }
-        }
-
-        private void Start()
-        {
-            _managerGUI?.UpdateHealthBar(_health, _maxHealth);
-        }
-
         private void Awake()
         {
             _inventory = new Inventory(this);
             if (GetComponent<IJerk>() is { } iJerk) _jerk = iJerk;
             else throw new Exception("Player not instance IJerk");
+            if (GetComponent<IMoveSystem>() is { } iMoveSystem) _moveSystem = iMoveSystem;
+            else throw new Exception("Player not instance IMoveSystem");
             if (GetComponentInChildren<IAttack>() is { } iAttack) _attack = iAttack;
             else throw new Exception("Player not instance IAttack");
             if (GetComponentInChildren<IAbility>() is { } iAbility) _ability1 = iAbility;
             else throw new Exception("Player not instance IAbility");
+        }
+
+        private void Start()
+        {
+            _managerGUI?.UpdateHealthBar(_health, _maxHealth);
         }
 
         private void Update()
@@ -173,7 +147,7 @@ namespace Assets.Scripts
 
                     if (axis != Vector3.zero)
                     {
-                        Move(axis);
+                        _moveSystem.Move(axis);
                         _stateOfPlayer = StatesOfPlayer.Move;
                         return;
                     }
@@ -258,14 +232,7 @@ namespace Assets.Scripts
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
-
-        public void Move(Vector3 vector)
-        {
-            _direction = vector.normalized;
-            transform.up = _direction;
-            transform.position += _direction * _moveSpeed * Time.deltaTime;
-        }
-
+        
         private void OnTriggerEnter2D(Collider2D collider)
         {
             if (_trigger.IsTouching(collider))

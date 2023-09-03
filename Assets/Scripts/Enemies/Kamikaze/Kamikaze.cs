@@ -19,6 +19,7 @@ namespace Assets.Scripts.Enemies.Kamikaze
         [SerializeField] private float _timeForDetonation;
         [SerializeField] private float _explosionRadius;
         [SerializeField] private float _detonationRadius;
+        private IMoveSystem _moveSystem;
 
         public StatesOfKamikaze StateOfKamikaze => _stateOfKamikaze;
 
@@ -71,6 +72,12 @@ namespace Assets.Scripts.Enemies.Kamikaze
                 if (value <= _minHealth) value = _minHealth;
                 _maxHealth = value;
             }
+        }
+
+        private void Awake()
+        {
+            if (GetComponent<IMoveSystem>() is { } iMoveSystem) _moveSystem = iMoveSystem;
+            else throw new Exception("Kamikaze not instance IMoveSystem");
         }
 
         [UsedImplicitly]
@@ -179,7 +186,7 @@ namespace Assets.Scripts.Enemies.Kamikaze
             var distanceToTarget = Vector3.Distance(
                 _targetToExplore!.Value,
                 transform.position);
-            if (distanceToTarget < _moveSpeed * Time.deltaTime)
+            if (distanceToTarget < _moveSystem.MoveSpeed * Time.deltaTime)
                 _targetToExplore = null;
             if (_targetToExplore != null)
                 MoveToPosition(_targetToExplore.Value);
@@ -194,7 +201,7 @@ namespace Assets.Scripts.Enemies.Kamikaze
         private void MoveToPosition(Vector3 targetPosition)
         {
             var direction = targetPosition - transform.position;
-            Walk(direction);
+            _moveSystem.Move(direction);
         }
 
         public void TakeHealth(Health health)
@@ -219,13 +226,6 @@ namespace Assets.Scripts.Enemies.Kamikaze
 
             _targetToAttack = null;
             if (mobs.Any()) TargetToAttack = mobs.First();
-        }
-
-        private void Walk(Vector3 vector)
-        {
-            _direction = vector.normalized;
-            transform.up = _direction;
-            transform.position += _direction * _moveSpeed * Time.deltaTime;
         }
 
         private void FindPositionToExplore()

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 538700676723179093}
   - component: {fileID: 7521055551434040985}
   - component: {fileID: 5133062833684486613}
+  - component: {fileID: 1913512640220180011}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -203,20 +204,14 @@ MonoBehaviour:
   _health: 400
   _minHealth: 0
   _maxHealth: 500
-  _stamina: 40
-  _minStamina: 0
-  _maxStamina: 50
-  _moveSpeed: 2
-  _minMoveSpeed: 1
-  _maxMoveSpeed: 3
   _firstname: "\u0421\u0442\u0430\u0441\u044F\u043D"
   _damageCount: 100
   _viewRadius: 5
-  _turningSpeed: 45
   _groupMobs: 0
+  _stateOfPlayer: 0
+  _managerGUI: {fileID: 0}
   _collider: {fileID: 6616300577017040700}
   _trigger: {fileID: 538700676723179093}
-  _stateOfPlayer: 0
 --- !u!114 &5133062833684486613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,7 +228,22 @@ MonoBehaviour:
   _timeMoving: 0.3
   _timeRecovery: 0.1
   _speedMoving: 15
-  _stateOfDash: 0
+  _stateOfJerk: 0
+--- !u!114 &1913512640220180011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7521055551434040984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8af0a75823bee2c4888964a25f9c3b76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveSpeed: 2
+  _minMoveSpeed: 0
+  _maxMoveSpeed: 2
 --- !u!1001 &3683165737748281465
 PrefabInstance:
   m_ObjectHideFlags: 0
