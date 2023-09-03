@@ -163,9 +163,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5883c2a64b8c32f41bec8c08fcda29b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 199
+  _health: 200
   _minHealth: 0
-  _maxHealth: 199
+  _maxHealth: 200
   _firstname: "\u0411\u043B\u0438\u0436\u043D\u0438\u043A"
   _damageCount: 10
   _viewRadius: 3
