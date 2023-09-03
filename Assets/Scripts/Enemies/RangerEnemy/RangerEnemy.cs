@@ -139,7 +139,7 @@ namespace Assets.Scripts.Enemies.RangerEnemy
 
                     var distanceToTarget = Vector3.Distance(
                         _targetToAttack.transform.position,
-                        transform.position + transform.up * .75f);
+                        transform.position);
 
                     if (distanceToTarget < _distanceToAttack)
                     {
