@@ -1,4 +1,4 @@
-namespace Assets.Scripts.Enemies.Kamikaze
+namespace Assets.Scripts.Enemies.Enemy
 {
     using System;
     using System.Linq;
@@ -10,26 +10,25 @@ namespace Assets.Scripts.Enemies.Kamikaze
     using Random = UnityEngine.Random;
 
     [DisallowMultipleComponent]
-    public class Kamikaze : BaseMob, IHealthSystem
+    public class Enemy : BaseMob, IHealthSystem
     {
-        public enum StatesOfKamikaze
+        public enum StatesOfEnemy
         {
             Idle,
             Explore,
             Pursuit,
-            Detonation
+            Attack
         }
 
-        [SerializeField] private StatesOfKamikaze _stateOfKamikaze = StatesOfKamikaze.Idle;
+        [SerializeField] private StatesOfEnemy _stateOfEnemy = StatesOfEnemy.Idle;
         [SerializeField] private BaseMob _targetToAttack;
         [SerializeField] private Vector3? _targetToExplore;
         [SerializeField] private float _timeForIdle;
-        [SerializeField] private float _timeForDetonation;
-        [SerializeField] private float _explosionRadius;
-        [SerializeField] private float _detonationRadius;
+        [SerializeField] private float _distanceToAttack;
         private IMoveSystem _moveSystem;
+        private IAttack _attack;
 
-        public StatesOfKamikaze StateOfKamikaze => _stateOfKamikaze;
+        public StatesOfEnemy StateOfEnemy => _stateOfEnemy;
 
         public BaseMob TargetToAttack
         {
@@ -85,8 +84,10 @@ namespace Assets.Scripts.Enemies.Kamikaze
         private void Awake()
         {
             if (GetComponent<IMoveSystem>() is { } iMoveSystem) _moveSystem = iMoveSystem;
-            else throw new Exception("Kamikaze not instance IMoveSystem");
-            _stateOfKamikaze = StatesOfKamikaze.Idle;
+            else throw new Exception($"{nameof(Enemy)} not instance {nameof(IMoveSystem)}");
+            if (GetComponentInChildren<IAttack>() is { } iAttack) _attack = iAttack;
+            else throw new Exception($"{nameof(Enemy)} not instance {nameof(IAttack)}");
+            _stateOfEnemy = StatesOfEnemy.Idle;
             Invoke(nameof(IntoExplore), _timeForIdle);
         }
 
@@ -95,18 +96,6 @@ namespace Assets.Scripts.Enemies.Kamikaze
         {
             LookAround();
             ActionChoice();
-        }
-
-        private void Explosion()
-        {
-            if (_isLive)
-            {
-                var mobs = GetMobsForRadius(_explosionRadius);
-
-                var damage = new Damage(this, null, _damageCount, TypesDamage.Clear);
-                foreach (var mob in mobs) (mob as IHealthSystem).TakeDamage(damage);
-                Health = _minHealth;
-            }
         }
 
         private BaseMob[] GetMobsForRadius(float radius)
@@ -130,64 +119,69 @@ namespace Assets.Scripts.Enemies.Kamikaze
 
         private void IntoExplore()
         {
-            _stateOfKamikaze = StatesOfKamikaze.Explore;
+            _stateOfEnemy = StatesOfEnemy.Explore;
             FindPositionToExplore();
         }
 
         private void ActionChoice()
         {
-            switch (_stateOfKamikaze)
+            switch (_stateOfEnemy)
             {
-                case StatesOfKamikaze.Idle:
+                case StatesOfEnemy.Idle:
                     if (_targetToAttack != null)
                     {
-                        _stateOfKamikaze = StatesOfKamikaze.Pursuit;
+                        _stateOfEnemy = StatesOfEnemy.Pursuit;
                         CancelInvoke(nameof(IntoExplore));
                         break;
                     }
 
                     break;
-                case StatesOfKamikaze.Explore:
+                case StatesOfEnemy.Explore:
                     if (_targetToAttack != null)
                     {
-                        _stateOfKamikaze = StatesOfKamikaze.Pursuit;
+                        _stateOfEnemy = StatesOfEnemy.Pursuit;
                         break;
                     }
 
                     if (_targetToExplore == null)
                     {
-                        _stateOfKamikaze = StatesOfKamikaze.Idle;
+                        _stateOfEnemy = StatesOfEnemy.Idle;
                         Invoke(nameof(IntoExplore), _timeForIdle);
                         break;
                     }
 
                     Explore();
                     break;
-                case StatesOfKamikaze.Pursuit:
+                case StatesOfEnemy.Pursuit:
                     if (_targetToAttack == null)
                     {
-                        _stateOfKamikaze = StatesOfKamikaze.Idle;
+                        _stateOfEnemy = StatesOfEnemy.Idle;
                         Invoke(nameof(IntoExplore), _timeForIdle);
                         break;
                     }
 
                     var distanceToTarget = Vector3.Distance(
                         _targetToAttack.transform.position,
-                        transform.position);
+                        (_attack as MonoBehaviour).gameObject.transform.position);
 
-                    if (distanceToTarget < _detonationRadius)
+                    if (distanceToTarget < _distanceToAttack)
                     {
-                        _stateOfKamikaze = StatesOfKamikaze.Detonation;
-                        Invoke(nameof(Explosion), _timeForDetonation);
+                        _stateOfEnemy = StatesOfEnemy.Attack;
+                        _attack.Attack();
                         break;
                     }
 
                     Pursuit();
                     break;
-                case StatesOfKamikaze.Detonation:
+                case StatesOfEnemy.Attack:
+                    if (_attack.StateOfAttack == StatesOfAttack.Idle)
+                    {
+                        _stateOfEnemy = StatesOfEnemy.Idle;
+                    }
+
                     break;
                 default:
-                    throw new Exception("Kamikaze FSM: not valid state");
+                    throw new Exception($"{nameof(Enemy)} FSM: not valid state");
             }
         }
 
