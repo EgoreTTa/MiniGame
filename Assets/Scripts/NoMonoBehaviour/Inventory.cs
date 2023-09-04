@@ -15,21 +15,27 @@ namespace Assets.Scripts.NoMonoBehaviour
         private Player _parent;
 
         public BaseItem[] Items => _items.ToArray();
-        public IEquipment Helmet => _helmet;
-        public IEquipment Armor => _armor;
-        public IEquipment Boot => _boot;
+        public BaseItem Helmet => _helmet as BaseItem;
+        public BaseItem Armor => _armor as BaseItem;
+        public BaseItem Boot => _boot as BaseItem;
 
         public Inventory(Player parent)
         {
             _parent = parent;
         }
 
+        /// <summary>
+        /// Adds an item to inventory
+        /// </summary>
         public void Put(BaseItem item)
         {
             _items.Add(item);
             item.PickUp(_parent);
         }
 
+        /// <summary>
+        /// Removes an item from inventory
+        /// </summary>
         public void Take(BaseItem item)
         {
             _items.Remove(item);
