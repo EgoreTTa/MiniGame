@@ -11,9 +11,9 @@ namespace Assets.Scripts.Items.Equipments
     public class FireHelmet : BaseItem, IEquipment
     {
         [SerializeField] private float _changeMaxHealth;
-        [SerializeField] private float _changeRegeneration;
-        [SerializeField] private GameObject _fireCircke;
+        [SerializeField] private float _changeRegeneration;x`
         [SerializeField] private TypesEquipment _typeEquipment;
+
         public TypesEquipment TypeEquipment => _typeEquipment;
  
         private void Regen()

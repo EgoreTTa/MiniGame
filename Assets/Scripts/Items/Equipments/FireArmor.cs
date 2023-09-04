@@ -12,8 +12,8 @@ namespace Assets.Scripts.Items.Equipments
     {
         [SerializeField] private float _changeMaxHealth;
         [SerializeField] private float _changeRegeneration;
-        [SerializeField] private GameObject _fireCircke;
         [SerializeField] private TypesEquipment _typeEquipment;
+
         public TypesEquipment TypeEquipment => _typeEquipment;
 
         private void Regen()
