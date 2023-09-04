@@ -1,5 +1,6 @@
 namespace Assets.Scripts.NonPlayerCharacters
 {
+    using System.Collections.Generic;
     using System.Linq;
     using Interfaces;
     using Items;
@@ -10,7 +11,7 @@ namespace Assets.Scripts.NonPlayerCharacters
     [UsedImplicitly]
     public class Trader : NonPlayerCharacter, IInteraction, ITrading
     {
-        private Inventory _inventory;
+        [SerializeField] private List<BaseItem> _items;
 
         public string FirstName => _firstName;
         public bool IsInteract => _isInteract;
@@ -19,10 +20,9 @@ namespace Assets.Scripts.NonPlayerCharacters
         {
             if (_isInteract == false) _isInteract = true;
 
-            Debug.Log($"{_firstName} торгует {player.Firstname}");
-            if (_inventory.Items.Any())
+            if (_items.Any())
             {
-                Trade(_inventory.Items.First(), player.Inventory);
+                Trade(_items.First(), player.Inventory);
             }
         }
 
@@ -30,10 +30,9 @@ namespace Assets.Scripts.NonPlayerCharacters
         {
             if (inventory.Currency >= item.Currency)
             {
-                if (_inventory.Items.Contains(item))
+                if (_items.Contains(item))
                 {
-                    _inventory.Take(item);
-                    _inventory.Currency += item.Currency;
+                    _items.Remove(item);
                     inventory.Put(item);
                     inventory.Currency -= item.Currency;
                 }
