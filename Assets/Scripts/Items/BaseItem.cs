@@ -10,8 +10,7 @@ namespace Assets.Scripts.Items
     {
         [SerializeField] protected string _nameItem;
         [SerializeField] protected string _description;
-        [SerializeField] protected int _scoreCount;
-
+        [SerializeField] protected float _currency;
         protected Player _owner;
         protected SpriteRenderer _spriteRenderer;
         protected Rigidbody2D _rigidbody;
@@ -19,7 +18,7 @@ namespace Assets.Scripts.Items
 
         public string NameItem => _nameItem;
         public string Description => _description;
-        public int ScoreCount => _scoreCount;
+        public float Currency => _currency;
 
         private void Awake()
         {
