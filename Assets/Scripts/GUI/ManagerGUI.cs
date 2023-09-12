@@ -26,17 +26,17 @@ namespace Assets.Scripts.GUI
 
         public BaseItem GetHelmet()
         {
-            return _player.Inventory.Helmet as BaseItem;
+            return _player.Inventory.Helmet;
         }
 
         public BaseItem GetArmor()
         {
-            return _player.Inventory.Armor as BaseItem;
+            return _player.Inventory.Armor;
         }
 
         public BaseItem GetBoot()
         {
-            return _player.Inventory.Boot as BaseItem;
+            return _player.Inventory.Boot;
         }
 
         public void SetHelmet(BaseItem helmet)
