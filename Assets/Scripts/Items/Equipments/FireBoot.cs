@@ -3,8 +3,6 @@ namespace Assets.Scripts.Items.Equipments
     using Enums;
     using Interfaces;
     using UnityEngine;
-    using System.Collections;
-    using Enemies;
     using NoMonoBehaviour;
 
     [DisallowMultipleComponent]
@@ -13,6 +11,7 @@ namespace Assets.Scripts.Items.Equipments
         [SerializeField] private float _changeMaxHealth;
         [SerializeField] private float _changeRegeneration;
         [SerializeField] private TypesEquipment _typeEquipment;
+        [SerializeField] private float _intervalRegeneration;
 
         public TypesEquipment TypeEquipment => _typeEquipment;
 
@@ -25,7 +24,7 @@ namespace Assets.Scripts.Items.Equipments
         public void Equip()
         {
             _owner.MaxHealth += _changeMaxHealth;
-            InvokeRepeating(nameof(Regen), 0f, 1f);
+            InvokeRepeating(nameof(Regen), 0f, _intervalRegeneration);
         }
 
         public void Unequip()
