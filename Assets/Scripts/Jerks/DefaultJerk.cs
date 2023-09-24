@@ -16,12 +16,14 @@ namespace Assets.Scripts.Jerks
         private int _onlyDynamic = 1024;
         private int _nothing = 0;
         private BaseMob _owner;
+        private IMoveSystem _moveSystem;
 
         public StatesOfJerk StateOfJerk => _stateOfJerk;
 
         private void Awake()
         {
             _owner = GetComponent<BaseMob>();
+            _moveSystem = GetComponent<IMoveSystem>();
         }
 
         public void Jerk()
@@ -42,7 +44,7 @@ namespace Assets.Scripts.Jerks
 
         private void Move()
         {
-            _owner.transform.position += _owner.Direction * _speedMoving * Time.fixedDeltaTime;
+            _owner.transform.position += _moveSystem.Direction * _speedMoving * Time.fixedDeltaTime;
         }
 
         private void IntoRecovery()

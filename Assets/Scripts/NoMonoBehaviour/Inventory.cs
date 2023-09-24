@@ -13,23 +13,40 @@ namespace Assets.Scripts.NoMonoBehaviour
         private IEquipment _armor;
         private IEquipment _boot;
         private Player _parent;
+        private float _currency;
 
         public BaseItem[] Items => _items.ToArray();
         public IEquipment Helmet => _helmet;
         public IEquipment Armor => _armor;
         public IEquipment Boot => _boot;
+		
+        public float Currency
+        {
+            get => _currency;
+            set
+            {
+                if (value < 0) value = 0;
+                _currency = value;
+            }
+        }
 
         public Inventory(Player parent)
         {
             _parent = parent;
         }
 
+        /// <summary>
+        /// Adds an item to inventory
+        /// </summary>
         public void Put(BaseItem item)
         {
             _items.Add(item);
             item.PickUp(_parent);
         }
 
+        /// <summary>
+        /// Removes an item from inventory
+        /// </summary>
         public void Take(BaseItem item)
         {
             _items.Remove(item);
