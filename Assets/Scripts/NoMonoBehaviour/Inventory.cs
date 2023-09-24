@@ -16,10 +16,10 @@ namespace Assets.Scripts.NoMonoBehaviour
         private float _currency;
 
         public BaseItem[] Items => _items.ToArray();
-        public IEquipment Helmet => _helmet;
-        public IEquipment Armor => _armor;
-        public IEquipment Boot => _boot;
-		
+        public BaseItem Helmet => _helmet as BaseItem;
+        public BaseItem Armor => _armor as BaseItem;
+        public BaseItem Boot => _boot as BaseItem;
+
         public float Currency
         {
             get => _currency;

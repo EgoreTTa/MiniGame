@@ -25,7 +25,7 @@ namespace Assets.Scripts.Items
 
         private void OnDestroy()
         {
-            _owner.Inventory.Take(this);
+            _owner?.Inventory.Take(this);
         }
     }
 }
