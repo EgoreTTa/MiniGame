@@ -8,7 +8,6 @@ namespace Assets.Scripts.Items
     public class Vodka : BaseItem
     {
         [SerializeField] private float _heal;
-            
         public override void PickUp(Player owner)
         {
             var health = new Health(owner, gameObject, _heal);
