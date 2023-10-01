@@ -17,14 +17,14 @@ namespace Assets.Scripts.Attacks
 
         private void Awake()
         {
-            _maxLengthCombination = transform.childCount;
+            _maxLengthCombination = transform.childCount - 1;
         }
 
         public void Attack()
         {
             var isNotContinueCombo = _stateOfAttack != StatesOfAttack.Recovery
-                                  ||
-                                  _lengthCombination > _maxLengthCombination;
+                                     ||
+                                     _lengthCombination > _maxLengthCombination;
             if (_stateOfAttack != StatesOfAttack.Idle
                 &&
                 isNotContinueCombo) return;
