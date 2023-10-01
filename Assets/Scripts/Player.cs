@@ -169,6 +169,11 @@ namespace Assets.Scripts
 
                     break;
                 case StatesOfPlayer.Attack:
+                    if (isAttack)
+                    {
+                        _attack.Attack();
+                    }
+
                     if (_attack.StateOfAttack == StatesOfAttack.Idle
                         &&
                         _ability1.StateOfAbility == StatesOfAbility.Standby)
