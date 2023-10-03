@@ -16,8 +16,8 @@ namespace Assets.Scripts.Items.Equipments
         [SerializeField] private BaseItem _elementSetHelmet;
         [SerializeField] private BaseItem _elementSetBoot;
         [SerializeField] private GameObject FireCirlcePrefab;
-        private GameObject FindSkill;
         [SerializeField] private EquipmentSets _equipmentSet;
+        private FireCircle FindSkill;
 
         public TypesEquipment TypeEquipment => _typeEquipment;
         public EquipmentSets EquipmentSet => _equipmentSet;
@@ -30,7 +30,7 @@ namespace Assets.Scripts.Items.Equipments
 
         public void Equip()
         {
-            CheckSet();
+            HelpLibraryForEquipmentSet.CheckSet(_owner, FireCirlcePrefab, EquipmentSets.FireSet);
             _owner.MaxHealth += _changeMaxHealth;
             InvokeRepeating(nameof(Regen), 0f, _intervalRegeneration);
         }
@@ -39,42 +39,12 @@ namespace Assets.Scripts.Items.Equipments
         {
             _owner.MaxHealth -= _changeMaxHealth;
             CancelInvoke(nameof(Regen));
-            FindSkill = CheckSkill();
+            FindSkill = HelpLibraryForEquipmentSet.CheckSkill(_owner) as FireCircle;
             if (FindSkill != null)
             {
                 Destroy(FindSkill);
                 FindSkill.IsActive = false;
             }
-        }
-
-        public void CheckSet()
-        {
-            if (_owner.Inventory.Helmet?.NameItem == _elementSetHelmet.NameItem &&
-                _owner.Inventory.Boot?.NameItem == _elementSetBoot.NameItem)
-            {
-                FindSkill = CheckSkill();
-                if (FindSkill == null)
-                {
-                    FindSkill = Instantiate(FireCirlcePrefab, _owner.gameObject.transform);
-                    FindSkill.name = "FireCirlceFireSet";
-                }
-            }
-        }
-
-        public GameObject CheckSkill()
-        {
-            if (_owner.GetComponentsInChildren<FireCircle>() is { } fireCirles)
-            {
-                foreach (var fireCirle in fireCirles)
-                {
-                    if (fireCirle.GetComponent<FireCircle>().Active == true)
-                    {
-                        return fireCirle.gameObject;
-                    }
-                }
-            }
-
-            return null;
         }
     }
 }
