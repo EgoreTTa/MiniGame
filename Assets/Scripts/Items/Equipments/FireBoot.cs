@@ -4,7 +4,7 @@ namespace Assets.Scripts.Items.Equipments
     using Interfaces;
     using UnityEngine;
     using NoMonoBehaviour;
-    using Skills;
+    using Abilities;
 
     [DisallowMultipleComponent]
     public class FireBoot : BaseItem, IEquipment
@@ -16,7 +16,8 @@ namespace Assets.Scripts.Items.Equipments
         [SerializeField] private BaseItem ElememtSetHelmet;
         [SerializeField] private BaseItem ElememtSetArmor;
         [SerializeField] private GameObject FireCirlcePrefab;
-        private GameObject FireCirlceSpell;
+        private GameObject FindSkill;
+
         public TypesEquipment TypeEquipment => _typeEquipment;
 
         private void Regen()
@@ -36,11 +37,11 @@ namespace Assets.Scripts.Items.Equipments
         {
             _owner.MaxHealth -= _changeMaxHealth;
             CancelInvoke(nameof(Regen));
-            FireCirlceSpell = CheckSkill();
-            if (FireCirlceSpell is not null)
+            FindSkill = CheckSkill();
+            if (FindSkill is not null)
             {
-                Destroy(FireCirlceSpell);
-                FireCirlceSpell.GetComponent<FireCirle>().Active = false;
+                Destroy(FindSkill);
+                FindSkill.GetComponent<FireCircle>().ChangeActive = false;
             }
         }
 
@@ -49,31 +50,22 @@ namespace Assets.Scripts.Items.Equipments
             if (_owner.Inventory.Armor?.NameItem == ElememtSetArmor.NameItem
                 && _owner.Inventory.Helmet?.NameItem == ElememtSetHelmet.NameItem)
             {
-                FireCirlceSpell = CheckSkill();
-                if (FireCirlceSpell == null)
+                FindSkill = CheckSkill();
+                if (FindSkill == null)
                 {
-                    FireCirlceSpell = Instantiate(FireCirlcePrefab, _owner.gameObject.transform);
-                    FireCirlceSpell.name = "FireCirlceFireSet";
-                    Debug.Log("ОО жара пошла");
+                    FindSkill = Instantiate(FireCirlcePrefab, _owner.gameObject.transform);
+                    FindSkill.name = "FireCirlceFireSet";
                 }
-                else
-                {
-                    Debug.Log("А скилл то уже есть");
-                }
-            }
-            else
-            {
-                Debug.Log("Сэт не одет");
             }
         }
 
         public GameObject CheckSkill()
         {
-            if (_owner.GetComponentsInChildren<FireCirle>() is { } fireCirles)
+            if (_owner.GetComponentsInChildren<FireCircle>() is { } fireCirles)
             {
                 foreach (var fireCirle in fireCirles)
                 {
-                    if (fireCirle.GetComponent<FireCirle>().Active == true)
+                    if (fireCirle.GetComponent<FireCircle>().Active == true)
                     {
                         return fireCirle.gameObject;
                     }
