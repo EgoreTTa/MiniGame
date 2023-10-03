@@ -171,11 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94f20e323ecf2e745b5f6b62f68450ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nameItem: 
-  _description: 
-  _currency: 0
-  _cooldown: 0
   _damageCount: 5
   _intervalDamaged: 1
   PlayerGameObject: {fileID: 0}
-  _active: 1
+  _isActive: 1
