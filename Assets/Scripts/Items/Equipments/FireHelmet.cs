@@ -1,6 +1,5 @@
 namespace Assets.Scripts.Items.Equipments
 {
-    using System;
     using Enums;
     using Interfaces;
     using UnityEngine;
@@ -14,8 +13,8 @@ namespace Assets.Scripts.Items.Equipments
         [SerializeField] private float _changeRegeneration;
         [SerializeField] private TypesEquipment _typeEquipment;
         [SerializeField] private float _intervalRegeneration;
-        [SerializeField] private BaseItem ElememtSetArmor;
-        [SerializeField] private BaseItem ElememtSetBoot;
+        [SerializeField] private BaseItem _elementSetArmor;
+        [SerializeField] private BaseItem _elementSetBoot;
         [SerializeField] private GameObject FireCirlcePrefab;
         private GameObject FindSkill;
 
@@ -48,8 +47,8 @@ namespace Assets.Scripts.Items.Equipments
 
         public void CheckSet()
         {
-            if (_owner.Inventory.Armor?.NameItem == ElememtSetArmor.NameItem &&
-                _owner.Inventory.Boot?.NameItem == ElememtSetBoot.NameItem)
+            if (_owner.Inventory.Armor?.NameItem == _elementSetArmor.NameItem &&
+                _owner.Inventory.Boot?.NameItem == _elementSetBoot.NameItem)
             {
                 FindSkill = CheckSkill();
                 if (FindSkill == null)

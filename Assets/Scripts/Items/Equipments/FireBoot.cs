@@ -13,8 +13,8 @@ namespace Assets.Scripts.Items.Equipments
         [SerializeField] private float _changeRegeneration;
         [SerializeField] private TypesEquipment _typeEquipment;
         [SerializeField] private float _intervalRegeneration;
-        [SerializeField] private BaseItem ElememtSetHelmet;
-        [SerializeField] private BaseItem ElememtSetArmor;
+        [SerializeField] private BaseItem _elementSetHelmet;
+        [SerializeField] private BaseItem _elementSetArmor;
         [SerializeField] private GameObject FireCirlcePrefab;
         private GameObject FindSkill;
 
@@ -47,8 +47,8 @@ namespace Assets.Scripts.Items.Equipments
 
         public void CheckSet()
         {
-            if (_owner.Inventory.Armor?.NameItem == ElememtSetArmor.NameItem
-                && _owner.Inventory.Helmet?.NameItem == ElememtSetHelmet.NameItem)
+            if (_owner.Inventory.Armor?.NameItem == _elementSetArmor.NameItem
+                && _owner.Inventory.Helmet?.NameItem == _elementSetHelmet.NameItem)
             {
                 FindSkill = CheckSkill();
                 if (FindSkill == null)
