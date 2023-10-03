@@ -4,7 +4,7 @@ namespace Assets.Scripts.Attacks
     using Interfaces;
     using UnityEngine;
 
-    public class ComboAttack : MonoBehaviour, IAttack
+    public class ComboAttackSystem : MonoBehaviour, IAttackSystem
     {
         [SerializeField] private float _timeSwing;
         [SerializeField] private float _timeHitting;
@@ -22,18 +22,19 @@ namespace Assets.Scripts.Attacks
 
         public void Attack()
         {
-            var isNotContinueCombo = _stateOfAttack != StatesOfAttack.Recovery
-                                     ||
-                                     _lengthCombination > _maxLengthCombination;
-            if (_stateOfAttack != StatesOfAttack.Idle
+            var isContinueCombo = _stateOfAttack is StatesOfAttack.Recovery
+                                  &&
+                                  _lengthCombination <= _maxLengthCombination;
+            if (_stateOfAttack is StatesOfAttack.Idle
                 &&
-                isNotContinueCombo) return;
+                isContinueCombo)
+            {
+                if (_lengthCombination > 0)
+                    CancelInvoke(nameof(IntoIdle));
 
-            if (_lengthCombination > 0)
-                CancelInvoke(nameof(IntoIdle));
-
-            _stateOfAttack = StatesOfAttack.Swing;
-            Invoke(nameof(IntoHitting), _timeSwing);
+                _stateOfAttack = StatesOfAttack.Swing;
+                Invoke(nameof(IntoHitting), _timeSwing);
+            }
         }
 
         private void IntoHitting()

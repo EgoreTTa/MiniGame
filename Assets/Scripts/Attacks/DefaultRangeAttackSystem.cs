@@ -8,7 +8,7 @@ namespace Assets.Scripts.Attacks
     using NoMonoBehaviour;
     using UnityEngine;
 
-    public class DefaultRangeAttack : MonoBehaviour, IAttack
+    public class DefaultRangeAttackSystem : MonoBehaviour, IAttackSystem
     {
         [SerializeField] private float _timeSwing;
         [SerializeField] private float _timeHitting;
@@ -33,7 +33,7 @@ namespace Assets.Scripts.Attacks
         private void Awake()
         {
             if (GetComponentInParent<BaseMob>() is { } baseMob) _owner = baseMob;
-            else throw new Exception($"{nameof(DefaultRangeAttack)} not instance {nameof(BaseMob)}");
+            else throw new Exception($"{nameof(DefaultRangeAttackSystem)} not instance {nameof(BaseMob)}");
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 

@@ -2,7 +2,7 @@ namespace Assets.Scripts.Interfaces
 {
     using Enums;
 
-    public interface IAttack
+    public interface IAttackSystem
     {
         public StatesOfAttack StateOfAttack { get; }
 

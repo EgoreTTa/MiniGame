@@ -7,7 +7,7 @@ namespace Assets.Scripts.Attacks
     using NoMonoBehaviour;
     using UnityEngine;
 
-    public class DefaultAttack : MonoBehaviour, IAttack
+    public class DefaultAttackSystem : MonoBehaviour, IAttackSystem
     {
         [SerializeField] private float _timeSwing;
         [SerializeField] private float _timeHitting;
