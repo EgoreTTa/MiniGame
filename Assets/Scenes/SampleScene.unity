@@ -605,11 +605,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nameItem: 
   _description: 
-  _scoreCount: 0
+  _currency: 0
   _changeMaxHealth: 0
   _changeRegeneration: 14
-  _fireCircke: {fileID: 700679886}
   _typeEquipment: 2
+  _intervalRegeneration: 0
 --- !u!1 &368560144
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,7 +644,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nameItem: Iron Armor
   _description: Iron Armor Description
-  _scoreCount: 0
+  _currency: 0
   _changeMaxHealth: 100
   _typeEquipment: 1
 --- !u!50 &368560147
@@ -940,78 +940,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _target: {fileID: 1641592648}
   _speed: 0.02
---- !u!1 &700679886
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 700679887}
-  m_Layer: 0
-  m_Name: FireCirle
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &700679887
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 700679886}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.9084287, y: 0.9076975, z: 0.031282894}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &883671494
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 883671496}
-  - component: {fileID: 883671495}
-  - component: {fileID: 883671497}
-  m_Layer: 0
-  m_Name: Spawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &883671495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 883671494}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25d256e285fd6894ea5c7b272908b20f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _enemys:
-  - {fileID: 4455685455898522903, guid: 59a617ef99233884e88384201f2065d9, type: 3}
-  _intervalSpawn: 3
-  _leftTopPosition: {x: -2, y: -2}
-  _rightDownPosition: {x: 2, y: 2}
-  _coefficient: 1
-  _amplifyingFactor: 1.22
-  _freeZoneRadius: 1
-  _numberOfAttemptsSpawn: 10
---- !u!4 &883671496
-Transform:
 --- !u!1001 &622461779
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1069,6 +997,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59a617ef99233884e88384201f2065d9, type: 3}
+--- !u!1 &700679886
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 700679887}
+  m_Layer: 0
+  m_Name: FireCirle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &700679887
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700679886}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.9084287, y: 0.9076975, z: 0.031282894}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &955627934
 GameObject:
   m_ObjectHideFlags: 0
@@ -1241,11 +1200,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nameItem: 
   _description: 
-  _scoreCount: 0
+  _currency: 0
   _changeMaxHealth: 0
   _changeRegeneration: 10
-  _fireCircke: {fileID: 700679886}
   _typeEquipment: 0
+  _intervalRegeneration: 0
 --- !u!114 &1315278379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1260,11 +1219,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nameItem: 
   _description: 
-  _scoreCount: 0
+  _currency: 0
   _changeMaxHealth: 0
   _changeRegeneration: 1
-  _fireCircke: {fileID: 700679886}
   _typeEquipment: 1
+  _intervalRegeneration: 0
 --- !u!1001 &1332640300
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1346,6 +1305,10 @@ PrefabInstance:
       propertyPath: _isReady
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6095613716021813666, guid: 7da9e4eda9f10d14ca820e0846f592bc, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7521055551434040984, guid: 7da9e4eda9f10d14ca820e0846f592bc, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1402,8 +1365,13 @@ PrefabInstance:
       propertyPath: m_IncludeLayers.m_Bits
       value: 1536
       objectReference: {fileID: 0}
+    - target: {fileID: 8540724100062535881, guid: 7da9e4eda9f10d14ca820e0846f592bc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8540724100062535881, guid: 7da9e4eda9f10d14ca820e0846f592bc, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7da9e4eda9f10d14ca820e0846f592bc, type: 3}
@@ -1654,6 +1622,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aff95dd2667b77140a7525ed0a7eadbb, type: 3}
+--- !u!4 &80456334312859252 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5517184148990713271, guid: 0609c70de94a6c3489c46422bca58381, type: 3}
+  m_PrefabInstance: {fileID: 7262739951064994068}
+  m_PrefabAsset: {fileID: 0}
 --- !u!50 &135396160713871524
 Rigidbody2D:
   serializedVersion: 4
@@ -1803,11 +1776,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &80456334312859252 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5517184148990713271, guid: 0609c70de94a6c3489c46422bca58381, type: 3}
-  m_PrefabInstance: {fileID: 7262739951064994068}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &135396160950742936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2638,3 +2606,4 @@ SceneRoots:
   - {fileID: 22867093}
   - {fileID: 1758330372}
   - {fileID: 700679887}
+  - {fileID: 368560149}

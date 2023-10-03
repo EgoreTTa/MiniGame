@@ -26,7 +26,7 @@ namespace Assets.Scripts.Enemies.Enemy
         [SerializeField] private float _timeForIdle;
         [SerializeField] private float _distanceToAttack;
         private IMoveSystem _moveSystem;
-        private IAttack _attack;
+        private IAttackSystem _attackSystem;
 
         public StatesOfEnemy StateOfEnemy => _stateOfEnemy;
 
@@ -85,8 +85,8 @@ namespace Assets.Scripts.Enemies.Enemy
         {
             if (GetComponent<IMoveSystem>() is { } iMoveSystem) _moveSystem = iMoveSystem;
             else throw new Exception($"{nameof(Enemy)} not instance {nameof(IMoveSystem)}");
-            if (GetComponentInChildren<IAttack>() is { } iAttack) _attack = iAttack;
-            else throw new Exception($"{nameof(Enemy)} not instance {nameof(IAttack)}");
+            if (GetComponentInChildren<IAttackSystem>() is { } iAttack) _attackSystem = iAttack;
+            else throw new Exception($"{nameof(Enemy)} not instance {nameof(IAttackSystem)}");
             _stateOfEnemy = StatesOfEnemy.Idle;
             Invoke(nameof(IntoExplore), _timeForIdle);
         }
@@ -162,19 +162,19 @@ namespace Assets.Scripts.Enemies.Enemy
 
                     var distanceToTarget = Vector3.Distance(
                         _targetToAttack.transform.position,
-                        (_attack as MonoBehaviour).gameObject.transform.position);
+                        (_attackSystem as MonoBehaviour).gameObject.transform.position);
 
                     if (distanceToTarget < _distanceToAttack)
                     {
                         _stateOfEnemy = StatesOfEnemy.Attack;
-                        _attack.Attack();
+                        _attackSystem.Attack();
                         break;
                     }
 
                     Pursuit();
                     break;
                 case StatesOfEnemy.Attack:
-                    if (_attack.StateOfAttack == StatesOfAttack.Idle)
+                    if (_attackSystem.StateOfAttack == StatesOfAttack.Idle)
                     {
                         _stateOfEnemy = StatesOfEnemy.Idle;
                     }
