@@ -11,24 +11,21 @@ namespace Assets.Scripts.Abilities
     using UnityEngine;
 
     [DisallowMultipleComponent]
-    public class FireCircle : DefaultAbility
+    public class FireCircle : MonoBehaviour, IEffect
     {
         [SerializeField] private float _damageCount;
         private List<IHealthSystem> _healthSystems = new();
         [SerializeField] private float _intervalDamaged;
         [SerializeField] private GameObject PlayerGameObject;
-        [SerializeField] private bool _active;
-
         private Damage _damage;
+        [SerializeField] private bool _isActive;
 
-        public bool Active
-        {
-            get => _active;
-        }
+        public string EffectName => nameof(FireCircle);
 
-        public bool ChangeActive
+        public bool IsActive
         {
-            set => _active = value;
+            get => _isActive;
+            set => _isActive = value;
         }
 
         private void Update()
@@ -46,7 +43,8 @@ namespace Assets.Scripts.Abilities
         {
             if (collider.isTrigger is false)
             {
-                if (!collider.GetComponent<Player>() &&
+                if (collider.GetComponent<Player>() is not null
+                    &&
                     collider.GetComponent<BaseMob>().IsLive == true)
 
                     if (collider.gameObject.GetComponent<IHealthSystem>() is { } healthSystem)
@@ -70,6 +68,11 @@ namespace Assets.Scripts.Abilities
                 {
                     _healthSystems?.TakeDamage(_damage);
                 }
+        }
+
+        private void OnDestroy()
+        {
+            Destroy(gameObject);
         }
     }
 }
