@@ -17,8 +17,10 @@ namespace Assets.Scripts.Items.Equipments
         [SerializeField] private BaseItem _elementSetBoot;
         [SerializeField] private GameObject FireCirlcePrefab;
         private GameObject FindSkill;
+        [SerializeField] private EquipmentSets _equipmentSet;
 
         public TypesEquipment TypeEquipment => _typeEquipment;
+        public EquipmentSets EquipmentSet => _equipmentSet;
 
         private void Regen()
         {
@@ -38,10 +40,10 @@ namespace Assets.Scripts.Items.Equipments
             _owner.MaxHealth -= _changeMaxHealth;
             CancelInvoke(nameof(Regen));
             FindSkill = CheckSkill();
-            if (FindSkill is not null)
+            if (FindSkill != null)
             {
                 Destroy(FindSkill);
-                FindSkill.GetComponent<FireCircle>().ChangeActive = false;
+                FindSkill.IsActive = false;
             }
         }
 
