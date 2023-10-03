@@ -25,7 +25,7 @@ namespace Assets.Scripts.Enemies.RangerEnemy
         [SerializeField] private float _timeForIdle;
         [SerializeField] private float _distanceToAttack;
         private IMoveSystem _moveSystem;
-        private IAttack _attack;
+        private IAttackSystem _attackSystem;
 
         public StatesOfRangerEnemy StateOfRangerEnemy => _stateOfRangerEnemy;
 
@@ -81,8 +81,8 @@ namespace Assets.Scripts.Enemies.RangerEnemy
         {
             if (GetComponent<IMoveSystem>() is { } iMoveSystem) _moveSystem = iMoveSystem;
             else throw new Exception($"{nameof(RangerEnemy)} not instance {nameof(IMoveSystem)}");
-            if (GetComponentInChildren<IAttack>() is { } iAttack) _attack = iAttack;
-            else throw new Exception($"{nameof(RangerEnemy)} not instance {nameof(IAttack)}");
+            if (GetComponentInChildren<IAttackSystem>() is { } iAttack) _attackSystem = iAttack;
+            else throw new Exception($"{nameof(RangerEnemy)} not instance {nameof(IAttackSystem)}");
             _stateOfRangerEnemy = StatesOfRangerEnemy.Idle;
             Invoke(nameof(IntoExplore), _timeForIdle);
         }
@@ -145,14 +145,14 @@ namespace Assets.Scripts.Enemies.RangerEnemy
                     {
                         _stateOfRangerEnemy = StatesOfRangerEnemy.Attack;
                         transform.up = _targetToAttack.transform.position - transform.position;
-                        _attack.Attack();
+                        _attackSystem.Attack();
                         break;
                     }
 
                     Pursuit();
                     break;
                 case StatesOfRangerEnemy.Attack:
-                    if (_attack.StateOfAttack == StatesOfAttack.Idle) _stateOfRangerEnemy = StatesOfRangerEnemy.Idle;
+                    if (_attackSystem.StateOfAttack == StatesOfAttack.Idle) _stateOfRangerEnemy = StatesOfRangerEnemy.Idle;
 
                     break;
                 default:
