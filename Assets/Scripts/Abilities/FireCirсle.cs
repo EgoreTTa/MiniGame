@@ -44,7 +44,7 @@ namespace Assets.Scripts.Abilities
             {
                 if (collider.GetComponent<Player>() is not null
                     &&
-                    collider.GetComponent<BaseMob>().IsLive == true)
+                    collider.GetComponent<BaseMob>().IsLive is true)
 
                     if (collider.gameObject.GetComponent<IHealthSystem>() is { } healthSystem)
                     {
