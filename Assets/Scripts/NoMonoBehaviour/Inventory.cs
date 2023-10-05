@@ -49,8 +49,11 @@ namespace Assets.Scripts.NoMonoBehaviour
         /// </summary>
         public void Take(BaseItem item)
         {
-            _items.Remove(item);
-            item.PickDown(_parent);
+            if (_items.Contains(item))
+            {
+                _items.Remove(item);
+                item.PickDown(_parent);
+            }
         }
 
         public void Equip(IEquipment equipment)
