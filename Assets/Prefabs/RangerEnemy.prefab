@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 303606371722456928}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 1, y: 5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -94,18 +94,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 303606371722456928}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a78bb57f2159cbe4ab7dbb73be77393f, type: 3}
+  m_Script: {fileID: 11500000, guid: dec26101c7a090b40ba04892fb66bde4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeSwing: 0.2
-  _timeHitting: 0.3
-  _timeRecovery: 0.2
+  _timeSwing: 0.5
+  _timeHitting: 2.5
+  _timeRecovery: 0.5
   _stateOfAttack: 0
   _bottle: {fileID: 54425826382435967, guid: 4c3dd2a8ec89c3845b913d8b09651419, type: 3}
   _damageCount: 5
-  _bottleSpeed: 1
-  _bottleFlyTime: 5
-  _timeReload: 1
+  _bottleSpeed: 5
+  _bottleFlyTime: 1
+  _timeReload: 2
   _isReady: 1
 --- !u!1 &3751452355733058225
 GameObject:

@@ -26,7 +26,7 @@ namespace Assets.Scripts.Attacks
                                   &&
                                   _lengthCombination <= _maxLengthCombination;
             if (_stateOfAttack is StatesOfAttack.Idle
-                &&
+                ||
                 isContinueCombo)
             {
                 if (_lengthCombination > 0)
