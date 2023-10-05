@@ -171,4 +171,3 @@ MonoBehaviour:
   _elementSetHelmet: {fileID: 0}
   _elementSetArmor: {fileID: 0}
   FireCirlcePrefab: {fileID: 6181794229963983432, guid: b9edc3a99c02eb044ba364dd0fd0f9b4, type: 3}
-  _equipmentSet: 4
