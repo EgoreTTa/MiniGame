@@ -4,7 +4,7 @@ namespace Assets.Scripts.Items.Equipments
     using Interfaces;
     using UnityEngine;
     using NoMonoBehaviour;
-    using Abilities;
+    using Effects;
 
     [DisallowMultipleComponent]
     public class FireArmor : BaseItem, IEquipment
