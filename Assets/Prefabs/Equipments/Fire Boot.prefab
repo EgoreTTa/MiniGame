@@ -170,4 +170,4 @@ MonoBehaviour:
   _intervalRegeneration: 5
   _elementSetHelmet: {fileID: 8412310400257447410, guid: 8b2b5f7b7619ba346924f9dcf17a5642, type: 3}
   _elementSetArmor: {fileID: 1495324497321727780, guid: 87c6aa171cc34b44cb8fa658cd0820e7, type: 3}
-  FireCirlcePrefab: {fileID: 6181794229963983432, guid: b9edc3a99c02eb044ba364dd0fd0f9b4, type: 3}
+  FireCirclePrefab: {fileID: 6181794229963983432, guid: b9edc3a99c02eb044ba364dd0fd0f9b4, type: 3}

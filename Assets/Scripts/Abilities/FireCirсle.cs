@@ -61,12 +61,11 @@ namespace Assets.Scripts.Abilities
         }
 
         private void Damaged()
-        {
-            if (_healthSystems is not null)
-                foreach (var _healthSystems in _healthSystems)
-                {
+        { 
+            foreach (var _healthSystems in _healthSystems)
+            {
                     _healthSystems?.TakeDamage(_damage);
-                }
+            }
         }
 
         private void OnDestroy()
