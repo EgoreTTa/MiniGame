@@ -17,7 +17,7 @@ namespace Assets.Scripts.Items.Equipments
         [SerializeField] private BaseItem _elementSetHelmet;
         [SerializeField] private BaseItem _elementSetBoot;
         [SerializeField] private GameObject FireCirclePrefab;
-        [SerializeField] private EquipmentSets _equipmentSet;
+        private EquipmentSets _equipmentSet = EquipmentSets.FireArmor;
         private FireCircle FindSkill;
 
         public TypesEquipment TypeEquipment => _typeEquipment;

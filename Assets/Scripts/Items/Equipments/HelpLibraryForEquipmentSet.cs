@@ -9,11 +9,11 @@ namespace Assets.Scripts.Items.Equipments
     {
         public static void CheckSet(Player owner, GameObject prefab, EquipmentSets set)
         {
-            if (((owner.Inventory.Helmet as IEquipment)?.EquipmentSet
-                 |
-                 (owner.Inventory.Armor as IEquipment)?.EquipmentSet
-                 |
-                 (owner.Inventory.Boot as IEquipment)?.EquipmentSet) == set)
+            if ((owner.Inventory.Helmet as IEquipment)?.EquipmentSet == set
+                &&
+                (owner.Inventory.Armor as IEquipment)?.EquipmentSet == set
+                &&
+                (owner.Inventory.Boot as IEquipment)?.EquipmentSet == set)
             {
                 var skill = CheckSkill(owner);
                 if (skill is null)

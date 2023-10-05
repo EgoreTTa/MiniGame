@@ -15,8 +15,8 @@ namespace Assets.Scripts.Items.Equipments
         [SerializeField] [Range(1, 10)] private float _intervalRegeneration;
         [SerializeField] private BaseItem _elementSetArmor;
         [SerializeField] private BaseItem _elementSetBoot;
-        [SerializeField] private GameObject _FireCirclePrefab;
-        [SerializeField] private EquipmentSets _equipmentSet;
+        [SerializeField] private GameObject FireCirclePrefab;
+        private EquipmentSets _equipmentSet = EquipmentSets.FireHelmet;
         private FireCircle FindSkill;
 
         public TypesEquipment TypeEquipment => _typeEquipment;
@@ -30,7 +30,7 @@ namespace Assets.Scripts.Items.Equipments
 
         public void Equip()
         {
-            HelpLibraryForEquipmentSet.CheckSet(_owner, _FireCirclePrefab, EquipmentSets.FireSet);
+            HelpLibraryForEquipmentSet.CheckSet(_owner, FireCirclePrefab, EquipmentSets.FireSet);
             _owner.MaxHealth += _changeMaxHealth;
             InvokeRepeating(nameof(Regen), 0f, _intervalRegeneration);
         }
