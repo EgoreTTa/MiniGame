@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 8524340033460196838}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.27, y: 0.90999997, z: 0}
+  m_LocalPosition: {x: -8.551392, y: -0.77, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -171,4 +171,3 @@ MonoBehaviour:
   _elementSetHelmet: {fileID: 8412310400257447410, guid: 8b2b5f7b7619ba346924f9dcf17a5642, type: 3}
   _elementSetBoot: {fileID: 4082092710107545327, guid: ffb970ee8e6693b4198b370d60dd14ea, type: 3}
   FireCirclePrefab: {fileID: 6181794229963983432, guid: b9edc3a99c02eb044ba364dd0fd0f9b4, type: 3}
-  _equipmentSet: 2
