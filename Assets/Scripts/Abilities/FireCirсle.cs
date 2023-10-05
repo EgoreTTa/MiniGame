@@ -1,13 +1,10 @@
 namespace Assets.Scripts.Abilities
 {
-    using System;
     using System.Collections.Generic;
-    using Assets.Scripts.Abilities;
     using Enemies;
     using Enums;
     using Interfaces;
     using NoMonoBehaviour;
-    using Unity.Collections;
     using UnityEngine;
 
     [DisallowMultipleComponent]

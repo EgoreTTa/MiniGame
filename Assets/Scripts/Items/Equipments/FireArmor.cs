@@ -1,6 +1,5 @@
 namespace Assets.Scripts.Items.Equipments
 {
-    using System;
     using Enums;
     using Interfaces;
     using UnityEngine;
@@ -13,12 +12,9 @@ namespace Assets.Scripts.Items.Equipments
         [SerializeField] private float _changeMaxHealth;
         [SerializeField] private float _changeRegeneration;
         [SerializeField] private TypesEquipment _typeEquipment;
-        [SerializeField] [Range(1, 10)] private float _intervalRegeneration;
-        [SerializeField] private BaseItem _elementSetHelmet;
-        [SerializeField] private BaseItem _elementSetBoot;
+        [SerializeField] [Range(.02f, 100)] private float _intervalRegeneration;
         [SerializeField] private GameObject _fireCirclePrefab;
         private EquipmentSets _equipmentSet = EquipmentSets.FireArmor;
-        private FireCircle FindSkill;
 
         public TypesEquipment TypeEquipment => _typeEquipment;
         public EquipmentSets EquipmentSet => _equipmentSet;
@@ -40,11 +36,11 @@ namespace Assets.Scripts.Items.Equipments
         {
             _owner.MaxHealth -= _changeMaxHealth;
             CancelInvoke(nameof(Regen));
-            FindSkill = HelpLibraryForEquipmentSet.CheckSkill(_owner) as FireCircle;
-            if (FindSkill != null)
+            var effect = HelpLibraryForEquipmentSet.CheckSkill(_owner) as FireCircle;
+            if (effect != null)
             {
-                Destroy(FindSkill);
-                FindSkill.IsActive = false;
+                Destroy(effect);
+                effect.IsActive = false;
             }
         }
     }
