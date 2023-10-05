@@ -263,7 +263,8 @@ namespace Assets.Scripts
 
         private void OnDestroy()
         {
-            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+            if (SceneManager.sceneCount == SceneManager.loadedSceneCount)
+                SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
         }
     }
 }
