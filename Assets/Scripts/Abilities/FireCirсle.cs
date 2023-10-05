@@ -16,7 +16,6 @@ namespace Assets.Scripts.Abilities
         [SerializeField] private float _damageCount;
         private List<IHealthSystem> _healthSystems = new();
         [SerializeField] private float _intervalDamaged;
-        [SerializeField] private GameObject PlayerGameObject;
         private Damage _damage;
         [SerializeField] private bool _isActive;
 

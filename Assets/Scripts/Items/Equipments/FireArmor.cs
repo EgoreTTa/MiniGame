@@ -1,5 +1,6 @@
 namespace Assets.Scripts.Items.Equipments
 {
+    using System;
     using Enums;
     using Interfaces;
     using UnityEngine;
@@ -12,10 +13,10 @@ namespace Assets.Scripts.Items.Equipments
         [SerializeField] private float _changeMaxHealth;
         [SerializeField] private float _changeRegeneration;
         [SerializeField] private TypesEquipment _typeEquipment;
-        [SerializeField] private float _intervalRegeneration;
+        [SerializeField] [Range(1, 10)] private float _intervalRegeneration;
         [SerializeField] private BaseItem _elementSetHelmet;
         [SerializeField] private BaseItem _elementSetBoot;
-        [SerializeField] private GameObject FireCirlcePrefab;
+        [SerializeField] private GameObject FireCirclePrefab;
         [SerializeField] private EquipmentSets _equipmentSet;
         private FireCircle FindSkill;
 
@@ -30,7 +31,7 @@ namespace Assets.Scripts.Items.Equipments
 
         public void Equip()
         {
-            HelpLibraryForEquipmentSet.CheckSet(_owner, FireCirlcePrefab, EquipmentSets.FireSet);
+            HelpLibraryForEquipmentSet.CheckSet(_owner, FireCirclePrefab, EquipmentSets.FireSet);
             _owner.MaxHealth += _changeMaxHealth;
             InvokeRepeating(nameof(Regen), 0f, _intervalRegeneration);
         }

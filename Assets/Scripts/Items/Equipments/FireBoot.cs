@@ -12,7 +12,7 @@ namespace Assets.Scripts.Items.Equipments
         [SerializeField] private float _changeMaxHealth;
         [SerializeField] private float _changeRegeneration;
         [SerializeField] private TypesEquipment _typeEquipment;
-        [SerializeField] private float _intervalRegeneration;
+        [SerializeField] [Range(1, 10)] private float _intervalRegeneration;
         [SerializeField] private BaseItem _elementSetHelmet;
         [SerializeField] private BaseItem _elementSetArmor;
         [SerializeField] private GameObject FireCirlcePrefab;
