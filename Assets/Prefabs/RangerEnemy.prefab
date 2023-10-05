@@ -94,15 +94,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 303606371722456928}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a78bb57f2159cbe4ab7dbb73be77393f, type: 3}
+  m_Script: {fileID: 11500000, guid: dec26101c7a090b40ba04892fb66bde4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeSwing: 0.2
-  _timeHitting: 0.3
-  _timeRecovery: 0.2
+  _timeSwing: 1
+  _timeHitting: 4
+  _timeRecovery: 1
   _stateOfAttack: 0
   _bottle: {fileID: 54425826382435967, guid: 4c3dd2a8ec89c3845b913d8b09651419, type: 3}
-  _damageCount: 5
+  _damageCount: 10
   _bottleSpeed: 1
   _bottleFlyTime: 5
   _timeReload: 1
