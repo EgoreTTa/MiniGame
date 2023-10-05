@@ -168,7 +168,7 @@ MonoBehaviour:
   _changeRegeneration: 10
   _typeEquipment: 0
   _intervalRegeneration: 0
-  _elementSetArmor: {fileID: 0}
-  _elementSetBoot: {fileID: 0}
+  _elementSetArmor: {fileID: 1495324497321727780, guid: 87c6aa171cc34b44cb8fa658cd0820e7, type: 3}
+  _elementSetBoot: {fileID: 4082092710107545327, guid: ffb970ee8e6693b4198b370d60dd14ea, type: 3}
   FireCirlcePrefab: {fileID: 6181794229963983432, guid: b9edc3a99c02eb044ba364dd0fd0f9b4, type: 3}
   _equipmentSet: 1
