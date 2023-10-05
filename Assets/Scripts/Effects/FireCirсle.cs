@@ -39,7 +39,7 @@ namespace Assets.Scripts.Effects
         {
             if (collider.isTrigger is false)
             {
-                if (collider.GetComponent<Player>() is not null
+                if (collider.GetComponent<Player>() == null
                     &&
                     collider.GetComponent<BaseMob>().IsLive is true)
 
@@ -59,15 +59,15 @@ namespace Assets.Scripts.Effects
 
         private void Damaged()
         {
-            foreach (var _healthSystems in _healthSystems)
-            {
-                _healthSystems?.TakeDamage(_damage);
-            }
+            for (var i = _healthSystems.Count - 1; i >= 0; i--)
+                _healthSystems[i].TakeDamage(_damage);
+
         }
 
+
         private void OnDestroy()
-        {
-            Destroy(gameObject);
+           {
+                Destroy(gameObject);
+           }
         }
-    }
 }
