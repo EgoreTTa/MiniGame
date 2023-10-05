@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6978643191698893775}
   - component: {fileID: 2895380648548782744}
   m_Layer: 0
-  m_Name: FireCircleSpell
+  m_Name: FireCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
