@@ -39,14 +39,16 @@ namespace Assets.Scripts.Effects
         {
             if (collider.isTrigger is false)
             {
-                if (collider.GetComponent<Player>() == null
-                    &&
-                    collider.GetComponent<BaseMob>().IsLive is true)
-
-                    if (collider.gameObject.GetComponent<IHealthSystem>() is { } healthSystem)
-                    {
-                        _healthSystems.Add(healthSystem);
-                    }
+                if (collider.GetComponent<BaseMob>() is { } mob)
+                {
+                    if (mob is not Player
+                        &&
+                        mob.IsLive is true)
+                        if (mob is IHealthSystem healthSystem)
+                        {
+                            _healthSystems.Add(healthSystem);
+                        }
+                }
             }
         }
 
