@@ -13,7 +13,7 @@ namespace Assets.Scripts.Items
         {
             var health = new Health(owner, gameObject, _heal);
             (owner as IHealthSystem).TakeHealth(health);
-           // Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
 }

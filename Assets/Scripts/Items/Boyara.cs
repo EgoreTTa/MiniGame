@@ -17,7 +17,7 @@ namespace Assets.Scripts.Items
         public override void PickUp(Player parent)
         {
             parent.DamageCount += _damageBoost;
-           // Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
 }
