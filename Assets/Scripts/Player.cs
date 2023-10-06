@@ -15,7 +15,7 @@ namespace Assets.Scripts
         [SerializeField] private StatesOfPlayer _stateOfPlayer;
         private IJerk _jerk;
         private IMoveSystem _moveSystem;
-        private IAttack _attack;
+        private IAttackSystem _attackSystem;
         private IAbility _ability1;
         private bool _isInteract;
         private IInteraction _interaction;
@@ -87,13 +87,13 @@ namespace Assets.Scripts
         {
             _inventory = new Inventory(this);
             if (GetComponent<IJerk>() is { } iJerk) _jerk = iJerk;
-            else throw new Exception("Player not instance IJerk");
+            else throw new Exception($"{nameof(Player)} not instance {nameof(IJerk)}");
             if (GetComponent<IMoveSystem>() is { } iMoveSystem) _moveSystem = iMoveSystem;
-            else throw new Exception("Player not instance IMoveSystem");
-            if (GetComponentInChildren<IAttack>() is { } iAttack) _attack = iAttack;
-            else throw new Exception("Player not instance IAttack");
+            else throw new Exception($"{nameof(Player)} not instance {nameof(IMoveSystem)}");
+            if (GetComponentInChildren<IAttackSystem>() is { } iAttack) _attackSystem = iAttack;
+            else throw new Exception($"{nameof(Player)} not instance {nameof(IAttackSystem)}");
             if (GetComponentInChildren<IAbility>() is { } iAbility) _ability1 = iAbility;
-            else throw new Exception("Player not instance IAbility");
+            else throw new Exception($"{nameof(Player)} not instance {nameof(IAbility)}");
         }
 
         private void Start()
@@ -114,31 +114,29 @@ namespace Assets.Scripts
             if (Input.GetKey(KeyCode.W)) axis.y++;
             if (Input.GetKey(KeyCode.S)) axis.y--;
 
-            var isAttack = Input.GetKeyDown(KeyCode.E);
-            var isJerk = Input.GetKeyDown(KeyCode.Space);
-
-            var isInteraction = Input.GetKeyDown(KeyCode.I);
-
-            var isAbility1 = Input.GetKeyDown(KeyCode.Alpha1);
+            var isKeyAttack = Input.GetKeyDown(KeyCode.E);
+            var isKeyJerk = Input.GetKeyDown(KeyCode.Space);
+            var isKeyInteraction = Input.GetKeyDown(KeyCode.I);
+            var isKeyAbility1 = Input.GetKeyDown(KeyCode.Alpha1);
 
             switch (_stateOfPlayer)
             {
                 case StatesOfPlayer.Idle or StatesOfPlayer.Move:
-                    if (isAttack)
+                    if (isKeyAttack)
                     {
-                        _attack.Attack();
+                        _attackSystem.Attack();
                         _stateOfPlayer = StatesOfPlayer.Attack;
                         return;
                     }
 
-                    if (isAbility1)
+                    if (isKeyAbility1)
                     {
                         _ability1?.Cast();
                         _stateOfPlayer = StatesOfPlayer.Attack;
                         return;
                     }
 
-                    if (isJerk)
+                    if (isKeyJerk)
                     {
                         _jerk.Jerk();
                         _stateOfPlayer = StatesOfPlayer.Jerk;
@@ -152,7 +150,7 @@ namespace Assets.Scripts
                         return;
                     }
 
-                    if (isInteraction)
+                    if (isKeyInteraction)
                     {
                         Interaction();
                         _stateOfPlayer = StatesOfPlayer.Interaction;
@@ -169,7 +167,12 @@ namespace Assets.Scripts
 
                     break;
                 case StatesOfPlayer.Attack:
-                    if (_attack.StateOfAttack == StatesOfAttack.Idle
+                    if (isKeyAttack)
+                    {
+                        _attackSystem.Attack();
+                    }
+
+                    if (_attackSystem.StateOfAttack == StatesOfAttack.Idle
                         &&
                         _ability1.StateOfAbility == StatesOfAbility.Standby)
                     {

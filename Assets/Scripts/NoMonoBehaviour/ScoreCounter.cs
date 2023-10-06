@@ -21,8 +21,8 @@ namespace Assets.Scripts.NoMonoBehaviour
 
         public void PickItem(BaseItem item)
         {
-            _allScores += item.ScoreCount * _streak;
-            _scorePickedItem += item.ScoreCount;
+            // _allScores += item.ScoreCount * _streak;
+            // _scorePickedItem += item.ScoreCount;
             _countPickedItem++;
         }
 
