@@ -12,25 +12,28 @@ namespace Assets.Scripts.Items.Equipments
         [SerializeField] private float _changeRegeneration;
         [SerializeField] private TypesEquipment _typeEquipment;
         [SerializeField] private float _intervalRegeneration;
+        private IHealthSystem _healthSystem;
+        private Health _health;
 
         public TypesEquipment TypeEquipment => _typeEquipment;
 
-        private void Regen()
+        private void Regeneration()
         {
-            var health = new Health(_owner, gameObject, _changeRegeneration);
-            (_owner as IHealthSystem).TakeHealth(health);
+            _healthSystem.TakeHealth(_health);
         }
 
         public void Equip()
         {
-            _owner.MaxHealth += _changeMaxHealth;
-            InvokeRepeating(nameof(Regen), 0f, _intervalRegeneration);
+            _healthSystem = _owner.GetComponent<IHealthSystem>();
+            _healthSystem.MaxHealth += _changeMaxHealth;
+            _health = new Health(_owner, gameObject, _changeRegeneration);
+            InvokeRepeating(nameof(Regeneration), 0f, _intervalRegeneration);
         }
 
         public void Unequip()
         {
-            _owner.MaxHealth -= _changeMaxHealth;
-            CancelInvoke(nameof(Regen));
+            _healthSystem.MaxHealth -= _changeMaxHealth;
+            CancelInvoke(nameof(Regeneration));
         }
     }
 }

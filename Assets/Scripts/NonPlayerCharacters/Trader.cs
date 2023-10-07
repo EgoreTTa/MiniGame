@@ -9,11 +9,13 @@ namespace Assets.Scripts.NonPlayerCharacters
     using UnityEngine;
 
     [UsedImplicitly]
-    public class Trader : NonPlayerCharacter, IInteraction, ITrading
+    public class Trader : MonoBehaviour, INonPlayerCharacter, IInteraction, ITrading
     {
+        private string _firstname;
+        private bool _isInteract;
         [SerializeField] private List<BaseItem> _items;
 
-        public string FirstName => _firstName;
+        public string Firstname => _firstname;
         public bool IsInteract => _isInteract;
 
         public void Interact(Player player)

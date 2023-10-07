@@ -13,7 +13,7 @@
         {
             _typeElement = TypesElement.ElementalEffect2;
             CombineEffect();
-            if (_target.GetComponent<IMoveSystem>() is { } moveSystem)
+            if ((_target as MonoBehaviour)!.GetComponent<IMoveSystem>() is { } moveSystem)
             {
                 moveSystem.MoveSpeed -= _changeMoveSpeed;
                 Destroy(this, _timeOfAction);
@@ -24,7 +24,7 @@
 
         private void OnDestroy()
         {
-            if (_target.GetComponent<IMoveSystem>() is { } moveSystem)
+            if ((_target as MonoBehaviour)!.GetComponent<IMoveSystem>() is { } moveSystem)
                 moveSystem.MoveSpeed += _changeMoveSpeed;
         }
     }

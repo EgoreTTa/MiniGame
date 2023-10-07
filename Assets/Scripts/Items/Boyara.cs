@@ -1,5 +1,6 @@
 namespace Assets.Scripts.Items
 {
+    using Interfaces;
     using JetBrains.Annotations;
     using UnityEngine;
 
@@ -19,7 +20,7 @@ namespace Assets.Scripts.Items
         public override void PickUp(Player owner)
         {
             base.PickUp(owner);
-            owner.DamageCount += _damageBoost;
+            owner.GetComponent<IAttackSystem>().DamageCount += _damageBoost;
             Destroy(gameObject);
         }
 

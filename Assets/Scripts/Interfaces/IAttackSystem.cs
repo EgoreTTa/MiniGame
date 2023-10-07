@@ -5,6 +5,7 @@ namespace Assets.Scripts.Interfaces
     public interface IAttackSystem
     {
         public StatesOfAttack StateOfAttack { get; }
+        public float DamageCount { get; set; }
 
         public void Attack();
     }

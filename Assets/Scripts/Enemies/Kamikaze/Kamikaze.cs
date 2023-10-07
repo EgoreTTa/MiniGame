@@ -10,7 +10,7 @@ namespace Assets.Scripts.Enemies.Kamikaze
     using Random = UnityEngine.Random;
 
     [DisallowMultipleComponent]
-    public class Kamikaze : BaseMob, IHealthSystem
+    public class Kamikaze : MonoBehaviour, IMob
     {
         public enum StatesOfKamikaze
         {
@@ -20,72 +20,39 @@ namespace Assets.Scripts.Enemies.Kamikaze
             Detonation
         }
 
+        private string _firstname;
+        private GroupsMobs _groupMobs;
+        private IHealthSystem _healthSystem;
+        private IMoveSystem _moveSystem;
         [SerializeField] private StatesOfKamikaze _stateOfKamikaze = StatesOfKamikaze.Idle;
-        [SerializeField] private BaseMob _targetToAttack;
+        [SerializeField] private IMob _targetToAttack;
         [SerializeField] private Vector3? _targetToExplore;
+        [SerializeField] private float _damageCount;
+        [SerializeField] private float _viewRadius;
         [SerializeField] private float _timeForIdle;
         [SerializeField] private float _timeForDetonation;
         [SerializeField] private float _explosionRadius;
         [SerializeField] private float _detonationRadius;
-        private IMoveSystem _moveSystem;
 
+        public string FirstName => _firstname;
+        public GroupsMobs GroupMobs => _groupMobs;
         public StatesOfKamikaze StateOfKamikaze => _stateOfKamikaze;
 
-        public BaseMob TargetToAttack
+        public IMob TargetToAttack
         {
             get => _targetToAttack;
             set
             {
-                if (value.gameObject.activeSelf) _targetToAttack = value;
-            }
-        }
-
-        public float Health
-        {
-            get => _health;
-            private set
-            {
-                if (value <= _minHealth)
-                {
-                    value = _minHealth;
-                    _isLive = false;
-                    Destroy(gameObject);
-                }
-
-                if (value >= _maxHealth)
-                {
-                    value = _maxHealth;
-                }
-
-                _health = value;
-            }
-        }
-
-        public float MinHealth
-        {
-            get => _minHealth;
-            set
-            {
-                if (value <= 0) value = 0;
-                if (value > _maxHealth) value = _maxHealth;
-                _minHealth = value;
-            }
-        }
-
-        public float MaxHealth
-        {
-            get => _maxHealth;
-            set
-            {
-                if (value <= _minHealth) value = _minHealth;
-                _maxHealth = value;
+                if ((value as MonoBehaviour)!.gameObject.activeSelf) _targetToAttack = value;
             }
         }
 
         private void Awake()
         {
-            if (GetComponent<IMoveSystem>() is { } iMoveSystem) _moveSystem = iMoveSystem;
-            else throw new Exception("Kamikaze not instance IMoveSystem");
+            if (GetComponent<IHealthSystem>() is { } healthSystem) _healthSystem = healthSystem;
+            else throw new Exception($"{nameof(Player)} not instance {nameof(IHealthSystem)}");
+            if (GetComponent<IMoveSystem>() is { } moveSystem) _moveSystem = moveSystem;
+            else throw new Exception($"{nameof(Kamikaze)} not instance {nameof(IMoveSystem)}");
             _stateOfKamikaze = StatesOfKamikaze.Idle;
             Invoke(nameof(IntoExplore), _timeForIdle);
         }
@@ -99,17 +66,20 @@ namespace Assets.Scripts.Enemies.Kamikaze
 
         private void Explosion()
         {
-            if (_isLive)
+            if (_healthSystem.IsLive)
             {
                 var mobs = GetMobsForRadius(_explosionRadius);
+                var healthSystems = mobs.Select(x =>
+                        (x as MonoBehaviour)!.GetComponent<IHealthSystem>())
+                    .ToArray();
 
                 var damage = new Damage(this, null, _damageCount, TypesDamage.Clear);
-                foreach (var mob in mobs) (mob as IHealthSystem).TakeDamage(damage);
-                Health = _minHealth;
+                foreach (var healthSystem in healthSystems) healthSystem.TakeDamage(damage);
+                _healthSystem.TakeDamage(new Damage(this, null, _healthSystem.Health, TypesDamage.Clear));
             }
         }
 
-        private BaseMob[] GetMobsForRadius(float radius)
+        private IMob[] GetMobsForRadius(float radius)
         {
             var casted = Physics2D.CircleCastAll(
                 transform.position,
@@ -117,12 +87,12 @@ namespace Assets.Scripts.Enemies.Kamikaze
                 Vector2.zero);
             var mobs = casted
                 .Where(x =>
-                    x.transform.GetComponent<BaseMob>()
+                    x.transform.GetComponent<IMob>() is { } mob
                     &&
-                    x.transform.GetComponent<BaseMob>() != this
+                    ReferenceEquals(mob, this) is false
                     &&
-                    x.transform.GetComponent<BaseMob>().GroupMobs != _groupMobs)
-                .Select(x => x.transform.GetComponent<BaseMob>())
+                    mob.GroupMobs != _groupMobs)
+                .Select(x => x.transform.GetComponent<IMob>())
                 .Distinct()
                 .ToArray();
             return mobs;
@@ -172,7 +142,7 @@ namespace Assets.Scripts.Enemies.Kamikaze
                     }
 
                     var distanceToTarget = Vector3.Distance(
-                        _targetToAttack.transform.position,
+                        (_targetToAttack as MonoBehaviour)!.transform.position,
                         transform.position);
 
                     if (distanceToTarget < _detonationRadius)
@@ -187,7 +157,7 @@ namespace Assets.Scripts.Enemies.Kamikaze
                 case StatesOfKamikaze.Detonation:
                     break;
                 default:
-                    throw new Exception("Kamikaze FSM: not valid state");
+                    throw new Exception($"{nameof(Kamikaze)} FSM: not valid {nameof(StateOfKamikaze)}");
             }
         }
 
@@ -205,29 +175,13 @@ namespace Assets.Scripts.Enemies.Kamikaze
         private void Pursuit()
         {
             if (_targetToAttack != null)
-                MoveToPosition(_targetToAttack.transform.position);
+                MoveToPosition((_targetToAttack as MonoBehaviour)!.transform.position);
         }
 
         private void MoveToPosition(Vector3 targetPosition)
         {
             var direction = targetPosition - transform.position;
             _moveSystem.Move(direction);
-        }
-
-        public void TakeHealth(Health health)
-        {
-            Health += health.CountHealth;
-        }
-
-        public void TakeDamage(Damage damage)
-        {
-            Health -= damage.TypeDamage switch
-            {
-                TypesDamage.Physical => damage.CountDamage / 2,
-                TypesDamage.Magical => damage.CountDamage * 2,
-                TypesDamage.Clear => damage.CountDamage,
-                _ => throw new ArgumentOutOfRangeException()
-            };
         }
 
         private void LookAround()

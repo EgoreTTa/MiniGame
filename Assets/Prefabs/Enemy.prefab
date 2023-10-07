@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4455685455898522898}
   - component: {fileID: 2333678910982951190}
   - component: {fileID: 5830570995586065330}
+  - component: {fileID: 766843542765708033}
   - component: {fileID: 6862590130289619701}
   m_Layer: 10
   m_Name: Enemy
@@ -163,9 +164,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5883c2a64b8c32f41bec8c08fcda29b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 200
-  _minHealth: 0
-  _maxHealth: 200
   _firstname: "\u0411\u043B\u0438\u0436\u043D\u0438\u043A"
   _damageCount: 10
   _viewRadius: 3
@@ -174,6 +172,21 @@ MonoBehaviour:
   _targetToAttack: {fileID: 0}
   _timeForIdle: 10
   _distanceToAttack: 0.5
+--- !u!114 &766843542765708033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4455685455898522903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5300ce28ba2dde41a3eb397560dea53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 10
+  _minHealth: 0
+  _maxHealth: 10
 --- !u!114 &6862590130289619701
 MonoBehaviour:
   m_ObjectHideFlags: 0

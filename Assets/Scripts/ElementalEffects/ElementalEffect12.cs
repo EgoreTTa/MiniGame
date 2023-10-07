@@ -16,7 +16,7 @@
         private void Start()
         {
             _typeElement = TypesElement.ElementalEffect12;
-            if (_target.GetComponent<IMoveSystem>() is { } moveSystem)
+            if ((_target as MonoBehaviour)!.GetComponent<IMoveSystem>() is { } moveSystem)
             {
                 moveSystem.MoveSpeed -= _changeMoveSpeed;
                 Destroy(this, _timeOfAction);
@@ -28,7 +28,7 @@
 
         private void OnDestroy()
         {
-            if (_target.GetComponent<IMoveSystem>() is { } moveSystem)
+            if ((_target as MonoBehaviour)!.GetComponent<IMoveSystem>() is { } moveSystem)
                 moveSystem.MoveSpeed += _changeMoveSpeed;
         }
 
@@ -39,7 +39,7 @@
                 null,
                 _damageCount,
                 TypesDamage.Clear);
-            if (_target is IHealthSystem healthSystem)
+            if ((_target as MonoBehaviour)!.GetComponent<IHealthSystem>() is { } healthSystem)
                 healthSystem.TakeDamage(damage);
         }
     }

@@ -2,10 +2,10 @@
 {
     using System;
     using System.Linq;
-    using Enemies;
+    using Interfaces;
     using UnityEngine;
 
-    [RequireComponent(typeof(BaseMob))]
+    [RequireComponent(typeof(IMob))]
     public abstract class BaseElementalEffect : MonoBehaviour
     {
         [Flags]
@@ -29,19 +29,19 @@
             Effect45 = Effect4 | Effect5,
         }
 
-        protected BaseMob _target;
-        protected BaseMob _owner;
+        protected IMob _target;
+        protected IMob _owner;
         [SerializeField] protected TypesElement _typeElement;
 
         public TypesElement TypeElement => _typeElement;
 
-        public BaseMob Target => _target;
+        public IMob Target => _target;
 
-        public BaseMob Owner => _owner;
+        public IMob Owner => _owner;
 
         private void Awake()
         {
-            _target = GetComponent<BaseMob>();
+            _target = GetComponent<IMob>();
         }
 
         protected void CombineEffect()
