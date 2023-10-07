@@ -8,6 +8,7 @@ namespace Assets.Scripts
     using UnityEngine;
     using Items;
     using GUI;
+    using UnityEngine.SceneManagement;
 
     [DisallowMultipleComponent]
     public class Player : BaseMob, IHealthSystem
@@ -258,6 +259,12 @@ namespace Assets.Scripts
                         _inventory?.Equip(equipment);
                     }
                 }
+        }
+
+        private void OnDestroy()
+        {
+            if (SceneManager.sceneCount == SceneManager.loadedSceneCount)
+                SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
         }
     }
 }
