@@ -37,7 +37,7 @@ namespace Assets.Scripts.Effects
         private void OnTriggerEnter2D(Collider2D collider)
         {
             if (collider.isTrigger is false)
-                if (collider.GetComponent<IMob>() is { HealthSystem: { IsLive: true } healthSystem })
+                if (collider.GetComponent<IHealthSystem>() is { IsLive: true } healthSystem)
                     _healthSystems.Add(healthSystem);
         }
 
