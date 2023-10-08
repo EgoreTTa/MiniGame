@@ -18,6 +18,7 @@ namespace Assets.Scripts.Items
 
         public string NameItem => _nameItem;
         public string Description => _description;
+        public SpriteRenderer SpriteRenderer => _spriteRenderer;
         public float Currency => _currency;
 
         private void Awake()

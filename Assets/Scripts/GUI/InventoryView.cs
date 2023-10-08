@@ -1,25 +1,25 @@
-using Assets.Scripts.GUI;
-using UnityEngine;
-using UnityEngine.UI;
-
-public class InventoryView : MonoBehaviour
+namespace Assets.Scripts.GUI
 {
-    [SerializeField] private ManagerGUI _mGUI;
-    [SerializeField] private GameObject[] _items;
-    [SerializeField] private GameObject _helmet;
-    [SerializeField] private GameObject _armor;
-    [SerializeField] private GameObject _boots;
+    using UnityEngine;
+    using UnityEngine.UI;
 
-    public void GetItems()
+    public class InventoryView : MonoBehaviour
     {
-        _helmet.transform.GetChild(0).GetComponent<Image>().sprite = _mGUI.GetHelmet().SpriteRenderer.sprite;
-        _armor.transform.GetChild(0).GetComponent<Image>().sprite = _mGUI.GetArmor().SpriteRenderer.sprite;
-        _boots.transform.GetChild(0).GetComponent<Image>().sprite = _mGUI.GetBoot().SpriteRenderer.sprite;
-        var Items = _mGUI.GetItemsInventory();
+        [SerializeField] private ManagerGUI _mGUI;
+        [SerializeField] private Image[] _items;
+        [SerializeField] private Image _helmet;
+        [SerializeField] private Image _armor;
+        [SerializeField] private Image _boots;
 
-        for (var i = 0; i < Items.Length; i++)
+        public void GetItems()
         {
-            _items[i].transform.GetChild(0).GetComponent<Image>().sprite = Items[i].SpriteRenderer.sprite;
+            _helmet.sprite = _mGUI.GetHelmet().SpriteRenderer.sprite;
+            _armor.sprite = _mGUI.GetArmor().SpriteRenderer.sprite;
+            _boots.sprite = _mGUI.GetBoot().SpriteRenderer.sprite;
+            var Items = _mGUI.GetItemsInventory();
+
+            for (var i = 0; i < Items.Length; i++)
+                _items[i].sprite = Items[i].SpriteRenderer.sprite;
         }
     }
 }
