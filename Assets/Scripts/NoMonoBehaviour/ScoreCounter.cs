@@ -1,6 +1,6 @@
 namespace Assets.Scripts.NoMonoBehaviour
 {
-    using Enemies;
+    using Interfaces;
     using Items;
 
     public class ScoreCounter
@@ -26,7 +26,7 @@ namespace Assets.Scripts.NoMonoBehaviour
             _countPickedItem++;
         }
 
-        public void KilledEnemy(BaseMob mob)
+        public void KilledEnemy(IMob mob)
         {
             _countKilledEnemy++;
         }

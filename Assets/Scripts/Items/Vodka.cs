@@ -15,7 +15,7 @@ namespace Assets.Scripts.Items
         {
             base.PickUp(owner);
             var health = new Health(owner, gameObject, _heal);
-            (owner as IHealthSystem).TakeHealth(health);
+            owner.GetComponent<IHealthSystem>().TakeHealth(health);
             Destroy(gameObject);
         }
 

@@ -2,7 +2,6 @@ namespace Assets.Scripts.Attacks
 {
     using System;
     using Enemies.RangerEnemy;
-    using Enemies;
     using Enums;
     using Interfaces;
     using NoMonoBehaviour;
@@ -20,10 +19,16 @@ namespace Assets.Scripts.Attacks
         [SerializeField] private float _bottleFlyTime;
         [SerializeField] private float _timeReload;
         [SerializeField] private bool _isReady;
-        private BaseMob _owner;
+        private IMob _owner;
         private SpriteRenderer _spriteRenderer;
 
         public StatesOfAttack StateOfAttack => _stateOfAttack;
+
+        public float DamageCount
+        {
+            get => _damageCount;
+            set => _damageCount = value > 0 ? value : 0;
+        }
 
         private void Ready()
         {
@@ -32,8 +37,8 @@ namespace Assets.Scripts.Attacks
 
         private void Awake()
         {
-            if (GetComponentInParent<BaseMob>() is { } baseMob) _owner = baseMob;
-            else throw new Exception($"{nameof(DefaultRangeAttackSystem)} not instance {nameof(BaseMob)}");
+            if (GetComponentInParent<IMob>() is { } mob) _owner = mob;
+            else throw new Exception($"{nameof(DefaultRangeAttackSystem)} not instance {nameof(IMob)}");
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
@@ -72,7 +77,8 @@ namespace Assets.Scripts.Attacks
         private void BottleThrow()
         {
             var directionThrow = transform.up.normalized;
-            var bottle = Instantiate(_bottle, _owner.transform.position, Quaternion.identity).GetComponent<Bottle>();
+            var bottle = Instantiate(_bottle, (_owner as MonoBehaviour)!.transform.position, Quaternion.identity)
+                .GetComponent<Bottle>();
 
             if (bottle != null)
             {

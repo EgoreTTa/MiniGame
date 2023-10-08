@@ -10,10 +10,17 @@ namespace Assets.Scripts.Attacks
         [SerializeField] private float _timeHitting;
         [SerializeField] private float _timeRecovery;
         [SerializeField] private StatesOfAttack _stateOfAttack;
+        [SerializeField] private float _damageCount;
         private int _lengthCombination;
         private int _maxLengthCombination;
 
         public StatesOfAttack StateOfAttack => _stateOfAttack;
+
+        public float DamageCount
+        {
+            get => _damageCount;
+            set => _damageCount = value > 0 ? value : 0;
+        }
 
         private void Awake()
         {

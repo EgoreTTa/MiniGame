@@ -2,7 +2,6 @@ namespace Assets.Scripts.Abilities
 {
     using System;
     using ElementalEffects;
-    using Enemies;
     using Enums;
     using Interfaces;
     using UnityEngine;
@@ -14,7 +13,7 @@ namespace Assets.Scripts.Abilities
         [SerializeField] private float _timeToCasted;
         [SerializeField] private float _timeToRecovery;
         [SerializeField] private float _timeReload;
-        private BaseMob _owner;
+        private IMob _owner;
         [SerializeField] private bool _isReady;
         private SpriteRenderer _spriteRenderer;
         private CircleCollider2D _circleCollider;
@@ -23,8 +22,8 @@ namespace Assets.Scripts.Abilities
 
         private void Awake()
         {
-            if (GetComponentInParent<BaseMob>() is { } baseMob) _owner = baseMob;
-            else throw new Exception("Default Ability not instance BaseMob");
+            if (GetComponentInParent<IMob>() is { } mob) _owner = mob;
+            else throw new Exception($"{nameof(DefaultAbility)} not instance {nameof(IMob)}");
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _circleCollider = GetComponent<CircleCollider2D>();
         }
@@ -74,10 +73,10 @@ namespace Assets.Scripts.Abilities
 
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            if (collider.GetComponent<BaseMob>() is { } baseMob)
+            if (collider.GetComponent<IMob>() is { } mob)
             {
-                if (baseMob != _owner)
-                    baseMob.gameObject.AddComponent<ElementalEffect2>();
+                if (mob != _owner)
+                    (mob as MonoBehaviour)!.gameObject.AddComponent<ElementalEffect2>();
             }
         }
     }

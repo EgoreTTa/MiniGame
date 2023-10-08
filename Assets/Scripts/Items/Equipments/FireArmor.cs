@@ -9,33 +9,37 @@ namespace Assets.Scripts.Items.Equipments
     [DisallowMultipleComponent]
     public class FireArmor : BaseItem, IEquipment
     {
-        [SerializeField] private float _changeMaxHealth;
+        private IHealthSystem _healthSystem;
+        private Health _health;
+        private EquipmentSets _equipmentSet = EquipmentSets.FireArmor;
+		[SerializeField] private float _changeMaxHealth;
         [SerializeField] private float _changeRegeneration;
         [SerializeField] private TypesEquipment _typeEquipment;
-        [SerializeField] [Range(.02f, 100)] private float _intervalRegeneration;
+        [SerializeField] private float _intervalRegeneration;
+		[SerializeField] [Range(.02f, 100)] private float _intervalRegeneration;
         [SerializeField] private GameObject _fireCirclePrefab;
-        private EquipmentSets _equipmentSet = EquipmentSets.FireArmor;
 
         public TypesEquipment TypeEquipment => _typeEquipment;
         public EquipmentSets EquipmentSet => _equipmentSet;
 
-        private void Regen()
+        private void Regeneration()
         {
-            var health = new Health(_owner, gameObject, _changeRegeneration);
-            (_owner as IHealthSystem).TakeHealth(health);
+            _healthSystem.TakeHealth(_health);
         }
 
         public void Equip()
         {
+            _healthSystem = _owner.GetComponent<IHealthSystem>();
+            _healthSystem.MaxHealth += _changeMaxHealth;
+            _health = new Health(_owner, gameObject, _changeRegeneration);
+            InvokeRepeating(nameof(Regeneration), 0f, _intervalRegeneration);
             HelpLibraryForEquipmentSet.CheckSet(_owner, _fireCirclePrefab, EquipmentSets.FireSet);
-            _owner.MaxHealth += _changeMaxHealth;
-            InvokeRepeating(nameof(Regen), 0f, _intervalRegeneration);
         }
 
         public void Unequip()
         {
-            _owner.MaxHealth -= _changeMaxHealth;
-            CancelInvoke(nameof(Regen));
+            _healthSystem.MaxHealth -= _changeMaxHealth;
+            CancelInvoke(nameof(Regeneration));
             var effect = HelpLibraryForEquipmentSet.CheckSkill(_owner) as FireCircle;
             if (effect != null)
             {

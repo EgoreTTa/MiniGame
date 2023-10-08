@@ -8,7 +8,7 @@ namespace Assets.Scripts.Enemies.RangerEnemy
     {
         private float _speed;
         private Damage _damage;
-        private BaseMob _owner;
+        private IMob _owner;
 
         public Vector3 Direction
         {
@@ -22,7 +22,7 @@ namespace Assets.Scripts.Enemies.RangerEnemy
             set => _speed = value;
         }
 
-        public BaseMob Owner
+        public IMob Owner
         {
             get => _owner;
             set => _owner = value;
@@ -34,7 +34,7 @@ namespace Assets.Scripts.Enemies.RangerEnemy
             set => _damage = value;
         }
 
-        public void Launch(float speed, Damage damage, Vector3 direction, float timeFly, BaseMob owner)
+        public void Launch(float speed, Damage damage, Vector3 direction, float timeFly, IMob owner)
         {
             _speed = speed;
             _damage = damage;
@@ -67,7 +67,7 @@ namespace Assets.Scripts.Enemies.RangerEnemy
             {
                 if (_owner!= null
                     &&
-                    collider.gameObject != _owner.gameObject
+                    collider.gameObject != (_owner as MonoBehaviour)!.gameObject
                     &&
                     collider.gameObject.GetComponent<IHealthSystem>() is { } healthSystem)
                 {
