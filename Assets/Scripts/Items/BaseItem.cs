@@ -8,13 +8,13 @@ namespace Assets.Scripts.Items
         typeof(Collider2D))]
     public abstract class BaseItem : MonoBehaviour
     {
-        [SerializeField] protected string _nameItem;
-        [SerializeField] protected string _description;
-        [SerializeField] protected float _currency;
         protected Player _owner;
         protected SpriteRenderer _spriteRenderer;
         protected Rigidbody2D _rigidbody;
         protected Collider2D _collider;
+        [SerializeField] protected string _nameItem;
+        [SerializeField] protected string _description;
+        [SerializeField] protected float _currency;
 
         public string NameItem => _nameItem;
         public string Description => _description;

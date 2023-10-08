@@ -1,14 +1,12 @@
 namespace Assets.Scripts
 {
     using System;
-    using UnityEditor;
     using UnityEngine;
     using UnityEngine.SceneManagement;
 
     public class MainMenu : MonoBehaviour
     {
-        [SerializeField] private SceneAsset _startGame;
-        [SerializeField] private SceneAsset _options;
+        [SerializeField] private int _indexSceneStartGame;
 
         private void Update()
         {
@@ -21,7 +19,7 @@ namespace Assets.Scripts
         {
             try
             {
-                SceneManager.LoadScene(_startGame.name);
+                SceneManager.LoadSceneAsync(_indexSceneStartGame);
             }
             catch (Exception exception)
             {
@@ -31,14 +29,7 @@ namespace Assets.Scripts
 
         public void Options()
         {
-            try
-            {
-                SceneManager.LoadScene(_options.name);
-            }
-            catch (Exception exception)
-            {
-                Debug.LogWarning(exception.Message);
-            }
+            Debug.Log("Options");
         }
 
         public void Exit()

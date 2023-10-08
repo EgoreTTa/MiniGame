@@ -1,7 +1,6 @@
 namespace Assets.Scripts.Effects
 {
     using System.Collections.Generic;
-    using Enemies;
     using Enums;
     using Interfaces;
     using NoMonoBehaviour;
@@ -10,10 +9,10 @@ namespace Assets.Scripts.Effects
     [DisallowMultipleComponent]
     public class FireCircle : MonoBehaviour, IEffect
     {
-        [SerializeField] private float _damageCount;
         private List<IHealthSystem> _healthSystems = new();
-        [SerializeField] private float _intervalDamaged;
         private Damage _damage;
+        [SerializeField] private float _intervalDamaged;
+        [SerializeField] private float _damageCount;
         [SerializeField] private bool _isActive;
 
         public string EffectName => nameof(FireCircle);
@@ -38,18 +37,8 @@ namespace Assets.Scripts.Effects
         private void OnTriggerEnter2D(Collider2D collider)
         {
             if (collider.isTrigger is false)
-            {
-                if (collider.GetComponent<BaseMob>() is { } mob)
-                {
-                    if (mob is not Player
-                        &&
-                        mob.IsLive is true)
-                        if (mob is IHealthSystem healthSystem)
-                        {
-                            _healthSystems.Add(healthSystem);
-                        }
-                }
-            }
+                if (collider.GetComponent<IMob>() is { HealthSystem: { IsLive: true } healthSystem })
+                    _healthSystems.Add(healthSystem);
         }
 
         private void OnTriggerExit2D(Collider2D collider)
@@ -63,13 +52,11 @@ namespace Assets.Scripts.Effects
         {
             for (var i = _healthSystems.Count - 1; i >= 0; i--)
                 _healthSystems[i].TakeDamage(_damage);
-
         }
-
 
         private void OnDestroy()
-           {
-                Destroy(gameObject);
-           }
+        {
+            Destroy(gameObject);
         }
+    }
 }
