@@ -15,12 +15,12 @@ namespace Assets.Scripts.Items.Equipments
 
         public void Equip()
         {
-            _owner.MaxHealth += _changeMaxHealth;
+            _owner.GetComponent<IHealthSystem>().MaxHealth += _changeMaxHealth;
         }
 
         public void Unequip()
         {
-            _owner.MaxHealth -= _changeMaxHealth;
+            _owner.GetComponent<IHealthSystem>().MaxHealth -= _changeMaxHealth;
         }
     }
 }

@@ -1,7 +1,6 @@
 namespace Assets.Scripts.Attacks
 {
     using System;
-    using Enemies;
     using Enums;
     using Interfaces;
     using NoMonoBehaviour;
@@ -13,16 +12,22 @@ namespace Assets.Scripts.Attacks
         [SerializeField] private float _timeHitting;
         [SerializeField] private float _timeRecovery;
         [SerializeField] private StatesOfAttack _stateOfAttack;
-        private BaseMob _owner;
+        [SerializeField] private float _damageCount;
+        private IMob _owner;
         private SpriteRenderer _spriteRenderer;
         private CircleCollider2D _circleCollider;
 
         public StatesOfAttack StateOfAttack => _stateOfAttack;
+        public float DamageCount
+        {
+            get => _damageCount;
+            set => _damageCount = value > 0 ? value : 0;
+        }
 
         private void Awake()
         {
-            if (GetComponentInParent<BaseMob>() is { } baseMob) _owner = baseMob;
-            else throw new Exception("Default not instance BaseMob");
+            if (GetComponentInParent<IMob>() is { } mob) _owner = mob;
+            else throw new Exception($"{nameof(DefaultAttackSystem)} not instance {nameof(IMob)}");
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _circleCollider = GetComponent<CircleCollider2D>();
         }
@@ -60,9 +65,9 @@ namespace Assets.Scripts.Attacks
         {
             if (collider.GetComponent<IHealthSystem>() is { } healthSystem)
             {
-                if (collider.gameObject != _owner.gameObject)
+                if (collider.gameObject != (_owner as MonoBehaviour)!.gameObject)
                 {
-                    var damage = new Damage(_owner, null, _owner.DamageCount, TypesDamage.Clear);
+                    var damage = new Damage(_owner, null, _damageCount, TypesDamage.Clear);
                     healthSystem.TakeDamage(damage);
                 }
             }

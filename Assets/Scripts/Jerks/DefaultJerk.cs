@@ -1,11 +1,10 @@
 namespace Assets.Scripts.Jerks
 {
-    using Enemies;
     using Enums;
     using Interfaces;
     using UnityEngine;
 
-    [RequireComponent(typeof(BaseMob))]
+    [RequireComponent(typeof(IMob))]
     public class DefaultJerk : MonoBehaviour, IJerk
     {
         [SerializeField] private float _timeSwing;
@@ -15,14 +14,14 @@ namespace Assets.Scripts.Jerks
         [SerializeField] private StatesOfJerk _stateOfJerk;
         private int _onlyDynamic = 1024;
         private int _nothing = 0;
-        private BaseMob _owner;
+        private IMob _owner;
         private IMoveSystem _moveSystem;
 
         public StatesOfJerk StateOfJerk => _stateOfJerk;
 
         private void Awake()
         {
-            _owner = GetComponent<BaseMob>();
+            _owner = GetComponent<IMob>();
             _moveSystem = GetComponent<IMoveSystem>();
         }
 
@@ -38,19 +37,19 @@ namespace Assets.Scripts.Jerks
         {
             _stateOfJerk = StatesOfJerk.Moving;
             Invoke(nameof(IntoRecovery), _timeMoving);
-            _owner.GetComponent<Rigidbody2D>().excludeLayers = _onlyDynamic;
+            (_owner as MonoBehaviour)!.GetComponent<Rigidbody2D>().excludeLayers = _onlyDynamic;
             InvokeRepeating(nameof(Move), 0, Time.fixedDeltaTime);
         }
 
         private void Move()
         {
-            _owner.transform.position += _moveSystem.Direction * _speedMoving * Time.fixedDeltaTime;
+            (_owner as MonoBehaviour)!.transform.position += _moveSystem.Direction * _speedMoving * Time.fixedDeltaTime;
         }
 
         private void IntoRecovery()
         {
             _stateOfJerk = StatesOfJerk.Recovery;
-            _owner.GetComponent<Rigidbody2D>().excludeLayers = _nothing;
+            (_owner as MonoBehaviour)!.GetComponent<Rigidbody2D>().excludeLayers = _nothing;
             CancelInvoke(nameof(Move));
             Invoke(nameof(IntoIdle), _timeRecovery);
         }

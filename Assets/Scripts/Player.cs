@@ -2,29 +2,15 @@ namespace Assets.Scripts
 {
     using NoMonoBehaviour;
     using System;
-    using Enemies;
     using Enums;
     using Interfaces;
     using UnityEngine;
     using Items;
-    using GUI;
     using UnityEngine.SceneManagement;
 
     [DisallowMultipleComponent]
-    public class Player : BaseMob, IHealthSystem
+    public class Player : MonoBehaviour, IMob
     {
-        [SerializeField] private StatesOfPlayer _stateOfPlayer;
-        private IJerk _jerk;
-        private IMoveSystem _moveSystem;
-        private IAttackSystem _attackSystem;
-        private IAbility _ability1;
-        private bool _isInteract;
-        private IInteraction _interaction;
-        private Inventory _inventory;
-        [SerializeField] private ManagerGUI _managerGUI;
-        [SerializeField] private Collider2D _collider;
-        [SerializeField] private Collider2D _trigger;
-
         public enum StatesOfPlayer
         {
             Idle,
@@ -34,72 +20,41 @@ namespace Assets.Scripts
             Interaction,
         }
 
+        private IHealthSystem _healthSystem;
+        private IMoveSystem _moveSystem;
+        private IJerk _jerk;
+        private IAttackSystem _attackSystem;
+        private IAbility _ability1;
+        private bool _isInteract;
+        private IInteraction _interaction;
+        private Inventory _inventory;
+        [SerializeField] private string _firstname;
+        [SerializeField] private GroupsMobs _groupMobs;
+        [SerializeField] private StatesOfPlayer _stateOfPlayer;
+        [SerializeField] private Collider2D _collider;
+        [SerializeField] private Collider2D _trigger;
+
+        public string FirstName => _firstname;
+        public GroupsMobs GroupMobs => _groupMobs;
+        public IHealthSystem HealthSystem => _healthSystem;
         public StatesOfPlayer StateOfPlayer => _stateOfPlayer;
-
         public IMoveSystem MoveSystem => _moveSystem;
-
+        public IAttackSystem AttackSystem => _attackSystem;
         public Inventory Inventory => _inventory;
-
-        public float Health
-        {
-            get => _health;
-            protected set
-            {
-                if (value <= _minHealth)
-                {
-                    value = _minHealth;
-                    _isLive = false;
-                    Destroy(gameObject);
-                }
-
-                if (value >= _maxHealth)
-                {
-                    value = _maxHealth;
-                }
-
-                _health = value;
-                _managerGUI?.UpdateHealthBar(_health, _maxHealth);
-            }
-        }
-
-        public float MinHealth
-        {
-            get => _minHealth;
-            set
-            {
-                if (value <= 0) value = 0;
-                if (value > _maxHealth) value = _maxHealth;
-                _minHealth = value;
-            }
-        }
-
-        public float MaxHealth
-        {
-            get => _maxHealth;
-            set
-            {
-                if (value <= _minHealth) value = _minHealth;
-                _maxHealth = value;
-                _managerGUI?.UpdateHealthBar(_health, _maxHealth);
-            }
-        }
 
         private void Awake()
         {
             _inventory = new Inventory(this);
-            if (GetComponent<IJerk>() is { } iJerk) _jerk = iJerk;
+            if (GetComponent<IJerk>() is { } jerk) _jerk = jerk;
             else throw new Exception($"{nameof(Player)} not instance {nameof(IJerk)}");
-            if (GetComponent<IMoveSystem>() is { } iMoveSystem) _moveSystem = iMoveSystem;
+            if (GetComponent<IMoveSystem>() is { } moveSystem) _moveSystem = moveSystem;
             else throw new Exception($"{nameof(Player)} not instance {nameof(IMoveSystem)}");
-            if (GetComponentInChildren<IAttackSystem>() is { } iAttack) _attackSystem = iAttack;
+            if (GetComponent<IHealthSystem>() is { } healthSystem) _healthSystem = healthSystem;
+            else throw new Exception($"{nameof(Player)} not instance {nameof(IHealthSystem)}");
+            if (GetComponentInChildren<IAttackSystem>() is { } attackSystem) _attackSystem = attackSystem;
             else throw new Exception($"{nameof(Player)} not instance {nameof(IAttackSystem)}");
-            if (GetComponentInChildren<IAbility>() is { } iAbility) _ability1 = iAbility;
+            if (GetComponentInChildren<IAbility>() is { } ability1) _ability1 = ability1;
             else throw new Exception($"{nameof(Player)} not instance {nameof(IAbility)}");
-        }
-
-        private void Start()
-        {
-            _managerGUI?.UpdateHealthBar(_health, _maxHealth);
         }
 
         private void Update()
@@ -191,7 +146,7 @@ namespace Assets.Scripts
                     Interaction();
                     break;
                 default:
-                    throw new Exception("FSM of Player: not valid state");
+                    throw new Exception($"{nameof(StateOfPlayer)} of {nameof(Player)}: not valid state");
             }
         }
 
@@ -205,7 +160,7 @@ namespace Assets.Scripts
                 {
                     if (_isInteract is false)
                     {
-                        Debug.Log($"{_firstname} обратился к {_interaction.FirstName}");
+                        Debug.Log("Trade");
                         _interaction.Interact(this);
                         _isInteract = true;
                     }
@@ -221,22 +176,6 @@ namespace Assets.Scripts
             }
         }
 
-        public void TakeHealth(Health health)
-        {
-            Health += health.CountHealth;
-        }
-
-        public void TakeDamage(Damage damage)
-        {
-            Health -= damage.TypeDamage switch
-            {
-                TypesDamage.Physical => damage.CountDamage / 2,
-                TypesDamage.Magical => damage.CountDamage * 2,
-                TypesDamage.Clear => damage.CountDamage,
-                _ => throw new ArgumentOutOfRangeException()
-            };
-        }
-        
         private void OnTriggerEnter2D(Collider2D collider)
         {
             if (_trigger.IsTouching(collider))

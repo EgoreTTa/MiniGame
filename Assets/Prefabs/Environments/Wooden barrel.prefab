@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7729479876910002002}
   - component: {fileID: 5734466090961605061}
   - component: {fileID: 3911127109986487879}
+  - component: {fileID: 4974501178613494823}
   m_Layer: 0
   m_Name: Wooden barrel
   m_TagString: Untagged
@@ -161,6 +162,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dd6284ffc9529c439e078836055e80b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 1
+  _environmentName: Wooden barrel
+--- !u!114 &4974501178613494823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4522733641938034240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b9223c7a840dfd459a9bf376a3e8129, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 5
   _minHealth: 0
-  _maxHealth: 1
+  _maxHealth: 5

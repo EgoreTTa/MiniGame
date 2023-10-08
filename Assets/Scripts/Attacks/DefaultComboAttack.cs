@@ -1,6 +1,5 @@
 namespace Assets.Scripts.Attacks
 {
-    using Enemies;
     using Enums;
     using Interfaces;
     using NoMonoBehaviour;
@@ -9,21 +8,24 @@ namespace Assets.Scripts.Attacks
 
     public class DefaultComboAttack : MonoBehaviour
     {
-        private BaseMob _owner;
+        private IMob _owner;
 
         private void Awake()
         {
-            if (GetComponentInParent<BaseMob>() is { } baseMob) _owner = baseMob;
-            else throw new Exception($"{nameof(DefaultComboAttack)} not instance {nameof(BaseMob)}");
+            if (GetComponentInParent<IMob>() is { } mob) _owner = mob;
+            else throw new Exception($"{nameof(DefaultComboAttack)} not instance {nameof(IMob)}");
         }
 
         private void OnTriggerEnter2D(Collider2D collider)
         {
             if (collider.GetComponent<IHealthSystem>() is { } healthSystem)
             {
-                if (collider.gameObject != _owner.gameObject)
+                if (collider.gameObject != (_owner as MonoBehaviour)!.gameObject
+                    &&
+                    _owner.AttackSystem is not null)
                 {
-                    var damage = new Damage(_owner, null, _owner.DamageCount, TypesDamage.Clear);
+                    var damageCount = _owner.AttackSystem.DamageCount;
+                    var damage = new Damage(_owner, null, damageCount, TypesDamage.Clear);
                     healthSystem.TakeDamage(damage);
                 }
             }

@@ -12,7 +12,7 @@ namespace Assets.Scripts.NoMonoBehaviour
         private IEquipment _helmet;
         private IEquipment _armor;
         private IEquipment _boot;
-        private Player _parent;
+        private Player _owner;
         private float _currency;
 
         public BaseItem[] Items => _items.ToArray();
@@ -30,9 +30,9 @@ namespace Assets.Scripts.NoMonoBehaviour
             }
         }
 
-        public Inventory(Player parent)
+        public Inventory(Player owner)
         {
-            _parent = parent;
+            _owner = owner;
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Assets.Scripts.NoMonoBehaviour
         public void Put(BaseItem item)
         {
             _items.Add(item);
-            item.PickUp(_parent);
+            item.PickUp(_owner);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Assets.Scripts.NoMonoBehaviour
             if (_items.Contains(item))
             {
                 _items.Remove(item);
-                item.PickDown(_parent);
+                item.PickDown(_owner);
             }
         }
 

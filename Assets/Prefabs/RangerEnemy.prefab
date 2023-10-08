@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 3751452355733058228}
   - component: {fileID: -2857597380012149813}
   - component: {fileID: 6031402757887284502}
+  - component: {fileID: 8333235294784886075}
   - component: {fileID: 5418681131072694790}
   m_Layer: 0
   m_Name: RangerEnemy
@@ -270,17 +271,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ca055ccbe2638649b03c29f9a048f75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 50
-  _minHealth: 0
-  _maxHealth: 75
-  _firstname: "\u0420\u0435\u043D\u0436\u043E\u0432\u0438\u043A"
-  _damageCount: 15
-  _viewRadius: 3
-  _groupMobs: 1
   _stateOfRangerEnemy: 0
-  _targetToAttack: {fileID: 0}
+  _firstname: "\u0420\u0435\u043D\u0436\u043E\u0432\u0438\u043A"
+  _groupMobs: 1
+  _viewRadius: 3
   _timeForIdle: 10
   _distanceToAttack: 2
+--- !u!114 &8333235294784886075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3751452355733058225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5300ce28ba2dde41a3eb397560dea53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 10
+  _minHealth: 0
+  _maxHealth: 10
+  _isLive: 1
 --- !u!114 &5418681131072694790
 MonoBehaviour:
   m_ObjectHideFlags: 0
