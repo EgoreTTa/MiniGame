@@ -20,8 +20,8 @@ namespace Assets.Scripts.GUI
                 _armor.sprite = armor.SpriteRenderer.sprite;
             if (_mGUI.GetBoot() is { } boots)
                 _boots.sprite = boots.SpriteRenderer.sprite;
-            var items = _mGUI.GetItemsInventory();
 
+            var items = _mGUI.GetItemsInventory();
             for (var i = 0; i < items.Length; i++)
                 _items[i].sprite = items[i].SpriteRenderer.sprite;
         }
