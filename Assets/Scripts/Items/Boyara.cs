@@ -1,7 +1,10 @@
 namespace Assets.Scripts.Items
 {
+    using Interfaces;
+    using JetBrains.Annotations;
     using UnityEngine;
 
+    [UsedImplicitly]
     [DisallowMultipleComponent]
     public class Boyara : BaseItem
     {
@@ -14,10 +17,16 @@ namespace Assets.Scripts.Items
             _damageBoost = Random.Range(_minRange, _maxRange);
         }
 
-        public override void PickUp(Player parent)
+        public override void PickUp(Player owner)
         {
-            parent.DamageCount += _damageBoost;
+            base.PickUp(owner);
+            owner.GetComponentInChildren<IAttackSystem>().DamageCount += _damageBoost;
             Destroy(gameObject);
+        }
+
+        private void OnDestroy()
+        {
+            _owner?.Inventory.Take(this);
         }
     }
 }

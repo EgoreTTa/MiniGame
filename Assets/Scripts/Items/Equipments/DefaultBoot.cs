@@ -11,15 +11,16 @@ namespace Assets.Scripts.Items.Equipments
         [SerializeField] private TypesEquipment _typeEquipment;
 
         public TypesEquipment TypeEquipment => _typeEquipment;
+        public EquipmentSets EquipmentSet => EquipmentSets.None;
 
         public void Equip()
         {
-            _owner.MaxHealth += _changeMaxHealth;
+            _owner.GetComponent<IHealthSystem>().MaxHealth += _changeMaxHealth;
         }
 
         public void Unequip()
         {
-            _owner.MaxHealth -= _changeMaxHealth;
+            _owner.GetComponent<IHealthSystem>().MaxHealth -= _changeMaxHealth;
         }
     }
 }

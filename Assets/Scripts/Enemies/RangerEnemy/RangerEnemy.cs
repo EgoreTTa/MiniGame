@@ -2,14 +2,13 @@ namespace Assets.Scripts.Enemies.RangerEnemy
 {
     using Interfaces;
     using Enums;
-    using NoMonoBehaviour;
     using UnityEngine;
     using System;
     using JetBrains.Annotations;
     using Random = UnityEngine.Random;
     using System.Linq;
 
-    public class RangerEnemy : BaseMob, IHealthSystem
+    public class RangerEnemy : MonoBehaviour, IMob
     {
         public enum StatesOfRangerEnemy
         {
@@ -19,70 +18,40 @@ namespace Assets.Scripts.Enemies.RangerEnemy
             Attack
         }
 
+        private IHealthSystem _healthSystem;
+        private IMoveSystem _moveSystem;
+        private IAttackSystem _attackSystem;
+        private IMob _targetToAttack;
         [SerializeField] private StatesOfRangerEnemy _stateOfRangerEnemy = StatesOfRangerEnemy.Idle;
-        [SerializeField] private BaseMob _targetToAttack;
+        [SerializeField] private string _firstname;
+        [SerializeField] private GroupsMobs _groupMobs;
         [SerializeField] private Vector3? _targetToExplore;
+        [SerializeField] private float _viewRadius;
         [SerializeField] private float _timeForIdle;
         [SerializeField] private float _distanceToAttack;
-        private IMoveSystem _moveSystem;
-        private IAttack _attack;
 
+        public string FirstName => _firstname;
+        public GroupsMobs GroupMobs => _groupMobs;
+        public IHealthSystem HealthSystem => _healthSystem;
+        public IMoveSystem MoveSystem => _moveSystem;
+        public IAttackSystem AttackSystem => _attackSystem;
         public StatesOfRangerEnemy StateOfRangerEnemy => _stateOfRangerEnemy;
 
-        public BaseMob TargetToAttack
+        public IMob TargetToAttack
         {
             get => _targetToAttack;
             set
             {
-                if (value.gameObject.activeSelf) _targetToAttack = value;
-            }
-        }
-
-        public float Health
-        {
-            get => _health;
-            private set
-            {
-                if (value <= _minHealth)
-                {
-                    value = _minHealth;
-                    _isLive = false;
-                    Destroy(gameObject);
-                }
-
-                if (value >= _maxHealth) value = _maxHealth;
-
-                _health = value;
-            }
-        }
-
-        public float MinHealth
-        {
-            get => _minHealth;
-            set
-            {
-                if (value <= 0) value = 0;
-                if (value > _maxHealth) value = _maxHealth;
-                _minHealth = value;
-            }
-        }
-
-        public float MaxHealth
-        {
-            get => _maxHealth;
-            set
-            {
-                if (value <= _minHealth) value = _minHealth;
-                _maxHealth = value;
+                if ((value as MonoBehaviour)!.gameObject.activeSelf) _targetToAttack = value;
             }
         }
 
         private void Awake()
         {
-            if (GetComponent<IMoveSystem>() is { } iMoveSystem) _moveSystem = iMoveSystem;
+            if (GetComponent<IMoveSystem>() is { } moveSystem) _moveSystem = moveSystem;
             else throw new Exception($"{nameof(RangerEnemy)} not instance {nameof(IMoveSystem)}");
-            if (GetComponentInChildren<IAttack>() is { } iAttack) _attack = iAttack;
-            else throw new Exception($"{nameof(RangerEnemy)} not instance {nameof(IAttack)}");
+            if (GetComponentInChildren<IAttackSystem>() is { } attackSystem) _attackSystem = attackSystem;
+            else throw new Exception($"{nameof(RangerEnemy)} not instance {nameof(IAttackSystem)}");
             _stateOfRangerEnemy = StatesOfRangerEnemy.Idle;
             Invoke(nameof(IntoExplore), _timeForIdle);
         }
@@ -138,25 +107,26 @@ namespace Assets.Scripts.Enemies.RangerEnemy
                     }
 
                     var distanceToTarget = Vector3.Distance(
-                        _targetToAttack.transform.position,
+                        (_targetToAttack as MonoBehaviour)!.transform.position,
                         transform.position);
 
                     if (distanceToTarget < _distanceToAttack)
                     {
                         _stateOfRangerEnemy = StatesOfRangerEnemy.Attack;
-                        transform.up = _targetToAttack.transform.position - transform.position;
-                        _attack.Attack();
+                        transform.up = (_targetToAttack as MonoBehaviour)!.transform.position - transform.position;
+                        _attackSystem.Attack();
                         break;
                     }
 
                     Pursuit();
                     break;
                 case StatesOfRangerEnemy.Attack:
-                    if (_attack.StateOfAttack == StatesOfAttack.Idle) _stateOfRangerEnemy = StatesOfRangerEnemy.Idle;
+                    if (_attackSystem.StateOfAttack == StatesOfAttack.Idle)
+                        _stateOfRangerEnemy = StatesOfRangerEnemy.Idle;
 
                     break;
                 default:
-                    throw new Exception($"{nameof(RangerEnemy)} FSM: not valid state");
+                    throw new Exception($"{nameof(RangerEnemy)} FSM: not valid {nameof(StateOfRangerEnemy)}");
             }
         }
 
@@ -174,29 +144,13 @@ namespace Assets.Scripts.Enemies.RangerEnemy
         private void Pursuit()
         {
             if (_targetToAttack != null)
-                MoveToPosition(_targetToAttack.transform.position);
+                MoveToPosition((_targetToAttack as MonoBehaviour)!.transform.position);
         }
 
         private void MoveToPosition(Vector3 targetPosition)
         {
             var direction = targetPosition - transform.position;
             _moveSystem.Move(direction);
-        }
-
-        public void TakeHealth(Health health)
-        {
-            Health += health.CountHealth;
-        }
-
-        public void TakeDamage(Damage damage)
-        {
-            Health -= damage.TypeDamage switch
-            {
-                TypesDamage.Physical => damage.CountDamage / 2,
-                TypesDamage.Magical => damage.CountDamage * 2,
-                TypesDamage.Clear => damage.CountDamage,
-                _ => throw new ArgumentOutOfRangeException()
-            };
         }
 
         private void LookAround()
@@ -214,7 +168,7 @@ namespace Assets.Scripts.Enemies.RangerEnemy
                 Random.Range(-5, 5));
         }
 
-        private BaseMob[] GetMobsForRadius(float radius)
+        private IMob[] GetMobsForRadius(float radius)
         {
             var casted = Physics2D.CircleCastAll(
                 transform.position,
@@ -222,12 +176,12 @@ namespace Assets.Scripts.Enemies.RangerEnemy
                 Vector2.zero);
             var mobs = casted
                 .Where(x =>
-                    x.transform.GetComponent<BaseMob>()
+                    x.transform.GetComponent<IMob>() is { } mob
                     &&
-                    x.transform.GetComponent<BaseMob>() != this
+                    ReferenceEquals(mob, this) is false
                     &&
-                    x.transform.GetComponent<BaseMob>().GroupMobs != _groupMobs)
-                .Select(x => x.transform.GetComponent<BaseMob>())
+                    mob.GroupMobs != _groupMobs)
+                .Select(x => x.transform.GetComponent<IMob>())
                 .Distinct()
                 .ToArray();
             return mobs;

@@ -1,20 +1,20 @@
 namespace Assets.Scripts.NoMonoBehaviour
 {
-    using Enemies;
+    using Interfaces;
     using UnityEngine;
 
     public class Health
     {
-        private BaseMob _owner;
+        private IMob _owner;
         private GameObject _healthBy;
         private float _countHealth;
 
-        public BaseMob Owner => _owner;
+        public IMob Owner => _owner;
         public GameObject HealthBy => _healthBy;
         public float CountHealth => _countHealth;
 
         public Health(
-            BaseMob owner,
+            IMob owner,
             GameObject healthBy,
             float countHealth)
         {

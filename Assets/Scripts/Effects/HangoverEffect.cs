@@ -1,6 +1,5 @@
 namespace Assets.Scripts.Effects
 {
-    using Enemies;
     using Enums;
     using Interfaces;
     using NoMonoBehaviour;
@@ -11,10 +10,10 @@ namespace Assets.Scripts.Effects
     {
         [SerializeField] private float _delay;
         [SerializeField] private float _intervalTakeDamage;
-        [SerializeField] private float _damage;
-        private BaseMob _target;
+        [SerializeField] private float _damageCount;
+        private IMob _target;
 
-        public override void StartEffect(BaseMob target)
+        public override void StartEffect(IMob target)
         {
             InvokeRepeating(nameof(TakeDamage), 0, _intervalTakeDamage);
         }
@@ -27,13 +26,13 @@ namespace Assets.Scripts.Effects
 
         private void TakeDamage()
         {
-            var damage = new Damage(null, null, _damage, TypesDamage.Clear);
-            (_target as IHealthSystem).TakeDamage(damage);
+            var damage = new Damage(null, null, _damageCount, TypesDamage.Clear);
+            _target.HealthSystem?.TakeDamage(damage);
         }
 
         private void Awake()
         {
-            _target = GetComponent<BaseMob>();
+            _target = GetComponent<IMob>();
             if (_target == null)
                 Destroy(this);
             else

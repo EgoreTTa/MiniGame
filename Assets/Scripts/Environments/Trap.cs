@@ -17,17 +17,17 @@ namespace Assets.Scripts.Environments
             Attack
         }
 
+        private Damage _damage;
+        private SpriteRenderer _spriteRenderer;
+        private List<IHealthSystem> _healthSystems = new();
         [SerializeField] private StatesOfTrap _stateOfTrap;
         [SerializeField] private float _timeCharging;
         [SerializeField] private float _timeAttack;
         [SerializeField] private float _damageCount;
-        private Damage _damage;
-        private SpriteRenderer _spriteRenderer;
         [SerializeField] private Sprite _spriteStandby;
         [SerializeField] private Sprite _spriteCharging;
         [SerializeField] private Sprite _spriteAttack;
         [SerializeField] private float _intervalDamaged;
-        private List<IHealthSystem> _healthSystems = new();
 
         public StatesOfTrap StateOfTrap => _stateOfTrap;
 

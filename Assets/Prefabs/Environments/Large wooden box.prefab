@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1494894243826147878}
   - component: {fileID: 8233325127877680842}
   - component: {fileID: 890657807995292337}
+  - component: {fileID: 6716547595848477077}
   m_Layer: 0
   m_Name: Large wooden box
   m_TagString: Untagged
@@ -171,6 +172,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dd6284ffc9529c439e078836055e80b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 1
+  _environmentName: Large wooden box
+--- !u!114 &6716547595848477077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2324790076620547384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b9223c7a840dfd459a9bf376a3e8129, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 5
   _minHealth: 0
-  _maxHealth: 1
+  _maxHealth: 5
