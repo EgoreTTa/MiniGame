@@ -12,28 +12,48 @@ namespace Assets.Scripts.NoMonoBehaviour
         private IEquipment _helmet;
         private IEquipment _armor;
         private IEquipment _boot;
-        private Player _parent;
+        private Player _owner;
+        private float _currency;
 
         public BaseItem[] Items => _items.ToArray();
-        public IEquipment Helmet => _helmet;
-        public IEquipment Armor => _armor;
-        public IEquipment Boot => _boot;
+        public BaseItem Helmet => _helmet as BaseItem;
+        public BaseItem Armor => _armor as BaseItem;
+        public BaseItem Boot => _boot as BaseItem;
 
-        public Inventory(Player parent)
+        public float Currency
         {
-            _parent = parent;
+            get => _currency;
+            set
+            {
+                if (value < 0) value = 0;
+                _currency = value;
+            }
         }
 
+        public Inventory(Player owner)
+        {
+            _owner = owner;
+        }
+
+        /// <summary>
+        /// Adds an item to inventory
+        /// </summary>
         public void Put(BaseItem item)
         {
             _items.Add(item);
-            item.PickUp(_parent);
+            item.PickUp(_owner);
         }
 
+        /// <summary>
+        /// Removes an item from inventory
+        /// </summary>
         public void Take(BaseItem item)
         {
-            _items.Remove(item);
-            item.PickDown(_parent);
+            if (_items.Contains(item))
+            {
+                _items.Remove(item);
+                item.PickDown(_owner);
+            }
         }
 
         public void Equip(IEquipment equipment)

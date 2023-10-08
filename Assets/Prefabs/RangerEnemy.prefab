@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 303606371722456928}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 1, y: 5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -94,15 +94,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 303606371722456928}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a78bb57f2159cbe4ab7dbb73be77393f, type: 3}
+  m_Script: {fileID: 11500000, guid: dec26101c7a090b40ba04892fb66bde4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeSwing: 0.2
-  _timeHitting: 0.3
-  _timeRecovery: 0.2
+  _timeSwing: 1
+  _timeHitting: 4
+  _timeRecovery: 1
   _stateOfAttack: 0
   _bottle: {fileID: 54425826382435967, guid: 4c3dd2a8ec89c3845b913d8b09651419, type: 3}
-  _damageCount: 5
+  _damageCount: 10
   _bottleSpeed: 1
   _bottleFlyTime: 5
   _timeReload: 1
@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 3751452355733058228}
   - component: {fileID: -2857597380012149813}
   - component: {fileID: 6031402757887284502}
+  - component: {fileID: 8333235294784886075}
   - component: {fileID: 5418681131072694790}
   m_Layer: 0
   m_Name: RangerEnemy
@@ -270,17 +271,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ca055ccbe2638649b03c29f9a048f75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 50
-  _minHealth: 0
-  _maxHealth: 75
-  _firstname: "\u0420\u0435\u043D\u0436\u043E\u0432\u0438\u043A"
-  _damageCount: 15
-  _viewRadius: 3
-  _groupMobs: 1
   _stateOfRangerEnemy: 0
-  _targetToAttack: {fileID: 0}
+  _firstname: "\u0420\u0435\u043D\u0436\u043E\u0432\u0438\u043A"
+  _groupMobs: 1
+  _viewRadius: 3
   _timeForIdle: 10
   _distanceToAttack: 2
+--- !u!114 &8333235294784886075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3751452355733058225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5300ce28ba2dde41a3eb397560dea53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 10
+  _minHealth: 0
+  _maxHealth: 10
+  _isLive: 1
 --- !u!114 &5418681131072694790
 MonoBehaviour:
   m_ObjectHideFlags: 0

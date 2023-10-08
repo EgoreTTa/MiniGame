@@ -1,6 +1,6 @@
 namespace Assets.Scripts.Effects
 {
-    using Enemies;
+    using Interfaces;
     using UnityEngine;
 
     public abstract class BaseEffect : MonoBehaviour
@@ -9,6 +9,6 @@ namespace Assets.Scripts.Effects
 
         public string EffectName => _effectName;
 
-        public abstract void StartEffect(BaseMob target);
+        public abstract void StartEffect(IMob target);
     }
 }
