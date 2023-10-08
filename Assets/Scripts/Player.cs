@@ -6,6 +6,8 @@ namespace Assets.Scripts
     using Interfaces;
     using UnityEngine;
     using Items;
+    using GUI;
+    using UnityEngine.SceneManagement;
 
     [DisallowMultipleComponent]
     public class Player : MonoBehaviour, IMob
@@ -194,6 +196,12 @@ namespace Assets.Scripts
                         _inventory?.Equip(equipment);
                     }
                 }
+        }
+
+        private void OnDestroy()
+        {
+            if (SceneManager.sceneCount == SceneManager.loadedSceneCount)
+                SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
         }
     }
 }

@@ -97,15 +97,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec26101c7a090b40ba04892fb66bde4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeSwing: 0.5
-  _timeHitting: 2.5
-  _timeRecovery: 0.5
+  _timeSwing: 1
+  _timeHitting: 4
+  _timeRecovery: 1
   _stateOfAttack: 0
   _bottle: {fileID: 54425826382435967, guid: 4c3dd2a8ec89c3845b913d8b09651419, type: 3}
-  _damageCount: 5
-  _bottleSpeed: 5
-  _bottleFlyTime: 1
-  _timeReload: 2
+  _damageCount: 10
+  _bottleSpeed: 1
+  _bottleFlyTime: 5
+  _timeReload: 1
   _isReady: 1
 --- !u!1 &3751452355733058225
 GameObject:

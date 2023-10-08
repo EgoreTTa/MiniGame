@@ -56,5 +56,10 @@ namespace Assets.Scripts.GUI
             if (boot is IEquipment equipment)
                 _player.Inventory.Equip(equipment);
         }
+
+        public void RemoveItem(BaseItem item)
+        {
+            _player.Inventory.Take(item);
+        }
     }
 }
