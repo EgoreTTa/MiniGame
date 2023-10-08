@@ -36,6 +36,9 @@ namespace Assets.Scripts.Enemies.Kamikaze
 
         public string FirstName => _firstname;
         public GroupsMobs GroupMobs => _groupMobs;
+        public IHealthSystem HealthSystem => _healthSystem;
+        public IMoveSystem MoveSystem => _moveSystem;
+        public IAttackSystem AttackSystem => null;
         public StatesOfKamikaze StateOfKamikaze => _stateOfKamikaze;
 
         public IMob TargetToAttack
@@ -69,12 +72,13 @@ namespace Assets.Scripts.Enemies.Kamikaze
             if (_healthSystem.IsLive)
             {
                 var mobs = GetMobsForRadius(_explosionRadius);
-                var healthSystems = mobs.Select(x =>
-                        (x as MonoBehaviour)!.GetComponent<IHealthSystem>())
+                var healthSystems = mobs
+                    .Select(x =>
+                        x.HealthSystem)
                     .ToArray();
 
                 var damage = new Damage(this, null, _damageCount, TypesDamage.Clear);
-                foreach (var healthSystem in healthSystems) healthSystem.TakeDamage(damage);
+                foreach (var healthSystem in healthSystems) healthSystem?.TakeDamage(damage);
                 _healthSystem.TakeDamage(new Damage(this, null, _healthSystem.MaxHealth, TypesDamage.Clear));
             }
         }

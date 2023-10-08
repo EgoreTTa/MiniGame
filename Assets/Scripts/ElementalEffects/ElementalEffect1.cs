@@ -27,7 +27,7 @@
                 null,
                 _damageCount,
                 TypesDamage.Clear);
-            (_target as MonoBehaviour)!.GetComponent<IHealthSystem>().TakeDamage(damage);
+            _target.HealthSystem?.TakeDamage(damage);
         }
     }
 }

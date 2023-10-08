@@ -6,7 +6,6 @@ namespace Assets.Scripts
     using Interfaces;
     using UnityEngine;
     using Items;
-    using GUI;
     using UnityEngine.SceneManagement;
 
     [DisallowMultipleComponent]
@@ -21,7 +20,6 @@ namespace Assets.Scripts
             Interaction,
         }
 
-        private string _firstname;
         private IHealthSystem _healthSystem;
         private IMoveSystem _moveSystem;
         private IJerk _jerk;
@@ -30,14 +28,18 @@ namespace Assets.Scripts
         private bool _isInteract;
         private IInteraction _interaction;
         private Inventory _inventory;
+        [SerializeField] private string _firstname;
+        [SerializeField] private GroupsMobs _groupMobs;
         [SerializeField] private StatesOfPlayer _stateOfPlayer;
         [SerializeField] private Collider2D _collider;
         [SerializeField] private Collider2D _trigger;
 
-        public string FirstName { get; }
-        public GroupsMobs GroupMobs { get; }
+        public string FirstName => _firstname;
+        public GroupsMobs GroupMobs => _groupMobs;
+        public IHealthSystem HealthSystem => _healthSystem;
         public StatesOfPlayer StateOfPlayer => _stateOfPlayer;
         public IMoveSystem MoveSystem => _moveSystem;
+        public IAttackSystem AttackSystem => _attackSystem;
         public Inventory Inventory => _inventory;
 
         private void Awake()

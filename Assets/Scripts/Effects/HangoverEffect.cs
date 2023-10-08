@@ -27,7 +27,7 @@ namespace Assets.Scripts.Effects
         private void TakeDamage()
         {
             var damage = new Damage(null, null, _damageCount, TypesDamage.Clear);
-            (_target as MonoBehaviour)!.GetComponent<IHealthSystem>().TakeDamage(damage);
+            _target.HealthSystem?.TakeDamage(damage);
         }
 
         private void Awake()

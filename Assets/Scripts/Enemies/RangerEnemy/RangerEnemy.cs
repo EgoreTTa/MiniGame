@@ -32,6 +32,9 @@ namespace Assets.Scripts.Enemies.RangerEnemy
 
         public string FirstName => _firstname;
         public GroupsMobs GroupMobs => _groupMobs;
+        public IHealthSystem HealthSystem => _healthSystem;
+        public IMoveSystem MoveSystem => _moveSystem;
+        public IAttackSystem AttackSystem => _attackSystem;
         public StatesOfRangerEnemy StateOfRangerEnemy => _stateOfRangerEnemy;
 
         public IMob TargetToAttack

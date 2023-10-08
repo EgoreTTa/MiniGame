@@ -20,9 +20,11 @@ namespace Assets.Scripts.Attacks
         {
             if (collider.GetComponent<IHealthSystem>() is { } healthSystem)
             {
-                if (collider.gameObject != (_owner as MonoBehaviour)!.gameObject)
+                if (collider.gameObject != (_owner as MonoBehaviour)!.gameObject
+                    &&
+                    _owner.AttackSystem is not null)
                 {
-                    var damageCount = (_owner as MonoBehaviour)!.GetComponentInChildren<IAttackSystem>().DamageCount;
+                    var damageCount = _owner.AttackSystem.DamageCount;
                     var damage = new Damage(_owner, null, damageCount, TypesDamage.Clear);
                     healthSystem.TakeDamage(damage);
                 }
