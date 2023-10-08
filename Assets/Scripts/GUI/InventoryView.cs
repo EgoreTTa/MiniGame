@@ -13,13 +13,14 @@ namespace Assets.Scripts.GUI
 
         public void GetItems()
         {
-            _helmet.sprite = _mGUI.GetHelmet().SpriteRenderer.sprite;
-            _armor.sprite = _mGUI.GetArmor().SpriteRenderer.sprite;
-            _boots.sprite = _mGUI.GetBoot().SpriteRenderer.sprite;
-            var Items = _mGUI.GetItemsInventory();
+            if (_mGUI == null) return;
+            _helmet.sprite = _mGUI.GetHelmet()?.SpriteRenderer.sprite;
+            _armor.sprite = _mGUI.GetArmor()?.SpriteRenderer.sprite;
+            _boots.sprite = _mGUI.GetBoot()?.SpriteRenderer.sprite;
+            var items = _mGUI.GetItemsInventory();
 
-            for (var i = 0; i < Items.Length; i++)
-                _items[i].sprite = Items[i].SpriteRenderer.sprite;
+            for (var i = 0; i < items.Length; i++)
+                _items[i].sprite = items[i].SpriteRenderer.sprite;
         }
     }
 }
