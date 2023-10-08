@@ -4,18 +4,23 @@ namespace Assets.Scripts.Items.Equipments
     using Interfaces;
     using UnityEngine;
     using NoMonoBehaviour;
+    using Effects;
 
     [DisallowMultipleComponent]
     public class FireArmor : BaseItem, IEquipment
     {
-        [SerializeField] private float _changeMaxHealth;
+        private IHealthSystem _healthSystem;
+        private Health _health;
+        private EquipmentSets _equipmentSet = EquipmentSets.FireArmor;
+		[SerializeField] private float _changeMaxHealth;
         [SerializeField] private float _changeRegeneration;
         [SerializeField] private TypesEquipment _typeEquipment;
         [SerializeField] private float _intervalRegeneration;
-        private IHealthSystem _healthSystem;
-        private Health _health;
+		[SerializeField] [Range(.02f, 100)] private float _intervalRegeneration;
+        [SerializeField] private GameObject _fireCirclePrefab;
 
         public TypesEquipment TypeEquipment => _typeEquipment;
+        public EquipmentSets EquipmentSet => _equipmentSet;
 
         private void Regeneration()
         {
@@ -28,12 +33,19 @@ namespace Assets.Scripts.Items.Equipments
             _healthSystem.MaxHealth += _changeMaxHealth;
             _health = new Health(_owner, gameObject, _changeRegeneration);
             InvokeRepeating(nameof(Regeneration), 0f, _intervalRegeneration);
+            HelpLibraryForEquipmentSet.CheckSet(_owner, _fireCirclePrefab, EquipmentSets.FireSet);
         }
 
         public void Unequip()
         {
             _healthSystem.MaxHealth -= _changeMaxHealth;
             CancelInvoke(nameof(Regeneration));
+            var effect = HelpLibraryForEquipmentSet.CheckSkill(_owner) as FireCircle;
+            if (effect != null)
+            {
+                Destroy(effect);
+                effect.IsActive = false;
+            }
         }
     }
 }

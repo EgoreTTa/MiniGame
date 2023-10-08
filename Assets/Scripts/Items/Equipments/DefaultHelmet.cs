@@ -11,6 +11,7 @@ namespace Assets.Scripts.Items.Equipments
         [SerializeField] private TypesEquipment _typeEquipment;
 
         public TypesEquipment TypeEquipment => _typeEquipment;
+        public EquipmentSets EquipmentSet => EquipmentSets.None;
 
         public void Equip()
         {
