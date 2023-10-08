@@ -15,11 +15,11 @@ namespace Assets.Scripts.GUI
         {
             if (_mGUI == null) return;
             if(_mGUI.GetHelmet() is { } helmet)
-                _helmet.sprite = _mGUI.GetHelmet()?.SpriteRenderer.sprite;
+                _helmet.sprite = helmet.SpriteRenderer.sprite;
             if (_mGUI.GetArmor() is { } armor)
-                _armor.sprite = _mGUI.GetArmor()?.SpriteRenderer.sprite;
+                _armor.sprite = armor.SpriteRenderer.sprite;
             if (_mGUI.GetBoot() is { } boots)
-                _boots.sprite = _mGUI.GetBoot()?.SpriteRenderer.sprite;
+                _boots.sprite = boots.SpriteRenderer.sprite;
             var items = _mGUI.GetItemsInventory();
 
             for (var i = 0; i < items.Length; i++)
