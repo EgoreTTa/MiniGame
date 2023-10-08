@@ -201,5 +201,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: 10
   _minHealth: 0
-  _maxHealth: 1
+  _maxHealth: 20
   _isLive: 1
