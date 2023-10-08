@@ -14,7 +14,7 @@ namespace Assets.Scripts.GUI
         public void GetItems()
         {
             if (_mGUI == null) return;
-            if(_mGUI.GetHelmet() is { } helmet)
+            if (_mGUI.GetHelmet() is { } helmet)
                 _helmet.sprite = helmet.SpriteRenderer.sprite;
             if (_mGUI.GetArmor() is { } armor)
                 _armor.sprite = armor.SpriteRenderer.sprite;
