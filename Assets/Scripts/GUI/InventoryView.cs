@@ -13,7 +13,7 @@ namespace Assets.Scripts.GUI
 
         public void GetItems()
         {
-            if (_mGUI == null) return;
+          //  if (_mGUI == null) return;
             _helmet.sprite = _mGUI.GetHelmet()?.SpriteRenderer.sprite;
             _armor.sprite = _mGUI.GetArmor()?.SpriteRenderer.sprite;
             _boots.sprite = _mGUI.GetBoot()?.SpriteRenderer.sprite;
