@@ -22,7 +22,7 @@ namespace Assets.Scripts.Attacks
             {
                 if (collider.gameObject != (_owner as MonoBehaviour)!.gameObject)
                 {
-                    var damageCount = (_owner as MonoBehaviour)!.GetComponent<IAttackSystem>().DamageCount;
+                    var damageCount = (_owner as MonoBehaviour)!.GetComponentInChildren<IAttackSystem>().DamageCount;
                     var damage = new Damage(_owner, null, damageCount, TypesDamage.Clear);
                     healthSystem.TakeDamage(damage);
                 }
