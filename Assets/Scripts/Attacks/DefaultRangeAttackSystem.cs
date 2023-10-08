@@ -37,7 +37,7 @@ namespace Assets.Scripts.Attacks
 
         private void Awake()
         {
-            if (GetComponentInParent<IMob>() is { } baseMob) _owner = baseMob;
+            if (GetComponentInParent<IMob>() is { } mob) _owner = mob;
             else throw new Exception($"{nameof(DefaultRangeAttackSystem)} not instance {nameof(IMob)}");
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
