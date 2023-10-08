@@ -13,7 +13,7 @@ namespace Assets.Scripts
         [SerializeField] private float _minHealth;
         [SerializeField] private float _maxHealth;
         [SerializeField] private ManagerGUI _managerGUI;
-        private bool _isLive = true;
+        [SerializeField] private bool _isLive = true;
 
         public bool IsLive => _isLive;
 

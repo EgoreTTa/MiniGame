@@ -18,13 +18,13 @@ namespace Assets.Scripts.Enemies.RangerEnemy
             Attack
         }
 
-        private string _firstname;
-        private GroupsMobs _groupMobs;
         private IHealthSystem _healthSystem;
         private IMoveSystem _moveSystem;
         private IAttackSystem _attackSystem;
         private IMob _targetToAttack;
         [SerializeField] private StatesOfRangerEnemy _stateOfRangerEnemy = StatesOfRangerEnemy.Idle;
+        [SerializeField] private string _firstname;
+        [SerializeField] private GroupsMobs _groupMobs;
         [SerializeField] private Vector3? _targetToExplore;
         [SerializeField] private float _viewRadius;
         [SerializeField] private float _timeForIdle;

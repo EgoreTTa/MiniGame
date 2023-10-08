@@ -164,14 +164,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5883c2a64b8c32f41bec8c08fcda29b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _firstname: "\u0411\u043B\u0438\u0436\u043D\u0438\u043A"
-  _damageCount: 10
-  _viewRadius: 3
-  _groupMobs: 1
   _stateOfEnemy: 0
-  _targetToAttack: {fileID: 0}
+  _firstname: "\u0411\u043B\u0438\u0436\u043D\u0438\u043A"
+  _groupMobs: 1
   _timeForIdle: 10
   _distanceToAttack: 0.5
+  _viewRadius: 3
 --- !u!114 &766843542765708033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,6 +185,7 @@ MonoBehaviour:
   _health: 10
   _minHealth: 0
   _maxHealth: 10
+  _isLive: 1
 --- !u!114 &6862590130289619701
 MonoBehaviour:
   m_ObjectHideFlags: 0

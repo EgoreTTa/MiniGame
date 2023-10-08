@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7521055551434040985}
   - component: {fileID: 5133062833684486613}
   - component: {fileID: 1913512640220180011}
+  - component: {fileID: 2025373599317401679}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -201,15 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886a4d5259ff3c240baea15e051ac4e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 400
-  _minHealth: 0
-  _maxHealth: 500
-  _firstname: "\u0421\u0442\u0430\u0441\u044F\u043D"
-  _damageCount: 100
-  _viewRadius: 5
-  _groupMobs: 0
   _stateOfPlayer: 0
-  _managerGUI: {fileID: 0}
   _collider: {fileID: 6616300577017040700}
   _trigger: {fileID: 538700676723179093}
 --- !u!114 &5133062833684486613
@@ -244,6 +237,22 @@ MonoBehaviour:
   _moveSpeed: 2
   _minMoveSpeed: 0
   _maxMoveSpeed: 2
+--- !u!114 &2025373599317401679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7521055551434040984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7f0005bac043134599baa00cc3c214e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 100
+  _minHealth: 0
+  _maxHealth: 250
+  _managerGUI: {fileID: 0}
 --- !u!1001 &2699698336027847575
 PrefabInstance:
   m_ObjectHideFlags: 0

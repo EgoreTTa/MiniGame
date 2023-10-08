@@ -11,7 +11,7 @@ namespace Assets.Scripts
         [SerializeField] private float _health;
         [SerializeField] private float _minHealth;
         [SerializeField] private float _maxHealth;
-        private bool _isLive;
+        [SerializeField] private bool _isLive;
 
         public bool IsLive => _isLive;
 

@@ -19,12 +19,12 @@ namespace Assets.Scripts.Enemies.Enemy
             Attack
         }
 
-        private string _firstname;
         private IHealthSystem _healthSystem;
         private IMoveSystem _moveSystem;
         private IAttackSystem _attackSystem;
         private IMob _targetToAttack;
         [SerializeField] private StatesOfEnemy _stateOfEnemy = StatesOfEnemy.Idle;
+        [SerializeField] private string _firstname;
         [SerializeField] private GroupsMobs _groupMobs;
         [SerializeField] private Vector3? _targetToExplore;
         [SerializeField] private float _timeForIdle;

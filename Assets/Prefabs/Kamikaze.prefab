@@ -163,12 +163,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 286ee509cc711c946838de3b9fe342e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _stateOfKamikaze: 0
   _firstname: "\u0423\u0431\u0438\u0432\u0435\u0446"
+  _groupMobs: 1
   _damageCount: 100
   _viewRadius: 3
-  _groupMobs: 1
-  _stateOfKamikaze: 0
-  _targetToAttack: {fileID: 0}
   _timeForIdle: 10
   _timeForDetonation: 3
   _explosionRadius: 5
@@ -203,3 +202,4 @@ MonoBehaviour:
   _health: 10
   _minHealth: 0
   _maxHealth: 1
+  _isLive: 1

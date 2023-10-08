@@ -52,7 +52,7 @@ namespace Assets.Scripts.NoMonoBehaviour
             if (_items.Contains(item))
             {
                 _items.Remove(item);
-                item.PickDown(_parent);
+                item.PickDown(_owner);
             }
         }
 

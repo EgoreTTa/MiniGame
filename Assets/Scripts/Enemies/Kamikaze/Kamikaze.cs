@@ -20,11 +20,11 @@ namespace Assets.Scripts.Enemies.Kamikaze
             Detonation
         }
 
-        private string _firstname;
-        private GroupsMobs _groupMobs;
         private IHealthSystem _healthSystem;
         private IMoveSystem _moveSystem;
         [SerializeField] private StatesOfKamikaze _stateOfKamikaze = StatesOfKamikaze.Idle;
+        [SerializeField] private string _firstname;
+        [SerializeField] private GroupsMobs _groupMobs;
         [SerializeField] private IMob _targetToAttack;
         [SerializeField] private Vector3? _targetToExplore;
         [SerializeField] private float _damageCount;
@@ -75,7 +75,7 @@ namespace Assets.Scripts.Enemies.Kamikaze
 
                 var damage = new Damage(this, null, _damageCount, TypesDamage.Clear);
                 foreach (var healthSystem in healthSystems) healthSystem.TakeDamage(damage);
-                _healthSystem.TakeDamage(new Damage(this, null, _healthSystem.Health, TypesDamage.Clear));
+                _healthSystem.TakeDamage(new Damage(this, null, _healthSystem.MaxHealth, TypesDamage.Clear));
             }
         }
 

@@ -20,7 +20,7 @@ namespace Assets.Scripts.Items
         public override void PickUp(Player owner)
         {
             base.PickUp(owner);
-            owner.GetComponent<IAttackSystem>().DamageCount += _damageBoost;
+            owner.GetComponentInChildren<IAttackSystem>().DamageCount += _damageBoost;
             Destroy(gameObject);
         }
 
