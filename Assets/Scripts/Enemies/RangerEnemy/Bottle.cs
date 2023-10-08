@@ -65,7 +65,9 @@ namespace Assets.Scripts.Enemies.RangerEnemy
         {
             if (collider.isTrigger is false)
             {
-                if (collider.gameObject != (_owner as MonoBehaviour)!.gameObject
+                if (_owner!= null
+                    &&
+                    collider.gameObject != (_owner as MonoBehaviour)!.gameObject
                     &&
                     collider.gameObject.GetComponent<IHealthSystem>() is { } healthSystem)
                 {
