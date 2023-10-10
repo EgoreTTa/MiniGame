@@ -1,4 +1,4 @@
-namespace Assets.Scripts
+namespace Assets.Scripts.GUI
 {
     using System;
     using UnityEngine;
@@ -7,14 +7,7 @@ namespace Assets.Scripts
     public class MainMenu : MonoBehaviour
     {
         [SerializeField] private int _indexSceneStartGame;
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1)) NewGame();
-            if (Input.GetKeyDown(KeyCode.Alpha2)) Options();
-            if (Input.GetKeyDown(KeyCode.Alpha3)) Exit();
-        }
-
+        
         public void NewGame()
         {
             try
