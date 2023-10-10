@@ -1,13 +1,34 @@
 namespace Assets.Scripts.GUI
 {
+    using Enums;
     using Interfaces;
     using Items;
     using UnityEngine;
+    using UnityEngine.SceneManagement;
 
     public class ManagerGUI : MonoBehaviour
     {
         [SerializeField] private Player _player;
         [SerializeField] private HealthBar _healthBar;
+        //[SerializeField] private Canvas _canvas;
+        private StatesGame _stateGame;
+
+        public StatesGame StateGame => _stateGame;
+
+        private void Update()
+        {
+            var isEscapeKey = Input.GetKeyDown(KeyCode.Escape);
+            if (isEscapeKey)
+            {
+                _stateGame = _stateGame switch
+                {
+                    StatesGame.Game => StatesGame.Pause,
+                    StatesGame.Pause => StatesGame.Game,
+                };
+                Time.timeScale = (int)_stateGame;
+                //_canvas.enabled = !_canvas.enabled;
+            }
+        }
 
         public void UpdateHealthBar(float health, float maxHealth)
         {
@@ -60,6 +81,11 @@ namespace Assets.Scripts.GUI
         public void RemoveItem(BaseItem item)
         {
             _player.Inventory.Take(item);
+        }
+
+        public void ReturnMainMenu()
+        {
+            SceneManager.LoadSceneAsync(0);
         }
     }
 }

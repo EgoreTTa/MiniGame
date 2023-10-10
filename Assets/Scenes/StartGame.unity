@@ -2420,7 +2420,7 @@ GameObject:
   - component: {fileID: 1758330372}
   - component: {fileID: 1758330373}
   m_Layer: 0
-  m_Name: GUI
+  m_Name: ManagerGUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
