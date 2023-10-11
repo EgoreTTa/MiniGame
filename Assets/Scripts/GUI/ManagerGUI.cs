@@ -10,24 +10,51 @@ namespace Assets.Scripts.GUI
     {
         [SerializeField] private Player _player;
         [SerializeField] private HealthBar _healthBar;
-        //[SerializeField] private Canvas _canvas;
-        private StatesGame _stateGame;
+        [SerializeField] private GameObject _inGameMenu;
+        [SerializeField] private StatesGame _stateGame;
 
-        public StatesGame StateGame => _stateGame;
+        public StatesGame StateGame
+        {
+            get => _stateGame;
+            private set
+            {
+                switch (value)
+                {
+                    case StatesGame.Pause:
+                    {
+                        _inGameMenu.SetActive(true);
+                            Time.timeScale = 0;
+                    }
+                        break;
+                    case StatesGame.Game:
+                    {
+                        _inGameMenu.SetActive(false);
+                            Time.timeScale = 1;
+                    }
+                        break;
+                }
+
+                _stateGame = value;
+            }
+        }
 
         private void Update()
         {
             var isEscapeKey = Input.GetKeyDown(KeyCode.Escape);
+
             if (isEscapeKey)
             {
-                _stateGame = _stateGame switch
-                {
-                    StatesGame.Game => StatesGame.Pause,
-                    StatesGame.Pause => StatesGame.Game,
-                };
-                Time.timeScale = (int)_stateGame;
-                //_canvas.enabled = !_canvas.enabled;
+                InGameMenuActivation();
             }
+        }
+
+        public void InGameMenuActivation()
+        {
+            StateGame = _stateGame switch
+            {
+                StatesGame.Game => StatesGame.Pause,
+                StatesGame.Pause => StatesGame.Game,
+            };
         }
 
         public void UpdateHealthBar(float health, float maxHealth)
