@@ -1,25 +1,13 @@
 namespace Assets.Scripts
 {
-    using NoMonoBehaviour;
-    using System;
     using Enums;
     using Interfaces;
     using UnityEngine;
-    using Items;
-    using UnityEngine.SceneManagement;
 
     [DisallowMultipleComponent]
 
     public class GhostPlayerCA: MonoBehaviour , IMob
     {
-        public enum StatesOfPlayer
-        {
-            Idle,
-            Move,
-            Jerk,
-            Attack,
-            Interaction,
-        }
         [SerializeField] private string _firstname;
         [SerializeField] private GroupsMobs _groupMobs;
         [SerializeField] float _timeLife;
@@ -28,12 +16,7 @@ namespace Assets.Scripts
 
         private IHealthSystem _healthSystem;
         private IMoveSystem _moveSystem;
-
-        private SpriteRenderer _spriteRenderer;
-        private CircleCollider2D _circleCollider;
-
-
-        private IAttackSystem _attackSystem;
+        private IAttackSystem _attackSystem;    
         public IAttackSystem AttackSystem => _attackSystem;
         public string FirstName => _firstname;
         public GroupsMobs GroupMobs => _groupMobs;

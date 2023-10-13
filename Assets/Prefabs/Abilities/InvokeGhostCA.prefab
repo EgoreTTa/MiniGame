@@ -689,4 +689,4 @@ MonoBehaviour:
   _timeToRecovery: 0.2
   _timeReload: 5
   _isReady: 1
-  GhostCA: {fileID: 155710896108325591}
+  _ghostCA: {fileID: 155710896108325591}

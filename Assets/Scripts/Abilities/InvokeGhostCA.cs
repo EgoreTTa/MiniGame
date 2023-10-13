@@ -1,7 +1,5 @@
 namespace Assets.Scripts.Abilities
 {
-    using System;
-    using ElementalEffects;
     using Enums;
     using Interfaces;
     using UnityEngine;
@@ -14,12 +12,11 @@ namespace Assets.Scripts.Abilities
         [SerializeField] private float _timeToRecovery;
         [SerializeField] private float _timeReload;
         [SerializeField] private bool _isReady;
-        [SerializeField] private GameObject GhostCA;
+        [SerializeField] private GameObject _ghostCA;
         private SpriteRenderer _spriteRenderer;
         private CircleCollider2D _circleCollider;
         private GameObject MyGhostCA;
         
-
         public StatesOfAbility StateOfAbility => _stateOfAbility;
 
         void Awake()
@@ -36,12 +33,9 @@ namespace Assets.Scripts.Abilities
         private void IntoCasted()
         {
             _stateOfAbility = StatesOfAbility.Casted;
-
-            MyGhostCA = Instantiate(GhostCA,transform);
+            MyGhostCA = Instantiate(_ghostCA, transform);
             MyGhostCA.gameObject.SetActive(true);
             MyGhostCA.transform.parent = null;
-
-
             Invoke(nameof(IntoRecovery), _timeToCasted);
         }
 
