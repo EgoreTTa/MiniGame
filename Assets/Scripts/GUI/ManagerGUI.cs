@@ -23,19 +23,24 @@ namespace Assets.Scripts.GUI
                     case StatesGame.Pause:
                     {
                         _inGameMenu.SetActive(true);
-                            Time.timeScale = 0;
+                        Time.timeScale = 0;
                     }
                         break;
                     case StatesGame.Game:
                     {
                         _inGameMenu.SetActive(false);
-                            Time.timeScale = 1;
+                        Time.timeScale = 1;
                     }
                         break;
                 }
 
                 _stateGame = value;
             }
+        }
+
+        private void Start()
+        {
+            StateGame = StatesGame.Game;
         }
 
         private void Update()
