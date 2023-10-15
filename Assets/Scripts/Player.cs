@@ -3,11 +3,14 @@ namespace Assets.Scripts
     using NoMonoBehaviour;
     using System;
     using Enums;
+    using GUI;
     using Interfaces;
     using UnityEngine;
     using Items;
     using UnityEngine.SceneManagement;
 
+    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Collider2D))]
     [DisallowMultipleComponent]
     public class Player : MonoBehaviour, IMob
     {
@@ -21,7 +24,7 @@ namespace Assets.Scripts
         }
 
         private IHealthSystem _healthSystem;
-        private IMoveSystem _moveSystem;
+        private IMovementSystem _movementSystem;
         private IJerk _jerk;
         private IAttackSystem _attackSystem;
         private IAbility _ability1;
@@ -32,29 +35,47 @@ namespace Assets.Scripts
         [SerializeField] private GroupsMobs _groupMobs;
         [SerializeField] private StatesOfPlayer _stateOfPlayer;
         [SerializeField] private Collider2D _collider;
+        [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private Collider2D _trigger;
+        [SerializeField] private ManagerGUI _managerGUI;
+        [SerializeField] private GameObject _prefabAttack;
+        [SerializeField] private GameObject _prefabAbility1;
 
         public string FirstName => _firstname;
         public GroupsMobs GroupMobs => _groupMobs;
-        public IHealthSystem HealthSystem => _healthSystem;
         public StatesOfPlayer StateOfPlayer => _stateOfPlayer;
-        public IMoveSystem MoveSystem => _moveSystem;
+        public IHealthSystem HealthSystem => _healthSystem;
+        public IMovementSystem MovementSystem => _movementSystem;
         public IAttackSystem AttackSystem => _attackSystem;
         public Inventory Inventory => _inventory;
 
         private void Awake()
         {
             _inventory = new Inventory(this);
-            if (GetComponent<IJerk>() is { } jerk) _jerk = jerk;
-            else throw new Exception($"{nameof(Player)} not instance {nameof(IJerk)}");
-            if (GetComponent<IMoveSystem>() is { } moveSystem) _moveSystem = moveSystem;
-            else throw new Exception($"{nameof(Player)} not instance {nameof(IMoveSystem)}");
-            if (GetComponent<IHealthSystem>() is { } healthSystem) _healthSystem = healthSystem;
-            else throw new Exception($"{nameof(Player)} not instance {nameof(IHealthSystem)}");
-            if (GetComponentInChildren<IAttackSystem>() is { } attackSystem) _attackSystem = attackSystem;
-            else throw new Exception($"{nameof(Player)} not instance {nameof(IAttackSystem)}");
-            if (GetComponentInChildren<IAbility>() is { } ability1) _ability1 = ability1;
-            else throw new Exception($"{nameof(Player)} not instance {nameof(IAbility)}");
+            if (GetComponent<IMovementSystem>() is { } movementSystem)
+                _movementSystem = movementSystem.Construct(transform);
+            else
+                Debug.LogError($"{nameof(Player)} not instance {nameof(IMovementSystem)}");
+
+            if (GetComponent<IJerk>() is { } jerk)
+                _jerk = jerk.Construct(this, transform, _rigidbody2D, _movementSystem);
+            else
+                Debug.LogError($"{nameof(Player)} not instance {nameof(IJerk)}");
+
+            if (GetComponent<PlayerHealthSystem>() is { } playerHealthSystem)
+                _healthSystem = playerHealthSystem.Construct(_managerGUI);
+            else
+                Debug.LogError($"{nameof(Player)} not instance {nameof(PlayerHealthSystem)}");
+
+            if (_prefabAttack.GetComponent<IAttackSystem>() is { } attackSystem)
+                _attackSystem = attackSystem.Construct(this, _groupMobs, _healthSystem, transform);
+            else
+                Debug.LogError($"{nameof(Player)} not instance {nameof(IAttackSystem)}");
+
+            if (_prefabAbility1.GetComponent<IAbility>() is { } ability1)
+                _ability1 = ability1.Construct(this, gameObject);
+            else
+                Debug.LogError($"{nameof(Player)} not instance {nameof(IAbility)}");
         }
 
         private void Update()
@@ -101,7 +122,7 @@ namespace Assets.Scripts
 
                     if (axis != Vector3.zero)
                     {
-                        _moveSystem.Move(axis);
+                        _movementSystem.Move(axis);
                         _stateOfPlayer = StatesOfPlayer.Move;
                         return;
                     }

@@ -11,7 +11,7 @@ namespace Assets.Scripts.Effects
     {
         private List<IHealthSystem> _healthSystems = new();
         private Damage _damage;
-        [SerializeField] private float _intervalDamaged;
+        [SerializeField] [Range(.02f, 1)] private float _intervalDamaged;
         [SerializeField] private float _damageCount;
         [SerializeField] private bool _isActive;
 

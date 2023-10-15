@@ -1,35 +1,49 @@
 namespace Assets.Scripts.Attacks
 {
-    using System;
     using Enums;
     using Interfaces;
     using NoMonoBehaviour;
     using UnityEngine;
 
+    [RequireComponent(typeof(CircleCollider2D))]
     public class DefaultAttackSystem : MonoBehaviour, IAttackSystem
     {
+        private bool _isConstruct;
+        private IMob _owner;
+        private GroupsMobs _ownerGroupMobs;
+        private IHealthSystem _ownerHealthSystem;
+        [SerializeField] private StatesOfAttack _stateOfAttack;
+        [SerializeField] private SpriteRenderer _spriteRenderer;
+        [SerializeField] private CircleCollider2D _circleCollider;
         [SerializeField] private float _timeSwing;
         [SerializeField] private float _timeHitting;
         [SerializeField] private float _timeRecovery;
-        [SerializeField] private StatesOfAttack _stateOfAttack;
         [SerializeField] private float _damageCount;
-        private IMob _owner;
-        private SpriteRenderer _spriteRenderer;
-        private CircleCollider2D _circleCollider;
 
         public StatesOfAttack StateOfAttack => _stateOfAttack;
+
         public float DamageCount
         {
             get => _damageCount;
             set => _damageCount = value > 0 ? value : 0;
         }
 
-        private void Awake()
+        public IAttackSystem Construct(
+            IMob owner,
+            GroupsMobs ownerGroupsMobs,
+            IHealthSystem ownerHealthSystem,
+            Transform ownerTransform)
         {
-            if (GetComponentInParent<IMob>() is { } mob) _owner = mob;
-            else throw new Exception($"{nameof(DefaultAttackSystem)} not instance {nameof(IMob)}");
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-            _circleCollider = GetComponent<CircleCollider2D>();
+            if (_isConstruct is false)
+            {
+                _owner = owner;
+                _ownerGroupMobs = ownerGroupsMobs;
+                _ownerHealthSystem = ownerHealthSystem;
+                _isConstruct = true;
+                return this;
+            }
+
+            return null;
         }
 
         public void Attack()
@@ -45,14 +59,14 @@ namespace Assets.Scripts.Attacks
             _spriteRenderer.enabled = true;
             _circleCollider.enabled = true;
             _stateOfAttack = StatesOfAttack.Hitting;
-            Invoke(nameof(IntoRecovery), _timeHitting);
+            Invoke(nameof(IntoRecovering), _timeHitting);
         }
 
-        private void IntoRecovery()
+        private void IntoRecovering()
         {
             _spriteRenderer.enabled = false;
             _circleCollider.enabled = false;
-            _stateOfAttack = StatesOfAttack.Recovery;
+            _stateOfAttack = StatesOfAttack.Recovering;
             Invoke(nameof(IntoIdle), _timeRecovery);
         }
 
@@ -63,13 +77,19 @@ namespace Assets.Scripts.Attacks
 
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            if (collider.GetComponent<IHealthSystem>() is { } healthSystem)
+            if (collider.GetComponent<IHealthSystem>() is { } healthSystem
+                &&
+                healthSystem != _ownerHealthSystem)
             {
-                if (collider.gameObject != (_owner as MonoBehaviour)!.gameObject)
+                if (collider.GetComponent<IMob>() is { } mob
+                    &&
+                    mob.GroupMobs == _ownerGroupMobs)
                 {
-                    var damage = new Damage(_owner, null, _damageCount, TypesDamage.Clear);
-                    healthSystem.TakeDamage(damage);
+                    return;
                 }
+
+                var damage = new Damage(_owner, gameObject, _damageCount, TypesDamage.Clear);
+                healthSystem.TakeDamage(damage);
             }
         }
     }

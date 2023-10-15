@@ -1,6 +1,5 @@
 namespace Assets.Scripts.Attacks
 {
-    using System;
     using Enemies.RangerEnemy;
     using Enums;
     using Interfaces;
@@ -9,6 +8,10 @@ namespace Assets.Scripts.Attacks
 
     public class DefaultRangeAttackSystem : MonoBehaviour, IAttackSystem
     {
+        private bool _isConstruct;
+        private IMob _owner;
+        private Transform _ownerTransform;
+        [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private float _timeSwing;
         [SerializeField] private float _timeHitting;
         [SerializeField] private float _timeRecovery;
@@ -19,8 +22,6 @@ namespace Assets.Scripts.Attacks
         [SerializeField] private float _bottleFlyTime;
         [SerializeField] private float _timeReload;
         [SerializeField] private bool _isReady;
-        private IMob _owner;
-        private SpriteRenderer _spriteRenderer;
 
         public StatesOfAttack StateOfAttack => _stateOfAttack;
 
@@ -35,11 +36,21 @@ namespace Assets.Scripts.Attacks
             _isReady = true;
         }
 
-        private void Awake()
+        public IAttackSystem Construct(
+            IMob owner,
+            GroupsMobs ownerGroupsMobs,
+            IHealthSystem ownerHealthSystem,
+            Transform ownerTransform)
         {
-            if (GetComponentInParent<IMob>() is { } mob) _owner = mob;
-            else throw new Exception($"{nameof(DefaultRangeAttackSystem)} not instance {nameof(IMob)}");
-            _spriteRenderer = GetComponent<SpriteRenderer>();
+            if (_isConstruct is false)
+            {
+                _owner = owner;
+                _ownerTransform = ownerTransform;
+                _isConstruct = true;
+                return this;
+            }
+
+            return null;
         }
 
         public void Attack()
@@ -59,13 +70,13 @@ namespace Assets.Scripts.Attacks
             _spriteRenderer.enabled = true;
             BottleThrow();
             _stateOfAttack = StatesOfAttack.Hitting;
-            Invoke(nameof(IntoRecovery), _timeHitting);
+            Invoke(nameof(IntoRecovering), _timeHitting);
         }
 
-        private void IntoRecovery()
+        private void IntoRecovering()
         {
             _spriteRenderer.enabled = false;
-            _stateOfAttack = StatesOfAttack.Recovery;
+            _stateOfAttack = StatesOfAttack.Recovering;
             Invoke(nameof(IntoIdle), _timeRecovery);
         }
 
@@ -76,14 +87,14 @@ namespace Assets.Scripts.Attacks
 
         private void BottleThrow()
         {
-            var directionThrow = transform.up.normalized;
-            var bottle = Instantiate(_bottle, (_owner as MonoBehaviour)!.transform.position, Quaternion.identity)
+            var directionThrow = _ownerTransform.up.normalized;
+            var bottle = Instantiate(_bottle, _ownerTransform.position, Quaternion.identity)
                 .GetComponent<Bottle>();
 
             if (bottle != null)
             {
-                var projectile = bottle.GetComponent<IProjectile>();
                 var bottleDamage = new Damage(_owner, null, _damageCount, TypesDamage.Clear);
+                var projectile = bottle.GetComponent<IProjectile>();
                 projectile.Launch(_bottleSpeed, bottleDamage, directionThrow, _bottleFlyTime, _owner);
             }
         }

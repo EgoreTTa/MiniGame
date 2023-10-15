@@ -7,7 +7,7 @@ namespace Assets.Scripts.Interfaces
         public string FirstName { get; }
         public GroupsMobs GroupMobs { get; }
         public IHealthSystem HealthSystem { get; }
-        public IMoveSystem MoveSystem { get; }
+        public IMovementSystem MovementSystem { get; }
         public IAttackSystem AttackSystem { get; }
     }
 }

@@ -6,10 +6,10 @@ namespace Assets.Scripts.NoMonoBehaviour
 
     public class Damage
     {
-        private IMob _owner;
-        private GameObject _damageBy;
-        private float _countDamage;
-        private TypesDamage _typeDamage;
+        private readonly IMob _owner;
+        private readonly GameObject _damageBy;
+        private readonly float _countDamage;
+        private readonly TypesDamage _typeDamage;
 
         public IMob Owner => _owner;
         public GameObject DamageBy => _damageBy;

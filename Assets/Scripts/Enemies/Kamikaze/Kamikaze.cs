@@ -21,12 +21,12 @@ namespace Assets.Scripts.Enemies.Kamikaze
         }
 
         private IHealthSystem _healthSystem;
-        private IMoveSystem _moveSystem;
+        private IMovementSystem _movementSystem;
+        private Vector3? _targetToExplore;
         [SerializeField] private StatesOfKamikaze _stateOfKamikaze = StatesOfKamikaze.Idle;
         [SerializeField] private string _firstname;
         [SerializeField] private GroupsMobs _groupMobs;
         [SerializeField] private IMob _targetToAttack;
-        [SerializeField] private Vector3? _targetToExplore;
         [SerializeField] private float _damageCount;
         [SerializeField] private float _viewRadius;
         [SerializeField] private float _timeForIdle;
@@ -37,7 +37,7 @@ namespace Assets.Scripts.Enemies.Kamikaze
         public string FirstName => _firstname;
         public GroupsMobs GroupMobs => _groupMobs;
         public IHealthSystem HealthSystem => _healthSystem;
-        public IMoveSystem MoveSystem => _moveSystem;
+        public IMovementSystem MovementSystem => _movementSystem;
         public IAttackSystem AttackSystem => null;
         public StatesOfKamikaze StateOfKamikaze => _stateOfKamikaze;
 
@@ -52,10 +52,16 @@ namespace Assets.Scripts.Enemies.Kamikaze
 
         private void Awake()
         {
-            if (GetComponent<IHealthSystem>() is { } healthSystem) _healthSystem = healthSystem;
-            else throw new Exception($"{nameof(Player)} not instance {nameof(IHealthSystem)}");
-            if (GetComponent<IMoveSystem>() is { } moveSystem) _moveSystem = moveSystem;
-            else throw new Exception($"{nameof(Kamikaze)} not instance {nameof(IMoveSystem)}");
+            if (GetComponent<IHealthSystem>() is { } healthSystem)
+                _healthSystem = healthSystem.Construct();
+            else
+                Debug.LogError($"{nameof(Kamikaze)} not instance {nameof(IHealthSystem)}");
+
+            if (GetComponent<IMovementSystem>() is { } moveSystem)
+                _movementSystem = moveSystem.Construct(transform);
+            else
+                Debug.LogError($"{nameof(Kamikaze)} not instance {nameof(IMovementSystem)}");
+
             _stateOfKamikaze = StatesOfKamikaze.Idle;
             Invoke(nameof(IntoExplore), _timeForIdle);
         }
@@ -170,7 +176,7 @@ namespace Assets.Scripts.Enemies.Kamikaze
             var distanceToTarget = Vector3.Distance(
                 _targetToExplore!.Value,
                 transform.position);
-            if (distanceToTarget < _moveSystem.MoveSpeed * Time.deltaTime)
+            if (distanceToTarget < _movementSystem.MoveSpeed * Time.deltaTime)
                 _targetToExplore = null;
             if (_targetToExplore != null)
                 MoveToPosition(_targetToExplore.Value);
@@ -185,7 +191,7 @@ namespace Assets.Scripts.Enemies.Kamikaze
         private void MoveToPosition(Vector3 targetPosition)
         {
             var direction = targetPosition - transform.position;
-            _moveSystem.Move(direction);
+            _movementSystem.Move(direction);
         }
 
         private void LookAround()

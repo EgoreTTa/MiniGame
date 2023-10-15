@@ -5,6 +5,6 @@ namespace Assets.Scripts.Enums
         Idle,
         Swing,
         Hitting,
-        Recovery
+        Recovering
     }
 }

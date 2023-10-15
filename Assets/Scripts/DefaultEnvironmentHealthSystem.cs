@@ -1,6 +1,7 @@
 namespace Assets.Scripts
 {
     using System;
+    using GUI;
     using Enums;
     using Interfaces;
     using NoMonoBehaviour;
@@ -8,10 +9,11 @@ namespace Assets.Scripts
 
     public class DefaultEnvironmentHealthSystem : MonoBehaviour, IHealthSystem
     {
+        private bool _isConstruct;
+        private bool _isLive;
         [SerializeField] private float _health;
         [SerializeField] private float _minHealth;
         [SerializeField] private float _maxHealth;
-        private bool _isLive;
 
         public bool IsLive => _isLive;
 
@@ -54,6 +56,17 @@ namespace Assets.Scripts
                 if (value < _maxHealth) value = _maxHealth;
                 _maxHealth = value;
             }
+        }
+
+        public IHealthSystem Construct(ManagerGUI managerGUI = null)
+        {
+            if (_isConstruct is false)
+            {
+                _isConstruct = true;
+                return this;
+            }
+
+            return null;
         }
 
         public void TakeHealth(Health health) { }

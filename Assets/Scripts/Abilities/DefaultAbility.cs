@@ -1,6 +1,5 @@
 namespace Assets.Scripts.Abilities
 {
-    using System;
     using ElementalEffects;
     using Enums;
     using Interfaces;
@@ -8,24 +7,31 @@ namespace Assets.Scripts.Abilities
 
     public class DefaultAbility : MonoBehaviour, IAbility
     {
+        private bool _isConstruct;
+        private IMob _owner;
+        private GameObject _ownerGameObject;
+        [SerializeField] private SpriteRenderer _spriteRenderer;
+        [SerializeField] private CircleCollider2D _circleCollider;
         [SerializeField] private StatesOfAbility _stateOfAbility;
         [SerializeField] private float _timeToSwing;
         [SerializeField] private float _timeToCasted;
         [SerializeField] private float _timeToRecovery;
         [SerializeField] private float _timeReload;
-        private IMob _owner;
         [SerializeField] private bool _isReady;
-        private SpriteRenderer _spriteRenderer;
-        private CircleCollider2D _circleCollider;
 
         public StatesOfAbility StateOfAbility => _stateOfAbility;
 
-        private void Awake()
+        public IAbility Construct(IMob owner, GameObject ownerGameObject)
         {
-            if (GetComponentInParent<IMob>() is { } mob) _owner = mob;
-            else throw new Exception($"{nameof(DefaultAbility)} not instance {nameof(IMob)}");
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-            _circleCollider = GetComponent<CircleCollider2D>();
+            if (_isConstruct is false)
+            {
+                _owner = owner;
+                _ownerGameObject = ownerGameObject;
+                _isConstruct = true;
+                return this;
+            }
+
+            return null;
         }
 
         private void Ready()
@@ -73,10 +79,11 @@ namespace Assets.Scripts.Abilities
 
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            if (collider.GetComponent<IMob>() is { } mob)
+            if (collider.GetComponent<IMob>() is { } mob
+                &&
+                mob != _owner)
             {
-                if (mob != _owner)
-                    (mob as MonoBehaviour)!.gameObject.AddComponent<ElementalEffect2>();
+                _ownerGameObject.AddComponent<ElementalEffect2>();
             }
         }
     }

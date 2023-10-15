@@ -19,13 +19,13 @@ namespace Assets.Scripts.Enemies.RangerEnemy
         }
 
         private IHealthSystem _healthSystem;
-        private IMoveSystem _moveSystem;
+        private IMovementSystem _movementSystem;
         private IAttackSystem _attackSystem;
         private IMob _targetToAttack;
+        private Vector3? _targetToExplore;
         [SerializeField] private StatesOfRangerEnemy _stateOfRangerEnemy = StatesOfRangerEnemy.Idle;
         [SerializeField] private string _firstname;
         [SerializeField] private GroupsMobs _groupMobs;
-        [SerializeField] private Vector3? _targetToExplore;
         [SerializeField] private float _viewRadius;
         [SerializeField] private float _timeForIdle;
         [SerializeField] private float _distanceToAttack;
@@ -33,7 +33,7 @@ namespace Assets.Scripts.Enemies.RangerEnemy
         public string FirstName => _firstname;
         public GroupsMobs GroupMobs => _groupMobs;
         public IHealthSystem HealthSystem => _healthSystem;
-        public IMoveSystem MoveSystem => _moveSystem;
+        public IMovementSystem MovementSystem => _movementSystem;
         public IAttackSystem AttackSystem => _attackSystem;
         public StatesOfRangerEnemy StateOfRangerEnemy => _stateOfRangerEnemy;
 
@@ -48,10 +48,21 @@ namespace Assets.Scripts.Enemies.RangerEnemy
 
         private void Awake()
         {
-            if (GetComponent<IMoveSystem>() is { } moveSystem) _moveSystem = moveSystem;
-            else throw new Exception($"{nameof(RangerEnemy)} not instance {nameof(IMoveSystem)}");
-            if (GetComponentInChildren<IAttackSystem>() is { } attackSystem) _attackSystem = attackSystem;
-            else throw new Exception($"{nameof(RangerEnemy)} not instance {nameof(IAttackSystem)}");
+            if (GetComponent<IHealthSystem>() is { } healthSystem)
+                _healthSystem = healthSystem.Construct();
+            else
+                Debug.LogError($"{nameof(RangerEnemy)} not instance {nameof(IMovementSystem)}");
+
+            if (GetComponent<IMovementSystem>() is { } moveSystem)
+                _movementSystem = moveSystem.Construct(transform);
+            else
+                Debug.LogError($"{nameof(RangerEnemy)} not instance {nameof(IMovementSystem)}");
+
+            if (GetComponentInChildren<IAttackSystem>() is { } attackSystem)
+                _attackSystem = attackSystem.Construct(this, _groupMobs, _healthSystem, transform);
+            else
+                Debug.LogError($"{nameof(RangerEnemy)} not instance {nameof(IAttackSystem)}");
+
             _stateOfRangerEnemy = StatesOfRangerEnemy.Idle;
             Invoke(nameof(IntoExplore), _timeForIdle);
         }
@@ -135,7 +146,7 @@ namespace Assets.Scripts.Enemies.RangerEnemy
             var distanceToTarget = Vector3.Distance(
                 _targetToExplore!.Value,
                 transform.position);
-            if (distanceToTarget < _moveSystem.MoveSpeed * Time.deltaTime)
+            if (distanceToTarget < _movementSystem.MoveSpeed * Time.deltaTime)
                 _targetToExplore = null;
             if (_targetToExplore != null)
                 MoveToPosition(_targetToExplore.Value);
@@ -150,7 +161,7 @@ namespace Assets.Scripts.Enemies.RangerEnemy
         private void MoveToPosition(Vector3 targetPosition)
         {
             var direction = targetPosition - transform.position;
-            _moveSystem.Move(direction);
+            _movementSystem.Move(direction);
         }
 
         private void LookAround()

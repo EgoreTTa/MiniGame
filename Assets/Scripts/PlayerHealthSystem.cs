@@ -9,18 +9,19 @@ namespace Assets.Scripts
 
     public class PlayerHealthSystem : MonoBehaviour, IHealthSystem
     {
+        private bool _isConstruct;
+        private ManagerGUI _managerGUI;
+        private bool _isLive = true;
         [SerializeField] private float _health;
         [SerializeField] private float _minHealth;
         [SerializeField] private float _maxHealth;
-        [SerializeField] private ManagerGUI _managerGUI;
-        [SerializeField] private bool _isLive = true;
 
         public bool IsLive => _isLive;
 
         public float Health
         {
             get => _health;
-            protected set
+            private set
             {
                 if (value <= _minHealth)
                 {
@@ -61,9 +62,17 @@ namespace Assets.Scripts
             }
         }
 
-        private void Start()
+        public IHealthSystem Construct(ManagerGUI managerGUI)
         {
-            _managerGUI?.UpdateHealthBar(_health, _maxHealth);
+            if (_isConstruct is false)
+            {
+                _managerGUI = managerGUI;
+                _managerGUI.UpdateHealthBar(_health, _maxHealth);
+                _isConstruct = true;
+                return this;
+            }
+
+            return null;
         }
 
         public void TakeHealth(Health health)

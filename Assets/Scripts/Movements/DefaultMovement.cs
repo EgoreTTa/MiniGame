@@ -3,12 +3,14 @@ namespace Assets.Scripts.Movements
     using Interfaces;
     using UnityEngine;
 
-    public class DefaultMovement : MonoBehaviour, IMoveSystem
+    public class DefaultMovement : MonoBehaviour, IMovementSystem
     {
+        private bool _isConstruct;
+        private Vector3 _direction = Vector3.up;
+        private Transform _transform;
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _minMoveSpeed;
         [SerializeField] private float _maxMoveSpeed;
-        private Vector3 _direction = Vector3.up;
 
         public Vector3 Direction => _direction;
 
@@ -44,11 +46,23 @@ namespace Assets.Scripts.Movements
             }
         }
 
+        public IMovementSystem Construct(Transform transform)
+        {
+            if (_isConstruct is false)
+            {
+                _transform = transform;
+                _isConstruct = true;
+                return this;
+            }
+
+            return null;
+        }
+
         public void Move(Vector3 vector)
         {
             _direction = vector.normalized;
-            transform.up = _direction;
-            transform.position += transform.up * _moveSpeed * Time.deltaTime;
+            _transform.up = _direction;
+            _transform.position += _transform.up * _moveSpeed * Time.deltaTime;
         }
     }
 }
