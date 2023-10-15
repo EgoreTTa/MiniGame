@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec26101c7a090b40ba04892fb66bde4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 3613314203129031343}
   _timeSwing: 1
   _timeHitting: 4
   _timeRecovery: 1
