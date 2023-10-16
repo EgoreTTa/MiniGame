@@ -1,7 +1,9 @@
 namespace Assets.Scripts.Items.Equipments
 {
+    using Effects;
     using Enums;
     using Interfaces;
+    using Mobs.Player;
     using UnityEngine;
     using Object = UnityEngine.Object;
 
@@ -21,9 +23,9 @@ namespace Assets.Scripts.Items.Equipments
             }
         }
 
-        public static IEffect CheckSkill(Player owner)
+        public static BaseEffect CheckSkill(Player owner)
         {
-            if (owner.GetComponentsInChildren<IEffect>() is { } effects)
+            if (owner.GetComponentsInChildren<BaseEffect>() is { } effects)
             {
                 foreach (var effect in effects)
                 {

@@ -2,6 +2,7 @@ namespace Assets.Scripts.GUI
 {
     using Interfaces;
     using Items;
+    using Mobs.Player;
     using UnityEngine;
 
     public class ManagerGUI : MonoBehaviour

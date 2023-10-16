@@ -2,7 +2,7 @@ namespace Assets.Scripts.Environments
 {
     using System.Collections.Generic;
     using Enums;
-    using Interfaces;
+    using Mobs.Player;
     using NoMonoBehaviour;
     using UnityEngine;
 
@@ -19,7 +19,7 @@ namespace Assets.Scripts.Environments
 
         private Damage _damage;
         private SpriteRenderer _spriteRenderer;
-        private List<IHealthSystem> _healthSystems = new();
+        private List<BaseHealthSystem> _healthSystems = new();
         [SerializeField] private StatesOfTrap _stateOfTrap;
         [SerializeField] private float _timeCharging;
         [SerializeField] private float _timeAttack;
@@ -72,7 +72,7 @@ namespace Assets.Scripts.Environments
                 if (_stateOfTrap == StatesOfTrap.Standby)
                     if (collider.GetComponent<Player>())
                         IntoCharging();
-                if (collider.gameObject.GetComponent<IHealthSystem>() is { } healthSystem)
+                if (collider.gameObject.GetComponent<BaseHealthSystem>() is { } healthSystem)
                     _healthSystems.Add(healthSystem);
             }
         }
@@ -80,7 +80,7 @@ namespace Assets.Scripts.Environments
         private void OnTriggerExit2D(Collider2D collider)
         {
             if (collider.isTrigger is false)
-                if (collider.GetComponent<IHealthSystem>() is { } healthSystem)
+                if (collider.GetComponent<BaseHealthSystem>() is { } healthSystem)
                     _healthSystems.Remove(healthSystem);
         }
     }

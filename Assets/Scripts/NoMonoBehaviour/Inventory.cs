@@ -5,6 +5,7 @@ namespace Assets.Scripts.NoMonoBehaviour
     using Enums;
     using Interfaces;
     using Items;
+    using Mobs.Player;
 
     public class Inventory
     {

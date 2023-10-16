@@ -1,17 +1,17 @@
 namespace Assets.Scripts.Jerks
 {
     using Enums;
-    using Interfaces;
+    using Mobs;
+    using Movements;
     using UnityEngine;
 
-    [RequireComponent(typeof(IMob))]
-    public class DefaultJerk : MonoBehaviour, IJerk
+    public class DefaultJerk : BaseJerk
     {
         private bool _isConstruct;
         private readonly int _onlyDynamic = 1024;
         private readonly int _nothing = 0;
         private Rigidbody2D _rigidbody2D;
-        private IMovementSystem _movementSystem;
+        private BaseMovement _movementSystem;
         private Transform _transform;
         [SerializeField] private float _timeSwing;
         [SerializeField] private float _timeMoving;
@@ -19,13 +19,13 @@ namespace Assets.Scripts.Jerks
         [SerializeField] private float _speedMoving;
         [SerializeField] private StatesOfJerk _stateOfJerk;
 
-        public StatesOfJerk StateOfJerk => _stateOfJerk;
+        public override StatesOfJerk StateOfJerk => _stateOfJerk;
 
-        public IJerk Construct(
-            IMob owner,
+        public override BaseJerk Construct(
+            BaseMob owner,
             Transform ownerTransform,
             Rigidbody2D ownerRigidbody2D,
-            IMovementSystem ownerMovementSystem)
+            BaseMovement ownerMovementSystem)
         {
             if (_isConstruct is false)
             {
@@ -39,7 +39,7 @@ namespace Assets.Scripts.Jerks
             return null;
         }
 
-        public void Jerk()
+        public override void Jerk()
         {
             if (_stateOfJerk != StatesOfJerk.Idle) return;
 

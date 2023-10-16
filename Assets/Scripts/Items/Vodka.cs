@@ -1,7 +1,7 @@
 namespace Assets.Scripts.Items
 {
-    using Interfaces;
     using JetBrains.Annotations;
+    using Mobs.Player;
     using NoMonoBehaviour;
     using UnityEngine;
 
@@ -15,7 +15,7 @@ namespace Assets.Scripts.Items
         {
             base.PickUp(owner);
             var health = new Health(owner, gameObject, _heal);
-            owner.GetComponent<IHealthSystem>().TakeHealth(health);
+            owner.GetComponent<BaseHealthSystem>().TakeHealth(health);
             Destroy(gameObject);
         }
 

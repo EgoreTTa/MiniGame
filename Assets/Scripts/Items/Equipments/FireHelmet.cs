@@ -9,13 +9,13 @@ namespace Assets.Scripts.Items.Equipments
     [DisallowMultipleComponent]
     public class FireHelmet : BaseItem, IEquipment
     {
-        private IHealthSystem _healthSystem;
+        private BaseHealthSystem _healthSystem;
         private Health _health;
-		private EquipmentSets _equipmentSet = EquipmentSets.FireHelmet;
-		[SerializeField] private float _changeMaxHealth;
+        private readonly EquipmentSets _equipmentSet = EquipmentSets.FireHelmet;
+        [SerializeField] private float _changeMaxHealth;
         [SerializeField] private float _changeRegeneration;
         [SerializeField] private TypesEquipment _typeEquipment;
-        [SerializeField] [Range(.02f, 100)] private float _intervalRegeneration;
+        [SerializeField] [Min(.02f)] private float _intervalRegeneration;
         [SerializeField] private GameObject _fireCirclePrefab;
 
         public TypesEquipment TypeEquipment => _typeEquipment;
@@ -28,7 +28,7 @@ namespace Assets.Scripts.Items.Equipments
 
         public void Equip()
         {
-            _healthSystem = _owner.GetComponent<IHealthSystem>();
+            _healthSystem = _owner.GetComponent<BaseHealthSystem>();
             _healthSystem.MaxHealth += _changeMaxHealth;
             _health = new Health(_owner, gameObject, _changeRegeneration);
             InvokeRepeating(nameof(Regeneration), 0f, _intervalRegeneration);
@@ -39,11 +39,11 @@ namespace Assets.Scripts.Items.Equipments
         {
             _healthSystem.MaxHealth -= _changeMaxHealth;
             CancelInvoke(nameof(Regeneration));
-            var effect = HelpLibraryForEquipmentSet.CheckSkill(_owner) as FireCircle;
-            if (effect != null)
+            var effect = HelpLibraryForEquipmentSet.CheckSkill(_owner);
+            if (effect is FireCircleEffect fireCircleEffect)
             {
-                Destroy(effect);
-                effect.IsActive = false;
+                Destroy(fireCircleEffect);
+                fireCircleEffect.IsActive = false;
             }
         }
     }

@@ -1,0 +1,23 @@
+namespace Assets.Scripts.Attacks
+{
+    using Mobs;
+    using Enums;
+    using UnityEngine;
+
+    public abstract class BaseAttackSystem : MonoBehaviour
+    {
+        public abstract StatesOfAttack StateOfAttack { get; }
+        public abstract float DamageCount { get; set; }
+
+        /// <summary>
+        /// Constructor for <see cref="MonoBehaviour"/> is <see cref="BaseAttackSystem"/>
+        /// </summary>
+        public abstract BaseAttackSystem Construct(
+            BaseMob owner,
+            GroupsMobs ownerGroupsMobs,
+            BaseHealthSystem ownerHealthSystem,
+            Transform ownerTransform);
+
+        public abstract void Attack();
+    }
+}

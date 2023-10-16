@@ -1,9 +1,8 @@
 namespace Assets.Scripts.Movements
 {
-    using Interfaces;
     using UnityEngine;
 
-    public class DefaultMovement : MonoBehaviour, IMovementSystem
+    public class DefaultMovement : BaseMovement
     {
         private bool _isConstruct;
         private Vector3 _direction = Vector3.up;
@@ -12,9 +11,9 @@ namespace Assets.Scripts.Movements
         [SerializeField] private float _minMoveSpeed;
         [SerializeField] private float _maxMoveSpeed;
 
-        public Vector3 Direction => _direction;
+        public override Vector3 Direction => _direction;
 
-        public float MoveSpeed
+        public override float MoveSpeed
         {
             get => _moveSpeed;
             set
@@ -25,7 +24,7 @@ namespace Assets.Scripts.Movements
             }
         }
 
-        public float MinMoveSpeed
+        public override float MinMoveSpeed
         {
             get => _minMoveSpeed;
             set
@@ -36,7 +35,7 @@ namespace Assets.Scripts.Movements
             }
         }
 
-        public float MaxMoveSpeed
+        public override float MaxMoveSpeed
         {
             get => _maxMoveSpeed;
             set
@@ -46,7 +45,7 @@ namespace Assets.Scripts.Movements
             }
         }
 
-        public IMovementSystem Construct(Transform transform)
+        public override BaseMovement Construct(Transform transform)
         {
             if (_isConstruct is false)
             {
@@ -58,7 +57,7 @@ namespace Assets.Scripts.Movements
             return null;
         }
 
-        public void Move(Vector3 vector)
+        public override void Move(Vector3 vector)
         {
             _direction = vector.normalized;
             _transform.up = _direction;

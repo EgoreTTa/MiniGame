@@ -1,6 +1,7 @@
 namespace Assets.Scripts.Items
 {
     using JetBrains.Annotations;
+    using Mobs.Player;
     using UnityEngine;
 
     [UsedImplicitly]

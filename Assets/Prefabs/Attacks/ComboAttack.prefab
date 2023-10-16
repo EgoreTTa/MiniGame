@@ -214,10 +214,10 @@ MonoBehaviour:
   _timeHitting: 0.5
   _timeRecovering: 0.3
   _stateOfAttack: 0
-  _gameObjectComboHits:
-  - {fileID: 8933784563832816677}
-  - {fileID: 2179221069828491450}
-  - {fileID: 312490192641434521}
+  _comboHits:
+  - {fileID: 3298025000751407761}
+  - {fileID: 9113550818430102264}
+  - {fileID: 7578303936089840245}
   _damageCount: 10
 --- !u!1 &2179221069828491450
 GameObject:
