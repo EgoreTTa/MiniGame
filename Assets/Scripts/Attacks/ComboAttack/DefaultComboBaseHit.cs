@@ -21,11 +21,7 @@ namespace Assets.Scripts.Attacks.ComboAttack
         public override float DamageCount
         {
             get => _damageCount;
-            set
-            {
-                if (value < 0) value = 0;
-                _damageCount = value;
-            }
+            set => _damageCount = value > 0 ? value : 0;
         }
 
         public override BaseHit Construct(
