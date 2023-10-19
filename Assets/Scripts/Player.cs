@@ -3,6 +3,7 @@ namespace Assets.Scripts
     using NoMonoBehaviour;
     using System;
     using Enums;
+    using GUI;
     using Interfaces;
     using UnityEngine;
     using Items;
@@ -33,6 +34,7 @@ namespace Assets.Scripts
         [SerializeField] private StatesOfPlayer _stateOfPlayer;
         [SerializeField] private Collider2D _collider;
         [SerializeField] private Collider2D _trigger;
+        [SerializeField] private ManagerGUI _managerGUI;
 
         public string FirstName => _firstname;
         public GroupsMobs GroupMobs => _groupMobs;
@@ -64,89 +66,92 @@ namespace Assets.Scripts
 
         private void ActionChoice()
         {
-            var axis = Vector3.zero;
-            if (Input.GetKey(KeyCode.D)) axis.x++;
-            if (Input.GetKey(KeyCode.A)) axis.x--;
-            if (Input.GetKey(KeyCode.W)) axis.y++;
-            if (Input.GetKey(KeyCode.S)) axis.y--;
-
-            var isKeyAttack = Input.GetKeyDown(KeyCode.E);
-            var isKeyJerk = Input.GetKeyDown(KeyCode.Space);
-            var isKeyInteraction = Input.GetKeyDown(KeyCode.I);
-            var isKeyAbility1 = Input.GetKeyDown(KeyCode.Alpha1);
-
-            switch (_stateOfPlayer)
+            if (_managerGUI.StateGame is StatesGame.Game)
             {
-                case StatesOfPlayer.Idle or StatesOfPlayer.Move:
-                    if (isKeyAttack)
-                    {
-                        _attackSystem.Attack();
-                        _stateOfPlayer = StatesOfPlayer.Attack;
-                        return;
-                    }
+                var axis = Vector3.zero;
+                if (Input.GetKey(KeyCode.D)) axis.x++;
+                if (Input.GetKey(KeyCode.A)) axis.x--;
+                if (Input.GetKey(KeyCode.W)) axis.y++;
+                if (Input.GetKey(KeyCode.S)) axis.y--;
 
-                    if (isKeyAbility1)
-                    {
-                        _ability1?.Cast();
-                        _stateOfPlayer = StatesOfPlayer.Attack;
-                        return;
-                    }
+                var isKeyAttack = Input.GetKeyDown(KeyCode.E);
+                var isKeyJerk = Input.GetKeyDown(KeyCode.Space);
+                var isKeyInteraction = Input.GetKeyDown(KeyCode.I);
+                var isKeyAbility1 = Input.GetKeyDown(KeyCode.Alpha1);
 
-                    if (isKeyJerk)
-                    {
-                        _jerk.Jerk();
-                        _stateOfPlayer = StatesOfPlayer.Jerk;
-                        return;
-                    }
+                switch (_stateOfPlayer)
+                {
+                    case StatesOfPlayer.Idle or StatesOfPlayer.Move:
+                        if (isKeyAttack)
+                        {
+                            _attackSystem.Attack();
+                            _stateOfPlayer = StatesOfPlayer.Attack;
+                            return;
+                        }
 
-                    if (axis != Vector3.zero)
-                    {
-                        _moveSystem.Move(axis);
-                        _stateOfPlayer = StatesOfPlayer.Move;
-                        return;
-                    }
+                        if (isKeyAbility1)
+                        {
+                            _ability1?.Cast();
+                            _stateOfPlayer = StatesOfPlayer.Attack;
+                            return;
+                        }
 
-                    if (isKeyInteraction)
-                    {
+                        if (isKeyJerk)
+                        {
+                            _jerk.Jerk();
+                            _stateOfPlayer = StatesOfPlayer.Jerk;
+                            return;
+                        }
+
+                        if (axis != Vector3.zero)
+                        {
+                            _moveSystem.Move(axis);
+                            _stateOfPlayer = StatesOfPlayer.Move;
+                            return;
+                        }
+
+                        if (isKeyInteraction)
+                        {
+                            Interaction();
+                            _stateOfPlayer = StatesOfPlayer.Interaction;
+                            return;
+                        }
+
+                        _stateOfPlayer = StatesOfPlayer.Idle;
+                        break;
+                    case StatesOfPlayer.Jerk:
+                        if (_jerk.StateOfJerk == StatesOfJerk.Idle)
+                        {
+                            _stateOfPlayer = StatesOfPlayer.Idle;
+                        }
+
+                        break;
+                    case StatesOfPlayer.Attack:
+                        if (isKeyAttack)
+                        {
+                            _attackSystem.Attack();
+                        }
+
+                        if (_attackSystem.StateOfAttack == StatesOfAttack.Idle
+                            &&
+                            _ability1.StateOfAbility == StatesOfAbility.Standby)
+                        {
+                            _stateOfPlayer = StatesOfPlayer.Idle;
+                        }
+
+                        break;
+                    case StatesOfPlayer.Interaction:
+                        if (_isInteract is false)
+                        {
+                            _stateOfPlayer = StatesOfPlayer.Idle;
+                            return;
+                        }
+
                         Interaction();
-                        _stateOfPlayer = StatesOfPlayer.Interaction;
-                        return;
-                    }
-
-                    _stateOfPlayer = StatesOfPlayer.Idle;
-                    break;
-                case StatesOfPlayer.Jerk:
-                    if (_jerk.StateOfJerk == StatesOfJerk.Idle)
-                    {
-                        _stateOfPlayer = StatesOfPlayer.Idle;
-                    }
-
-                    break;
-                case StatesOfPlayer.Attack:
-                    if (isKeyAttack)
-                    {
-                        _attackSystem.Attack();
-                    }
-
-                    if (_attackSystem.StateOfAttack == StatesOfAttack.Idle
-                        &&
-                        _ability1.StateOfAbility == StatesOfAbility.Standby)
-                    {
-                        _stateOfPlayer = StatesOfPlayer.Idle;
-                    }
-
-                    break;
-                case StatesOfPlayer.Interaction:
-                    if (_isInteract is false)
-                    {
-                        _stateOfPlayer = StatesOfPlayer.Idle;
-                        return;
-                    }
-
-                    Interaction();
-                    break;
-                default:
-                    throw new Exception($"{nameof(StateOfPlayer)} of {nameof(Player)}: not valid state");
+                        break;
+                    default:
+                        throw new Exception($"{nameof(StateOfPlayer)} of {nameof(Player)}: not valid state");
+                }
             }
         }
 
