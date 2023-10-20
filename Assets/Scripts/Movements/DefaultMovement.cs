@@ -1,5 +1,6 @@
 namespace Assets.Scripts.Movements
 {
+    using System;
     using UnityEngine;
 
     public class DefaultMovement : BaseMovement
@@ -7,6 +8,7 @@ namespace Assets.Scripts.Movements
         private bool _isConstruct;
         private Vector3 _direction = Vector3.up;
         private Transform _transform;
+        private Rigidbody2D _rigidbody;
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _minMoveSpeed;
         [SerializeField] private float _maxMoveSpeed;
@@ -45,11 +47,12 @@ namespace Assets.Scripts.Movements
             }
         }
 
-        public override BaseMovement Construct(Transform transform)
+        public override BaseMovement Construct(Transform transform, Rigidbody2D rigidbody)
         {
             if (_isConstruct is false)
             {
                 _transform = transform;
+                _rigidbody = rigidbody;
                 _isConstruct = true;
                 return this;
             }
@@ -57,11 +60,17 @@ namespace Assets.Scripts.Movements
             return null;
         }
 
+        private void FixedUpdate()
+        {
+            if (_direction == default) return;
+            _rigidbody.MovePosition(_transform.position + _direction * (_moveSpeed * Time.fixedDeltaTime));
+            _transform.up = _direction;
+            _direction = default;
+        }
+
         public override void Move(Vector3 vector)
         {
             _direction = vector.normalized;
-            _transform.up = _direction;
-            _transform.position += _transform.up * _moveSpeed * Time.deltaTime;
         }
     }
 }

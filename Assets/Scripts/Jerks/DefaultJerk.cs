@@ -13,6 +13,7 @@ namespace Assets.Scripts.Jerks
         private Rigidbody2D _rigidbody2D;
         private BaseMovement _movementSystem;
         private Transform _transform;
+        private Vector3 _direction;
         [SerializeField] private float _timeSwing;
         [SerializeField] private float _timeMoving;
         [SerializeField] private float _timeRecovery;
@@ -39,10 +40,11 @@ namespace Assets.Scripts.Jerks
             return null;
         }
 
-        public override void Jerk()
+        public override void Jerk(Vector3 direction)
         {
             if (_stateOfJerk != StatesOfJerk.Idle) return;
 
+            _direction = direction;
             _stateOfJerk = StatesOfJerk.Swing;
             Invoke(nameof(IntoMoving), _timeSwing);
         }
@@ -57,7 +59,7 @@ namespace Assets.Scripts.Jerks
 
         private void Move()
         {
-            _transform.position += _movementSystem.Direction * _speedMoving * Time.fixedDeltaTime;
+            _rigidbody2D.MovePosition(_transform.position + _direction * (_speedMoving * Time.fixedDeltaTime));
         }
 
         private void IntoRecovery()

@@ -24,6 +24,7 @@ namespace Assets.Scripts.Mobs.Enemies.Enemy
         [SerializeField] private BaseHealthSystem _healthSystem;
         [SerializeField] private BaseMovement _movementSystem;
         [SerializeField] private BaseAttackSystem _attackSystem;
+        [SerializeField] private Rigidbody2D _rigidbody;
         private BaseMob _targetToAttack;
         private Vector3? _targetToExplore;
         [SerializeField] private StatesOfEnemy _stateOfEnemy = StatesOfEnemy.Idle;
@@ -52,7 +53,7 @@ namespace Assets.Scripts.Mobs.Enemies.Enemy
         private void Awake()
         {
             _healthSystem.Construct();
-            _movementSystem.Construct(transform);
+            _movementSystem.Construct(transform, _rigidbody);
             _attackSystem.Construct(this, _groupMobs, _healthSystem, transform);
 
             _stateOfEnemy = StatesOfEnemy.Idle;

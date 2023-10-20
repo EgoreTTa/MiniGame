@@ -24,6 +24,7 @@ namespace Assets.Scripts.Mobs.Enemies.Kamikaze
 
         [SerializeField] private BaseHealthSystem _healthSystem;
         [SerializeField] private BaseMovement _movementSystem;
+        [SerializeField] private Rigidbody2D _rigidbody;
         private Vector3? _targetToExplore;
         [SerializeField] private StatesOfKamikaze _stateOfKamikaze = StatesOfKamikaze.Idle;
         [SerializeField] private string _firstname;
@@ -55,7 +56,7 @@ namespace Assets.Scripts.Mobs.Enemies.Kamikaze
         private void Awake()
         {
             _healthSystem.Construct();
-            _movementSystem.Construct(transform);
+            _movementSystem.Construct(transform, _rigidbody);
 
             _stateOfKamikaze = StatesOfKamikaze.Idle;
             Invoke(nameof(IntoExplore), _timeForIdle);
