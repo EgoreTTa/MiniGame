@@ -76,8 +76,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1189750565
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9cad77bc57c28a24ebc088eadf4a4e68, type: 3}
   m_Color: {r: 1, g: 0, b: 0.49803922, a: 1}
@@ -167,6 +167,7 @@ MonoBehaviour:
   _healthSystem: {fileID: 766843542765708033}
   _movementSystem: {fileID: 6862590130289619701}
   _attackSystem: {fileID: 122566567624384518}
+  _rigidbody: {fileID: 4455685455898522898}
   _stateOfEnemy: 0
   _firstname: "\u0411\u043B\u0438\u0436\u043D\u0438\u043A"
   _groupMobs: 1
@@ -219,6 +220,14 @@ PrefabInstance:
     - target: {fileID: 1726665131125336133, guid: e34c6e1f8e6e3db448eac61417ecdbf3, type: 3}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3884108355008309550, guid: e34c6e1f8e6e3db448eac61417ecdbf3, type: 3}
+      propertyPath: m_SortingLayer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3884108355008309550, guid: e34c6e1f8e6e3db448eac61417ecdbf3, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 12899799
       objectReference: {fileID: 0}
     - target: {fileID: 7682620141851530690, guid: e34c6e1f8e6e3db448eac61417ecdbf3, type: 3}
       propertyPath: m_LocalPosition.x

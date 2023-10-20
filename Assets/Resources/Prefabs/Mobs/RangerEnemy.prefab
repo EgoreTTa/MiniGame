@@ -165,6 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthSystem: {fileID: 8333235294784886075}
+  _rigidbody: {fileID: 3751452355733058228}
   _movementSystem: {fileID: 5418681131072694790}
   _attackSystem: {fileID: 4693352112143153033}
   _stateOfRangerEnemy: 0
@@ -212,6 +213,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3751452355733058226}
     m_Modifications:
+    - target: {fileID: 562976544793936368, guid: c8e1fcfdc3411874fa018608d32e1d1d, type: 3}
+      propertyPath: m_SortingLayer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 562976544793936368, guid: c8e1fcfdc3411874fa018608d32e1d1d, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 12899799
+      objectReference: {fileID: 0}
     - target: {fileID: 3585896997887870015, guid: c8e1fcfdc3411874fa018608d32e1d1d, type: 3}
       propertyPath: m_Name
       value: DefaultRangeAttack

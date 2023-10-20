@@ -79,8 +79,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1189750565
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9cad77bc57c28a24ebc088eadf4a4e68, type: 3}
   m_Color: {r: 0, g: 1, b: 1, a: 1}
@@ -107,7 +107,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -119,7 +119,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!58 &6616300577017040700
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -245,7 +245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 2
   _minMoveSpeed: 0
-  _maxMoveSpeed: 2
+  _maxMoveSpeed: 3
 --- !u!114 &3959665297814197982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,7 +260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: 200
   _minHealth: 0
-  _maxHealth: 180
+  _maxHealth: 250
 --- !u!1001 &2699698336027847575
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -272,6 +272,30 @@ PrefabInstance:
     - target: {fileID: 1468014448794172270, guid: bb32a3904f1323946a9b60161caeafa4, type: 3}
       propertyPath: m_Name
       value: ComboAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 3003773741339384817, guid: bb32a3904f1323946a9b60161caeafa4, type: 3}
+      propertyPath: m_SortingLayer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3003773741339384817, guid: bb32a3904f1323946a9b60161caeafa4, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 12899799
+      objectReference: {fileID: 0}
+    - target: {fileID: 4984600496606802682, guid: bb32a3904f1323946a9b60161caeafa4, type: 3}
+      propertyPath: m_SortingLayer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4984600496606802682, guid: bb32a3904f1323946a9b60161caeafa4, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 12899799
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747812085672838569, guid: bb32a3904f1323946a9b60161caeafa4, type: 3}
+      propertyPath: m_SortingLayer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5747812085672838569, guid: bb32a3904f1323946a9b60161caeafa4, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 12899799
       objectReference: {fileID: 0}
     - target: {fileID: 8477979107530418842, guid: bb32a3904f1323946a9b60161caeafa4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
