@@ -141,6 +141,14 @@ namespace Assets.Scripts.Mobs.Player
 
                     break;
                 case StatesOfPlayer.Interaction:
+                    if (isKeyInteraction)
+                    {
+                        _stateOfPlayer = StatesOfPlayer.Idle;
+                        _interaction?.Interact(this);
+                        _isInteract = false; 
+                        return;
+                    }
+
                     if (_isInteract is false)
                     {
                         _stateOfPlayer = StatesOfPlayer.Idle;
@@ -150,7 +158,7 @@ namespace Assets.Scripts.Mobs.Player
                     Interaction();
                     break;
                 default:
-                    throw new Exception($"{nameof(StateOfPlayer)} of {nameof(Player)}: not valid state");
+                    throw new Exception($"{nameof(StatesOfPlayer)} of {nameof(Player)}: not valid state");
             }
         }
 
