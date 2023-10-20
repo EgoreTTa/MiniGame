@@ -58,7 +58,7 @@ namespace Assets.Scripts.Mobs.Player
             _movementSystem.Construct(transform, _rigidbody);
             _jerk.Construct(this, transform, _rigidbody, _movementSystem);
             _attackSystem.Construct(this, _groupMobs, _healthSystem, transform);
-            _ability1.Construct(this, gameObject);
+            _ability1.Construct(this, _groupMobs, gameObject);
         }
 
         private void Update()
