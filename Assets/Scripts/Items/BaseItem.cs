@@ -1,5 +1,6 @@
 namespace Assets.Scripts.Items
 {
+    using Mobs.Player;
     using UnityEngine;
 
     [RequireComponent(

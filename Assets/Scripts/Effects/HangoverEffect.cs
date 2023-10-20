@@ -1,7 +1,7 @@
 namespace Assets.Scripts.Effects
 {
+    using Mobs;
     using Enums;
-    using Interfaces;
     using NoMonoBehaviour;
     using UnityEngine;
 
@@ -11,9 +11,18 @@ namespace Assets.Scripts.Effects
         [SerializeField] private float _delay;
         [SerializeField] private float _intervalTakeDamage;
         [SerializeField] private float _damageCount;
-        private IMob _target;
+        private BaseMob _target;
+        private bool _isActive;
 
-        public override void StartEffect(IMob target)
+        public override string EffectName => nameof(HangoverEffect);
+
+        public override bool IsActive
+        {
+            get => _isActive;
+            set => _isActive = value;
+        }
+
+        public void StartEffect(BaseMob target)
         {
             InvokeRepeating(nameof(TakeDamage), 0, _intervalTakeDamage);
         }
@@ -32,7 +41,7 @@ namespace Assets.Scripts.Effects
 
         private void Awake()
         {
-            _target = GetComponent<IMob>();
+            _target = GetComponent<BaseMob>();
             if (_target == null)
                 Destroy(this);
             else

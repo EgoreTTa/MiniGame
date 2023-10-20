@@ -3,6 +3,7 @@ namespace Assets.Scripts.GUI
     using Enums;
     using Interfaces;
     using Items;
+    using Mobs.Player;
     using UnityEngine;
     using UnityEngine.SceneManagement;
 

@@ -1,17 +1,22 @@
-using UnityEngine;
-
-[RequireComponent(typeof(Camera))]
-public class SmoothCamera : MonoBehaviour
+namespace Assets.Scripts.Others
 {
-    [SerializeField] private GameObject _target;
-    [Range(0, 1)]
-    [SerializeField] private float _speed;
+    using UnityEngine;
 
-    private void Update()
+    [RequireComponent(typeof(Camera))]
+    public class SmoothCamera : MonoBehaviour
     {
-        if (_target != null) transform.position = Vector3.Lerp(
-            transform.position,
-            _target.transform.position,
-            _speed);
+        [SerializeField] private GameObject _target;
+
+        [Range(0, 1)]
+        [SerializeField] private float _speed;
+
+        private void Update()
+        {
+            if (_target != null)
+                transform.position = Vector3.Lerp(
+                    transform.position,
+                    _target.transform.position,
+                    _speed);
+        }
     }
 }

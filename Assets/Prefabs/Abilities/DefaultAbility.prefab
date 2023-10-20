@@ -161,6 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71b3bcea382669941b8154b233f4c132, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 8478883232066188079}
+  _circleCollider: {fileID: 3200793715908753286}
   _stateOfAbility: 0
   _timeToSwing: 0.2
   _timeToCasted: 0.2

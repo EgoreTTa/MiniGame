@@ -2,22 +2,21 @@ namespace Assets.Scripts.Effects
 {
     using System.Collections.Generic;
     using Enums;
-    using Interfaces;
     using NoMonoBehaviour;
     using UnityEngine;
 
     [DisallowMultipleComponent]
-    public class FireCircle : MonoBehaviour, IEffect
+    public class FireCircleEffect : BaseEffect
     {
-        private List<IHealthSystem> _healthSystems = new();
+        private readonly List<BaseHealthSystem> _healthSystems = new();
         private Damage _damage;
-        [SerializeField] private float _intervalDamaged;
+        [SerializeField] [Min(.02f)] private float _intervalDamaged;
         [SerializeField] private float _damageCount;
         [SerializeField] private bool _isActive;
 
-        public string EffectName => nameof(FireCircle);
+        public override string EffectName => nameof(FireCircleEffect);
 
-        public bool IsActive
+        public override bool IsActive
         {
             get => _isActive;
             set => _isActive = value;
@@ -37,14 +36,14 @@ namespace Assets.Scripts.Effects
         private void OnTriggerEnter2D(Collider2D collider)
         {
             if (collider.isTrigger is false)
-                if (collider.GetComponent<IHealthSystem>() is { IsLive: true } healthSystem)
+                if (collider.GetComponent<BaseHealthSystem>() is { IsLive: true } healthSystem)
                     _healthSystems.Add(healthSystem);
         }
 
         private void OnTriggerExit2D(Collider2D collider)
         {
             if (collider.isTrigger is false)
-                if (collider.GetComponent<IHealthSystem>() is { } healthSystem)
+                if (collider.GetComponent<BaseHealthSystem>() is { } healthSystem)
                     _healthSystems.Remove(healthSystem);
         }
 

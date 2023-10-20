@@ -161,7 +161,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 782b0aa69673e004ca63da6bd9cb559a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _stateOfAttack: 0
+  _spriteRenderer: {fileID: 3884108355008309550}
+  _circleCollider: {fileID: 6939733614120377515}
   _timeSwing: 0.2
   _timeHitting: 0.5
   _timeRecovery: 0.2
-  _stateOfAttack: 0
+  _damageCount: 10
