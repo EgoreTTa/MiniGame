@@ -21,6 +21,7 @@ namespace Assets.Scripts.Attacks.DefaultRangeAttack
         [SerializeField] private float _bottleFlyTime;
         [SerializeField] private float _timeReload;
         [SerializeField] private bool _isReady;
+        [SerializeField] private float _damagePercent;
 
         public override StatesOfAttack StateOfAttack => _stateOfAttack;
 
@@ -28,6 +29,12 @@ namespace Assets.Scripts.Attacks.DefaultRangeAttack
         {
             get => _damageCount;
             set => _damageCount = value > 0 ? value : 0;
+        }
+
+        public override float DamagePercent
+        {
+            get => _damagePercent;
+            set => _damagePercent = value;
         }
 
         private void Ready()

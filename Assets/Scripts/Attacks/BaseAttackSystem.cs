@@ -8,6 +8,7 @@ namespace Assets.Scripts.Attacks
     {
         public abstract StatesOfAttack StateOfAttack { get; }
         public abstract float DamageCount { get; set; }
+        public abstract float DamagePercent { get; set; }
 
         /// <summary>
         /// Constructor for <see cref="MonoBehaviour"/> is <see cref="BaseAttackSystem"/>

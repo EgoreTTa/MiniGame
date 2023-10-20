@@ -1,6 +1,8 @@
 namespace Assets.Scripts
 {
     using GUI;
+    using Interfaces;
+    using Items;
     using NoMonoBehaviour;
     using UnityEngine;
 
@@ -18,5 +20,7 @@ namespace Assets.Scripts
 
         public abstract void TakeHealth(Health health);
         public abstract void TakeDamage(Damage damage);
+        public abstract void Subscribe(IHealthChangeable healthChangeable);
+        public abstract void Unsubscribe(IHealthChangeable healthChangeable);
     }
 }
