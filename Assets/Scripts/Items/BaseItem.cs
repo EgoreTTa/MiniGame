@@ -10,9 +10,9 @@ namespace Assets.Scripts.Items
     public abstract class BaseItem : MonoBehaviour
     {
         protected Player _owner;
-        protected SpriteRenderer _spriteRenderer;
-        protected Rigidbody2D _rigidbody;
-        protected Collider2D _collider;
+        [SerializeField] protected SpriteRenderer _spriteRenderer;
+        [SerializeField] protected Rigidbody2D _rigidbody;
+        [SerializeField] protected Collider2D _collider;
         [SerializeField] protected string _nameItem;
         [SerializeField] protected string _description;
         [SerializeField] protected float _currency;
@@ -21,14 +21,7 @@ namespace Assets.Scripts.Items
         public string Description => _description;
         public SpriteRenderer SpriteRenderer => _spriteRenderer;
         public float Currency => _currency;
-
-        private void Awake()
-        {
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-            _rigidbody = GetComponent<Rigidbody2D>();
-            _collider = GetComponent<Collider2D>();
-        }
-
+        
         public virtual void PickUp(Player owner)
         {
             _owner = owner;
