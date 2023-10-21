@@ -170,5 +170,5 @@ MonoBehaviour:
   _changeMaxHealth: 20
   _changeRegeneration: 5
   _typeEquipment: 1
-  _intervalRegeneration: 0.02
+  _intervalRegeneration: 0.5
   _fireCirclePrefab: {fileID: 6181794229963983432, guid: b9edc3a99c02eb044ba364dd0fd0f9b4, type: 3}
