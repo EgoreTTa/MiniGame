@@ -3,6 +3,7 @@ namespace Assets.Scripts.Environments
     using System;
     using GUI;
     using Enums;
+    using Interfaces;
     using NoMonoBehaviour;
     using UnityEngine;
 
@@ -80,6 +81,10 @@ namespace Assets.Scripts.Environments
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
+
+        public override void Subscribe(IHealthChangeable healthChangeable) { }
+
+        public override void Unsubscribe(IHealthChangeable healthChangeable) { }
 
         private void Destruction()
         {

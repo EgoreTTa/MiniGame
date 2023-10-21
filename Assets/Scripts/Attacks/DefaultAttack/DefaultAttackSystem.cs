@@ -19,6 +19,7 @@ namespace Assets.Scripts.Attacks.DefaultAttack
         [SerializeField] private float _timeHitting;
         [SerializeField] private float _timeRecovery;
         [SerializeField] private float _damageCount;
+        [SerializeField] private float _damagePercent;
 
         public override StatesOfAttack StateOfAttack => _stateOfAttack;
 
@@ -26,6 +27,12 @@ namespace Assets.Scripts.Attacks.DefaultAttack
         {
             get => _damageCount;
             set => _damageCount = value > 0 ? value : 0;
+        }
+
+        public override float DamagePercent
+        {
+            get => _damagePercent;
+            set => _damagePercent = value;
         }
 
         public override BaseAttackSystem Construct(
@@ -77,7 +84,9 @@ namespace Assets.Scripts.Attacks.DefaultAttack
 
         private void OnTriggerEnter2D(Collider2D collider)
         {
-            if (collider.GetComponent<BaseHealthSystem>() is { } healthSystem
+            if (collider.isTrigger is false
+                &&
+                collider.GetComponent<BaseHealthSystem>() is { } healthSystem
                 &&
                 healthSystem != _ownerHealthSystem)
             {

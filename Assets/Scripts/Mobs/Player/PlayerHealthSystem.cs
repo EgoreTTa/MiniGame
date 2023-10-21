@@ -1,8 +1,10 @@
 namespace Assets.Scripts.Mobs.Player
 {
     using System;
+    using System.Collections.Generic;
     using Enums;
     using GUI;
+    using Interfaces;
     using NoMonoBehaviour;
     using UnityEngine;
 
@@ -11,6 +13,7 @@ namespace Assets.Scripts.Mobs.Player
         private bool _isConstruct;
         private bool _isLive = true;
         private ManagerGUI _managerGUI;
+        private readonly List<IHealthChangeable> _healthsChangeable = new();
         [SerializeField] private float _health;
         [SerializeField] private float _minHealth;
         [SerializeField] private float _maxHealth;
@@ -35,6 +38,7 @@ namespace Assets.Scripts.Mobs.Player
                 }
 
                 _health = value;
+                UpdateSubscribers();
                 _managerGUI?.UpdateHealthBar(_health, _maxHealth);
             }
         }
@@ -57,6 +61,7 @@ namespace Assets.Scripts.Mobs.Player
             {
                 if (value <= _minHealth) value = _minHealth;
                 _maxHealth = value;
+                UpdateSubscribers();
                 _managerGUI?.UpdateHealthBar(_health, _maxHealth);
             }
         }
@@ -88,6 +93,24 @@ namespace Assets.Scripts.Mobs.Player
                 TypesDamage.Clear => damage.CountDamage,
                 _ => throw new ArgumentOutOfRangeException()
             };
+        }
+
+        public override void Subscribe(IHealthChangeable healthChangeable)
+        {
+            _healthsChangeable.Add(healthChangeable);
+        }
+
+        public override void Unsubscribe(IHealthChangeable healthChangeable)
+        {
+            _healthsChangeable.Remove(healthChangeable);
+        }
+
+        public void UpdateSubscribers()
+        {
+            foreach (var healthChangeable in _healthsChangeable)
+            {
+                healthChangeable.UpdateHealthSystem(this);
+            }
         }
     }
 }
