@@ -42,7 +42,6 @@ namespace Assets.Scripts.Mobs.Player
         [SerializeField] private BaseAttackSystem _attackSystem;
         [SerializeField] private BaseAbility _ability1;
         [SerializeField] private ManagerGUI _managerGUI;
-
         public override string FirstName => _firstname;
         public override GroupsMobs GroupMobs => _groupMobs;
         public StatesOfPlayer StateOfPlayer => _stateOfPlayer;
@@ -73,12 +72,10 @@ namespace Assets.Scripts.Mobs.Player
             if (Input.GetKey(KeyCode.A)) axis.x--;
             if (Input.GetKey(KeyCode.W)) axis.y++;
             if (Input.GetKey(KeyCode.S)) axis.y--;
-
             var isKeyAttack = Input.GetKeyDown(KeyCode.E);
             var isKeyJerk = Input.GetKeyDown(KeyCode.Space);
             var isKeyInteraction = Input.GetKeyDown(KeyCode.I);
             var isKeyAbility1 = Input.GetKeyDown(KeyCode.Alpha1);
-
             switch (_stateOfPlayer)
             {
                 case StatesOfPlayer.Idle or StatesOfPlayer.Move:
@@ -141,6 +138,14 @@ namespace Assets.Scripts.Mobs.Player
 
                     break;
                 case StatesOfPlayer.Interaction:
+                    if (isKeyInteraction)
+                    {
+                        _stateOfPlayer = StatesOfPlayer.Idle;
+                        _interaction?.Interact(this);
+                        _isInteract = false;
+                        return;
+                    }
+
                     if (_isInteract is false)
                     {
                         _stateOfPlayer = StatesOfPlayer.Idle;
@@ -150,7 +155,7 @@ namespace Assets.Scripts.Mobs.Player
                     Interaction();
                     break;
                 default:
-                    throw new Exception($"{nameof(StateOfPlayer)} of {nameof(Player)}: not valid state");
+                    throw new Exception($"{nameof(StatesOfPlayer)} of {nameof(Player)}: not valid state");
             }
         }
 
