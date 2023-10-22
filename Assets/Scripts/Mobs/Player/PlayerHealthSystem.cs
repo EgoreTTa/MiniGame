@@ -14,6 +14,7 @@ namespace Assets.Scripts.Mobs.Player
         private bool _isLive = true;
         private ManagerGUI _managerGUI;
         private readonly List<IHealthChangeable> _healthsChangeable = new();
+        private BaseMob _owner;
         [SerializeField] private float _health;
         [SerializeField] private float _minHealth;
         [SerializeField] private float _maxHealth;
@@ -37,9 +38,24 @@ namespace Assets.Scripts.Mobs.Player
                     value = _maxHealth;
                 }
 
+                if (value < _health)
+                {
+                    foreach (var healthChangeable in _healthsChangeable)
+                    {
+                        healthChangeable.TakeDamage(this);
+                    }
+                }
+                else
+                {
+                    foreach (var healthChangeable in _healthsChangeable)
+                    {
+                        healthChangeable.TakeHealth(this);
+                    }
+                }
+
                 _health = value;
                 UpdateSubscribers();
-                _managerGUI?.UpdateHealthBar(_health, _maxHealth);
+                _managerGUI.UpdateHealthBar(_health, _maxHealth);
             }
         }
 
@@ -62,14 +78,15 @@ namespace Assets.Scripts.Mobs.Player
                 if (value <= _minHealth) value = _minHealth;
                 _maxHealth = value;
                 UpdateSubscribers();
-                _managerGUI?.UpdateHealthBar(_health, _maxHealth);
+                _managerGUI.UpdateHealthBar(_health, _maxHealth);
             }
         }
 
-        public override BaseHealthSystem Construct(ManagerGUI managerGUI)
+        public override BaseHealthSystem Construct(BaseMob owner, ManagerGUI managerGUI)
         {
             if (_isConstruct is false)
             {
+                _owner = owner;
                 _managerGUI = managerGUI;
                 _managerGUI.UpdateHealthBar(_health, _maxHealth);
                 _isConstruct = true;
