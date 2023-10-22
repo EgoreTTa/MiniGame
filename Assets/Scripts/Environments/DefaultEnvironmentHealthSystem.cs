@@ -11,7 +11,6 @@ namespace Assets.Scripts.Environments
     {
         private bool _isConstruct;
         private bool _isLive;
-        private bool _owner;
         [SerializeField] private float _health;
         [SerializeField] private float _minHealth;
         [SerializeField] private float _maxHealth;
