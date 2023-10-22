@@ -9,6 +9,7 @@ namespace Assets.Scripts.Mobs.Enemies.Enemy
     using Random = UnityEngine.Random;
     using Attacks;
     using Mobs;
+    using Interfaces;
 
     [DisallowMultipleComponent]
     public class Enemy : BaseMob
@@ -39,7 +40,6 @@ namespace Assets.Scripts.Mobs.Enemies.Enemy
         public override BaseMovement MovementSystem => _movementSystem;
         public override BaseAttackSystem AttackSystem => _attackSystem;
         public StatesOfEnemy StateOfEnemy => _stateOfEnemy;
-
         public BaseMob TargetToAttack
         {
             get => _targetToAttack;
@@ -51,7 +51,7 @@ namespace Assets.Scripts.Mobs.Enemies.Enemy
 
         private void Awake()
         {
-            _healthSystem.Construct();
+            _healthSystem.Construct(this);
             _movementSystem.Construct(transform);
             _attackSystem.Construct(this, _groupMobs, _healthSystem, transform);
 
@@ -84,6 +84,10 @@ namespace Assets.Scripts.Mobs.Enemies.Enemy
                 .ToArray();
             return mobs;
         }
+
+        public override void KilledMob(BaseMob mob) { }
+        public override void Subscribe(IKillerMob killerMob) { }
+        public override void Unsubscribe(IKillerMob killerMob) { }
 
         private void IntoExplore()
         {

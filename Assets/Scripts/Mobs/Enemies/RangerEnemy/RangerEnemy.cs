@@ -7,6 +7,7 @@ namespace Assets.Scripts.Mobs.Enemies.RangerEnemy
     using Random = UnityEngine.Random;
     using System.Linq;
     using Attacks;
+    using Interfaces;
     using Mobs;
     using Movements;
 
@@ -50,7 +51,7 @@ namespace Assets.Scripts.Mobs.Enemies.RangerEnemy
 
         private void Awake()
         {
-            _healthSystem.Construct();
+            _healthSystem.Construct(this);
             _movementSystem.Construct(transform);
             _attackSystem.Construct(this, _groupMobs, _healthSystem, transform);
 
@@ -64,6 +65,10 @@ namespace Assets.Scripts.Mobs.Enemies.RangerEnemy
             LookAround();
             ActionChoice();
         }
+
+        public override void KilledMob(BaseMob mob) { }
+        public override void Subscribe(IKillerMob killerMob) { }
+        public override void Unsubscribe(IKillerMob killerMob) { }
 
         private void IntoExplore()
         {

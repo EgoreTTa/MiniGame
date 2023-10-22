@@ -10,6 +10,7 @@ namespace Assets.Scripts.Mobs.Enemies.Kamikaze
     using Movements;
     using Attacks;
     using Mobs;
+    using Assets.Scripts.Interfaces;
 
     [DisallowMultipleComponent]
     public class Kamikaze : BaseMob
@@ -42,7 +43,6 @@ namespace Assets.Scripts.Mobs.Enemies.Kamikaze
         public override BaseMovement MovementSystem => _movementSystem;
         public override BaseAttackSystem AttackSystem => null;
         public StatesOfKamikaze StateOfKamikaze => _stateOfKamikaze;
-
         public BaseMob TargetToAttack
         {
             get => _targetToAttack;
@@ -54,7 +54,7 @@ namespace Assets.Scripts.Mobs.Enemies.Kamikaze
 
         private void Awake()
         {
-            _healthSystem.Construct();
+            _healthSystem.Construct(this);
             _movementSystem.Construct(transform);
 
             _stateOfKamikaze = StatesOfKamikaze.Idle;
@@ -67,6 +67,10 @@ namespace Assets.Scripts.Mobs.Enemies.Kamikaze
             LookAround();
             ActionChoice();
         }
+
+        public override void KilledMob(BaseMob mob) { }
+        public override void Subscribe(IKillerMob killerMob) { }
+        public override void Unsubscribe(IKillerMob killerMob) { }
 
         private void Explosion()
         {
