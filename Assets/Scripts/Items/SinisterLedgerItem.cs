@@ -27,6 +27,7 @@ namespace Assets.Scripts.Items
             owner.Unsubscribe(this);
             owner.HealthSystem.Unsubscribe(this);
             owner.Inventory.Take(this);
+            ResetProgress();
         }
 
         public void Killer(BaseMob whomKilled)
@@ -42,7 +43,9 @@ namespace Assets.Scripts.Items
 
         public void TakeHealth(BaseHealthSystem healthSystem) { }
 
-        public void TakeDamage(BaseHealthSystem healthSystem)
+        public void TakeDamage(BaseHealthSystem healthSystem) => ResetProgress();
+
+        public void ResetProgress()
         {
             _owner.AttackSystem.DamagePercent -= _powerDamagePercent;
             _powerDamagePercent = default;
