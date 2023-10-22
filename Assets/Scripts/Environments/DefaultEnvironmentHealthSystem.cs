@@ -4,7 +4,6 @@ namespace Assets.Scripts.Environments
     using GUI;
     using Enums;
     using Interfaces;
-    using Mobs;
     using NoMonoBehaviour;
     using UnityEngine;
 
@@ -12,7 +11,6 @@ namespace Assets.Scripts.Environments
     {
         private bool _isConstruct;
         private bool _isLive;
-        private bool _owner;
         [SerializeField] private float _health;
         [SerializeField] private float _minHealth;
         [SerializeField] private float _maxHealth;
@@ -60,11 +58,10 @@ namespace Assets.Scripts.Environments
             }
         }
 
-        public override BaseHealthSystem Construct(BaseMob owner, ManagerGUI managerGUI = null)
+        public override BaseHealthSystem Construct(BaseMob owner = null, ManagerGUI managerGUI = null)
         {
             if (_isConstruct is false)
             {
-                _owner = owner;
                 _isConstruct = true;
                 return this;
             }
