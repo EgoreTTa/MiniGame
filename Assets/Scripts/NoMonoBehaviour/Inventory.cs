@@ -9,11 +9,11 @@ namespace Assets.Scripts.NoMonoBehaviour
 
     public class Inventory
     {
-        private List<BaseItem> _items = new();
+        private readonly List<BaseItem> _items = new();
         private IEquipment _helmet;
         private IEquipment _armor;
         private IEquipment _boot;
-        private Player _owner;
+        private readonly Player _owner;
         private float _currency;
 
         public BaseItem[] Items => _items.ToArray();

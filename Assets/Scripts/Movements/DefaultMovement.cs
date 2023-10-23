@@ -1,6 +1,5 @@
 namespace Assets.Scripts.Movements
 {
-    using System;
     using UnityEngine;
 
     public class DefaultMovement : BaseMovement

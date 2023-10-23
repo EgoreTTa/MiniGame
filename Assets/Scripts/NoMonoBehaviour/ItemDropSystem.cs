@@ -4,7 +4,7 @@ namespace Assets.Scripts.NoMonoBehaviour
 
     public static class ItemDropSystem
     {
-        private static readonly GameObject[] Items = Resources.LoadAll<GameObject>("");
+        private static readonly GameObject[] Items = Resources.LoadAll<GameObject>("Prefabs/Items");
 
         public static void Drop(Vector3 position)
         {
