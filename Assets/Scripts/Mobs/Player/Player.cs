@@ -54,7 +54,7 @@ namespace Assets.Scripts.Mobs.Player
         {
             _inventory = new Inventory(this);
             _healthSystem.Construct(_managerGUI);
-            _movementSystem.Construct(transform);
+            _movementSystem.Construct(transform, _rigidbody);
             _jerk.Construct(this, transform, _rigidbody, _movementSystem);
             _attackSystem.Construct(this, _groupMobs, _healthSystem, transform);
             _ability1.Construct(this, gameObject);
@@ -95,7 +95,7 @@ namespace Assets.Scripts.Mobs.Player
 
                     if (isKeyJerk)
                     {
-                        _jerk.Jerk();
+                        _jerk.Jerk(transform.up);
                         _stateOfPlayer = StatesOfPlayer.Jerk;
                         return;
                     }
