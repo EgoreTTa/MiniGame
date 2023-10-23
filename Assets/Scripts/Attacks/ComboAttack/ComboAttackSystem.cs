@@ -16,6 +16,7 @@ namespace Assets.Scripts.Attacks.ComboAttack
         [SerializeField] private StatesOfAttack _stateOfAttack;
         [SerializeField] private BaseHit[] _comboHits;
         [SerializeField] private float _damageCount;
+        [SerializeField] private float _damagePercent;
 
         public override StatesOfAttack StateOfAttack => _stateOfAttack;
 
@@ -23,6 +24,12 @@ namespace Assets.Scripts.Attacks.ComboAttack
         {
             get => _damageCount;
             set => _damageCount = value > 0 ? value : 0;
+        }
+
+        public override float DamagePercent
+        {
+            get => _damagePercent;
+            set => _damagePercent = value;
         }
 
         public override BaseAttackSystem Construct(
@@ -69,7 +76,7 @@ namespace Assets.Scripts.Attacks.ComboAttack
 
         private void IntoHitting()
         {
-            _comboHits[_lengthCombination].Hit(_damageCount);
+            _comboHits[_lengthCombination].Hit(_damageCount + _damageCount * _damagePercent / 100);
             _stateOfAttack = StatesOfAttack.Hitting;
             Invoke(nameof(IntoRecovery), _timeHitting);
         }

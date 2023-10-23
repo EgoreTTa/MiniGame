@@ -3,6 +3,7 @@ namespace Assets.Scripts.Mobs.Enemies
     using System;
     using GUI;
     using Enums;
+    using Interfaces;
     using NoMonoBehaviour;
     using UnityEngine;
 
@@ -81,5 +82,9 @@ namespace Assets.Scripts.Mobs.Enemies
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
+
+        public override void Subscribe(IHealthChangeable healthChangeable) { }
+
+        public override void Unsubscribe(IHealthChangeable healthChangeable) { }
     }
 }
