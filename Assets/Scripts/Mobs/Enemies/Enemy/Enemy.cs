@@ -33,6 +33,7 @@ namespace Assets.Scripts.Mobs.Enemies.Enemy
         [SerializeField] private float _timeForIdle;
         [SerializeField] private float _distanceToAttack;
         [SerializeField] private float _viewRadius;
+        [SerializeField] private Rigidbody2D _rigidbody;
 
         public override string FirstName => _firstname;
         public override GroupsMobs GroupMobs => _groupMobs;
@@ -52,7 +53,7 @@ namespace Assets.Scripts.Mobs.Enemies.Enemy
         private void Awake()
         {
             _healthSystem.Construct(this);
-            _movementSystem.Construct(transform);
+            _movementSystem.Construct(transform, _rigidbody);
             _attackSystem.Construct(this, _groupMobs, _healthSystem, transform);
 
             _stateOfEnemy = StatesOfEnemy.Idle;

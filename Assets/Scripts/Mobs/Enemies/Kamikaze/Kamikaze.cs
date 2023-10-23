@@ -36,6 +36,7 @@ namespace Assets.Scripts.Mobs.Enemies.Kamikaze
         [SerializeField] private float _timeForDetonation;
         [SerializeField] private float _explosionRadius;
         [SerializeField] private float _detonationRadius;
+        [SerializeField] private Rigidbody2D _rigidbody;
 
         public override string FirstName => _firstname;
         public override GroupsMobs GroupMobs => _groupMobs;
@@ -55,7 +56,7 @@ namespace Assets.Scripts.Mobs.Enemies.Kamikaze
         private void Awake()
         {
             _healthSystem.Construct(this);
-            _movementSystem.Construct(transform);
+            _movementSystem.Construct(transform, _rigidbody);
 
             _stateOfKamikaze = StatesOfKamikaze.Idle;
             Invoke(nameof(IntoExplore), _timeForIdle);

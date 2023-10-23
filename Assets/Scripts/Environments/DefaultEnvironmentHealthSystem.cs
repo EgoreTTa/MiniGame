@@ -4,6 +4,7 @@ namespace Assets.Scripts.Environments
     using GUI;
     using Enums;
     using Interfaces;
+    using Mobs;
     using NoMonoBehaviour;
     using UnityEngine;
 
