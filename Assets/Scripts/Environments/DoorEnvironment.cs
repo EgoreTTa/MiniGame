@@ -28,13 +28,13 @@ namespace Assets.Scripts.Environments
                 case StatesOfDoor.Opened:
                 {
                     _spriteRenderer.sprite = _sprites[1];
-                    _collider2D.enabled = false;
+                    _collider2D.isTrigger = true;
                 }
                     break;
                 case StatesOfDoor.Closed:
                 {
                     _spriteRenderer.sprite = _sprites[0];
-                    _collider2D.enabled = true;
+                    _collider2D.isTrigger = false;
                 }
                     break;
                 default:
