@@ -12,7 +12,7 @@ namespace Assets.Scripts.Movements
         /// <summary>
         /// Constructor for <see cref="MonoBehaviour"/> is <see cref="BaseMovement"/>
         /// </summary>
-        public abstract BaseMovement Construct(Transform transform);
+        public abstract BaseMovement Construct(Transform transform, Rigidbody2D rigidbody);
 
         public abstract void Move(Vector3 direction);
     }

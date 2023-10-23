@@ -18,6 +18,6 @@ namespace Assets.Scripts.Jerks
             Rigidbody2D ownerRigidbody2D,
             BaseMovement ownerMovementSystem);
 
-        public abstract void Jerk();
+        public abstract void Jerk(Vector3 direction);
     }
 }

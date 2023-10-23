@@ -11,7 +11,7 @@ namespace Assets.Scripts.Abilities
         /// <summary>
         /// Constructor for <see cref="MonoBehaviour"/> is <see cref="BaseAbility"/>
         /// </summary>
-        public abstract BaseAbility Construct(BaseMob owner, GameObject ownerGameObject);
+        public abstract BaseAbility Construct(BaseMob owner, GroupsMobs ownerGroupMobs, GameObject ownerGameObject);
 
         public abstract void Cast();
     }

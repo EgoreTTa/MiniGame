@@ -21,7 +21,7 @@ namespace Assets.Scripts.Abilities.DefaultAbility
 
         public override StatesOfAbility StateOfAbility => _stateOfAbility;
 
-        public override BaseAbility Construct(BaseMob owner, GameObject ownerGameObject)
+        public override BaseAbility Construct(BaseMob owner, GroupsMobs ownerGroupMobs, GameObject ownerGameObject)
         {
             if (_isConstruct is false)
             {
