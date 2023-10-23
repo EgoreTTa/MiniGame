@@ -2,6 +2,7 @@ namespace Assets.Scripts.Mobs.Enemies.Kamikaze
 {
     using System;
     using System.Linq;
+    using Abilities;
     using Enums;
     using NoMonoBehaviour;
     using JetBrains.Annotations;
@@ -9,6 +10,7 @@ namespace Assets.Scripts.Mobs.Enemies.Kamikaze
     using Random = UnityEngine.Random;
     using Movements;
     using Attacks;
+    using Effects;
     using Mobs;
 
     [DisallowMultipleComponent]
@@ -24,17 +26,16 @@ namespace Assets.Scripts.Mobs.Enemies.Kamikaze
 
         [SerializeField] private BaseHealthSystem _healthSystem;
         [SerializeField] private BaseMovement _movementSystem;
+        [SerializeField] private BaseAbility _suicide;
         [SerializeField] private Rigidbody2D _rigidbody;
         private Vector3? _targetToExplore;
         [SerializeField] private StatesOfKamikaze _stateOfKamikaze = StatesOfKamikaze.Idle;
         [SerializeField] private string _firstname;
         [SerializeField] private GroupsMobs _groupMobs;
         [SerializeField] private BaseMob _targetToAttack;
-        [SerializeField] private float _damageCount;
         [SerializeField] private float _viewRadius;
         [SerializeField] private float _timeForIdle;
         [SerializeField] private float _timeForDetonation;
-        [SerializeField] private float _explosionRadius;
         [SerializeField] private float _detonationRadius;
 
         public override string FirstName => _firstname;
@@ -57,6 +58,7 @@ namespace Assets.Scripts.Mobs.Enemies.Kamikaze
         {
             _healthSystem.Construct();
             _movementSystem.Construct(transform, _rigidbody);
+            _suicide.Construct(this, _groupMobs, gameObject);
 
             _stateOfKamikaze = StatesOfKamikaze.Idle;
             Invoke(nameof(IntoExplore), _timeForIdle);
@@ -73,15 +75,7 @@ namespace Assets.Scripts.Mobs.Enemies.Kamikaze
         {
             if (_healthSystem.IsLive)
             {
-                var mobs = GetMobsForRadius(_explosionRadius);
-                var healthSystems = mobs
-                    .Select(x =>
-                        x.HealthSystem)
-                    .ToArray();
-
-                var damage = new Damage(this, null, _damageCount, TypesDamage.Clear);
-                foreach (var healthSystem in healthSystems) healthSystem?.TakeDamage(damage);
-                _healthSystem.TakeDamage(new Damage(this, null, _healthSystem.MaxHealth, TypesDamage.Clear));
+                _suicide.Cast();
             }
         }
 
