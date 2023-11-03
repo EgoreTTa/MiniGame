@@ -8,29 +8,29 @@ namespace Assets.Scripts.Ability.AbilityThrowGrenade
     using Attacks.DefaultRangeAttack;
     using Grenade;
 
-    public class AbilityThrowGrenade : BaseAbility
+    public class ThrowGrenadeAbility : BaseAbility
     {
         private bool _isConstruct;
         private BaseMob _owner;
+        private GroupsMobs _ownerGroupMobs;
         private GameObject _ownerGameObject;
         private Transform _ownerTransform;
+        private Vector3 _positionCast;
+        private Vector3 _directionCast;
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private StatesOfAbility _stateOfAbility;
         [SerializeField] private float _timeToSwing;
         [SerializeField] private float _timeToCasted;
         [SerializeField] private float _timeToRecovery;
-        [SerializeField] private GameObject _grenede;
+        [SerializeField] private GameObject _grenade;
         [SerializeField] private float _damageCount;
-        [SerializeField] private float _grenedeSpeed;
+        [SerializeField] private float _grenadeSpeed;
         [SerializeField] private float _grenadeFlyTime;
         [SerializeField] private float _timeReload;
         [SerializeField] private float _timeExplosion;
         [SerializeField] private float _damageCountExplosion;
         [SerializeField] private GameObject _explosion;
         [SerializeField] private bool _isReady;
-
-        [SerializeField]
-        private float _damagePercent;
 
         public override StatesOfAbility StateOfAbility => _stateOfAbility;
 
@@ -40,6 +40,7 @@ namespace Assets.Scripts.Ability.AbilityThrowGrenade
             {
                 _owner = owner;
                 _ownerGameObject = ownerGameObject;
+                _ownerGroupMobs = ownerGroupMobs;
                 _isConstruct = true;
                 return this;
             }
@@ -72,7 +73,9 @@ namespace Assets.Scripts.Ability.AbilityThrowGrenade
             _stateOfAbility = StatesOfAbility.Standby;
         }
 
-        public override void Cast()
+        public override void Cast() { }
+
+        public override void Cast(Vector3 position, Vector3 direction)
         {
             if (_stateOfAbility != StatesOfAbility.Standby
                 ||
@@ -80,6 +83,8 @@ namespace Assets.Scripts.Ability.AbilityThrowGrenade
 
             _isReady = false;
             Invoke(nameof(Ready), _timeReload);
+            _positionCast = position;
+            _directionCast = direction.normalized;
             Swing();
         }
 
@@ -91,17 +96,11 @@ namespace Assets.Scripts.Ability.AbilityThrowGrenade
 
         private void Throw()
         {
-            var directionThrow = _ownerGameObject.transform.up.normalized;
-            var Grenade = Instantiate(_grenede, _ownerGameObject.transform.position, Quaternion.identity)
-                .GetComponent<BaseProjectile>();
-
-            if (Grenade != null)
-            {
-                var GrenadeDamage = new Damage(_owner, null, _damageCount, TypesDamage.Clear);
-                var projectile = Grenade.GetComponent<BaseProjectile>();
-                projectile.Launch(_grenedeSpeed, GrenadeDamage, directionThrow, _grenadeFlyTime, _owner);
-                Grenade.GetComponent<Grenade>().SetExplosion(_timeExplosion, _damageCountExplosion, _explosion);
-            }
+            var grenadeDamage = new Damage(_owner, gameObject, _damageCount, TypesDamage.Clear);
+            var grenade = Instantiate(_grenade, _positionCast, Quaternion.identity);
+            var projectile = grenade.GetComponent<BaseProjectile>()
+                .Construct(_grenadeSpeed, grenadeDamage, _directionCast, _grenadeFlyTime, _owner);
+            ((Grenade)projectile).SetExplosion(_timeExplosion, _damageCountExplosion, _explosion);
         }
     }
 }
