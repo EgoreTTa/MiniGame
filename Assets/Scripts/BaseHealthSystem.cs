@@ -2,10 +2,11 @@ namespace Assets.Scripts
 {
     using GUI;
     using Interfaces;
-    using Items;
+    using Mobs;
     using NoMonoBehaviour;
     using UnityEngine;
 
+    [DisallowMultipleComponent]
     public abstract class BaseHealthSystem : MonoBehaviour
     {
         public abstract float Health { get; protected set; }
@@ -16,7 +17,7 @@ namespace Assets.Scripts
         /// <summary>
         /// Constructor for <see cref="MonoBehaviour"/> is <see cref="BaseHealthSystem"/>
         /// </summary>
-        public abstract BaseHealthSystem Construct(ManagerGUI managerGUI = null);
+        public abstract BaseHealthSystem Construct(BaseMob owner = null, ManagerGUI managerGUI = null);
 
         public abstract void TakeHealth(Health health);
         public abstract void TakeDamage(Damage damage);

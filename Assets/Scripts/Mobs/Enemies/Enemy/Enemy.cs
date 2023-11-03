@@ -9,6 +9,7 @@ namespace Assets.Scripts.Mobs.Enemies.Enemy
     using Random = UnityEngine.Random;
     using Attacks;
     using Mobs;
+    using Interfaces;
 
     [DisallowMultipleComponent]
     public class Enemy : BaseMob
@@ -24,7 +25,6 @@ namespace Assets.Scripts.Mobs.Enemies.Enemy
         [SerializeField] private BaseHealthSystem _healthSystem;
         [SerializeField] private BaseMovement _movementSystem;
         [SerializeField] private BaseAttackSystem _attackSystem;
-        [SerializeField] private Rigidbody2D _rigidbody;
         private BaseMob _targetToAttack;
         private Vector3? _targetToExplore;
         [SerializeField] private StatesOfEnemy _stateOfEnemy = StatesOfEnemy.Idle;
@@ -33,6 +33,7 @@ namespace Assets.Scripts.Mobs.Enemies.Enemy
         [SerializeField] private float _timeForIdle;
         [SerializeField] private float _distanceToAttack;
         [SerializeField] private float _viewRadius;
+        [SerializeField] private Rigidbody2D _rigidbody;
 
         public override string FirstName => _firstname;
         public override GroupsMobs GroupMobs => _groupMobs;
@@ -40,7 +41,6 @@ namespace Assets.Scripts.Mobs.Enemies.Enemy
         public override BaseMovement MovementSystem => _movementSystem;
         public override BaseAttackSystem AttackSystem => _attackSystem;
         public StatesOfEnemy StateOfEnemy => _stateOfEnemy;
-
         public BaseMob TargetToAttack
         {
             get => _targetToAttack;
@@ -52,7 +52,7 @@ namespace Assets.Scripts.Mobs.Enemies.Enemy
 
         private void Awake()
         {
-            _healthSystem.Construct();
+            _healthSystem.Construct(this);
             _movementSystem.Construct(transform, _rigidbody);
             _attackSystem.Construct(this, _groupMobs, _healthSystem, transform);
 
@@ -85,6 +85,10 @@ namespace Assets.Scripts.Mobs.Enemies.Enemy
                 .ToArray();
             return mobs;
         }
+
+        public override void KilledMob(BaseMob mob) { }
+        public override void Subscribe(IKillerMob killerMob) { }
+        public override void Unsubscribe(IKillerMob killerMob) { }
 
         private void IntoExplore()
         {

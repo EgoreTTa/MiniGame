@@ -10,10 +10,12 @@ namespace Assets.Scripts.Mobs.Enemies
     public class DefaultEnemyHealthSystem : BaseHealthSystem
     {
         private bool _isConstruct;
+        private BaseMob _owner;
         [SerializeField] private float _health;
         [SerializeField] private float _minHealth;
         [SerializeField] private float _maxHealth;
         [SerializeField] private bool _isLive;
+        [SerializeField] private BaseMob _lastDamageDealt;
 
         public override bool IsLive => _isLive;
 
@@ -26,7 +28,7 @@ namespace Assets.Scripts.Mobs.Enemies
                 {
                     value = _minHealth;
                     _isLive = false;
-                    Destroy(gameObject);
+                    Dead();
                 }
 
                 if (value >= _maxHealth) value = _maxHealth;
@@ -56,10 +58,11 @@ namespace Assets.Scripts.Mobs.Enemies
             }
         }
 
-        public override BaseHealthSystem Construct(ManagerGUI managerGUI = null)
+        public override BaseHealthSystem Construct(BaseMob owner, ManagerGUI managerGUI = null)
         {
             if (_isConstruct is false)
             {
+                _owner = owner;
                 _isConstruct = true;
                 return this;
             }
@@ -74,6 +77,7 @@ namespace Assets.Scripts.Mobs.Enemies
 
         public override void TakeDamage(Damage damage)
         {
+            _lastDamageDealt = damage.Owner;
             Health -= damage.TypeDamage switch
             {
                 TypesDamage.Physical => damage.CountDamage / 2,
@@ -86,5 +90,11 @@ namespace Assets.Scripts.Mobs.Enemies
         public override void Subscribe(IHealthChangeable healthChangeable) { }
 
         public override void Unsubscribe(IHealthChangeable healthChangeable) { }
+
+        private void Dead()
+        {
+            Destroy(gameObject);
+            _lastDamageDealt.KilledMob(_owner);
+        }
     }
 }

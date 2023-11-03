@@ -2,6 +2,7 @@ namespace Assets.Scripts.Mobs.Player
 {
     using NoMonoBehaviour;
     using System;
+    using System.Collections.Generic;
     using Abilities;
     using Enums;
     using Interfaces;
@@ -30,6 +31,7 @@ namespace Assets.Scripts.Mobs.Player
         private bool _isInteract;
         private IInteraction _interaction;
         private Inventory _inventory;
+        private List<IKillerMob> _killerMobs = new();
         [SerializeField] private string _firstname;
         [SerializeField] private GroupsMobs _groupMobs;
         [SerializeField] private StatesOfPlayer _stateOfPlayer;
@@ -53,7 +55,7 @@ namespace Assets.Scripts.Mobs.Player
         private void Awake()
         {
             _inventory = new Inventory(this);
-            _healthSystem.Construct(_managerGUI);
+            _healthSystem.Construct(this, _managerGUI);
             _movementSystem.Construct(transform, _rigidbody);
             _jerk.Construct(this, transform, _rigidbody, _movementSystem);
             _attackSystem.Construct(this, _groupMobs, _healthSystem, transform);
@@ -183,6 +185,24 @@ namespace Assets.Scripts.Mobs.Player
             {
                 _isInteract = false;
             }
+        }
+
+        public override void KilledMob(BaseMob mob)
+        {
+            foreach (var killerMob in _killerMobs)
+            {
+                killerMob.Killer(mob);
+            }
+        }
+
+        public override void Subscribe(IKillerMob killerMob)
+        {
+            _killerMobs.Add(killerMob);
+        }
+
+        public override void Unsubscribe(IKillerMob killerMob)
+        {
+            _killerMobs.Remove(killerMob);
         }
 
         private void OnTriggerEnter2D(Collider2D collider)

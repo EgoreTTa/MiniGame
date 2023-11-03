@@ -7,6 +7,7 @@ namespace Assets.Scripts.Mobs.Enemies.RangerEnemy
     using Random = UnityEngine.Random;
     using System.Linq;
     using Attacks;
+    using Interfaces;
     using Mobs;
     using Movements;
 
@@ -23,7 +24,6 @@ namespace Assets.Scripts.Mobs.Enemies.RangerEnemy
         private BaseMob _targetToAttack;
         private Vector3? _targetToExplore;
         [SerializeField] private BaseHealthSystem _healthSystem;
-        [SerializeField] private Rigidbody2D _rigidbody;
         [SerializeField] private BaseMovement _movementSystem;
         [SerializeField] private BaseAttackSystem _attackSystem;
         [SerializeField] private StatesOfRangerEnemy _stateOfRangerEnemy = StatesOfRangerEnemy.Idle;
@@ -32,6 +32,7 @@ namespace Assets.Scripts.Mobs.Enemies.RangerEnemy
         [SerializeField] private float _viewRadius;
         [SerializeField] private float _timeForIdle;
         [SerializeField] private float _distanceToAttack;
+        [SerializeField] private Rigidbody2D _rigidbody;
 
         public override string FirstName => _firstname;
         public override GroupsMobs GroupMobs => _groupMobs;
@@ -51,7 +52,7 @@ namespace Assets.Scripts.Mobs.Enemies.RangerEnemy
 
         private void Awake()
         {
-            _healthSystem.Construct();
+            _healthSystem.Construct(this);
             _movementSystem.Construct(transform, _rigidbody);
             _attackSystem.Construct(this, _groupMobs, _healthSystem, transform);
 
@@ -65,6 +66,10 @@ namespace Assets.Scripts.Mobs.Enemies.RangerEnemy
             LookAround();
             ActionChoice();
         }
+
+        public override void KilledMob(BaseMob mob) { }
+        public override void Subscribe(IKillerMob killerMob) { }
+        public override void Unsubscribe(IKillerMob killerMob) { }
 
         private void IntoExplore()
         {

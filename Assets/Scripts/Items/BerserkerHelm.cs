@@ -25,7 +25,6 @@ namespace Assets.Scripts.Items
             base.PickDown(owner);
             owner.HealthSystem.Unsubscribe(this);
             owner.Inventory.Take(this);
-
         }
 
         private void Activate()
@@ -53,5 +52,9 @@ namespace Assets.Scripts.Items
                     Deactivate();
             }
         }
+
+        public void TakeHealth(BaseHealthSystem healthSystem) { }
+
+        public void TakeDamage(BaseHealthSystem healthSystem) { }
     }
 }

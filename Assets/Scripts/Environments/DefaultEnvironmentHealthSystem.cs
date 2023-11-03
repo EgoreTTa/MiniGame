@@ -4,6 +4,7 @@ namespace Assets.Scripts.Environments
     using GUI;
     using Enums;
     using Interfaces;
+    using Mobs;
     using NoMonoBehaviour;
     using UnityEngine;
 
@@ -58,7 +59,7 @@ namespace Assets.Scripts.Environments
             }
         }
 
-        public override BaseHealthSystem Construct(ManagerGUI managerGUI = null)
+        public override BaseHealthSystem Construct(BaseMob owner = null, ManagerGUI managerGUI = null)
         {
             if (_isConstruct is false)
             {

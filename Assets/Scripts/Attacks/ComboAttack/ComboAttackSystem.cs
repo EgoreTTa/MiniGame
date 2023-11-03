@@ -42,13 +42,8 @@ namespace Assets.Scripts.Attacks.ComboAttack
             {
                 _maxLengthCombination = _comboHits.Length;
 
-                for (var i = 0; i < _comboHits.Length; i++)
-                {
-                    if (_comboHits[i].GetComponent<BaseHit>() is { } hit)
-                        _comboHits[i] = hit.Construct(owner, ownerGroupsMobs, ownerHealthSystem);
-                    else
-                        Debug.LogError($"{nameof(ComboAttackSystem)} not instance {nameof(BaseHit)}");
-                }
+                foreach (var hit in _comboHits)
+                    hit.Construct(owner, ownerGroupsMobs, ownerHealthSystem);
 
                 _isConstruct = true;
                 return this;
