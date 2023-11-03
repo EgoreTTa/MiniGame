@@ -8,6 +8,7 @@ namespace Assets.Scripts.Grenade
 
     public class Grenade : BaseProjectile
     {
+        private bool _isConstruct;
         private float _speed;
         private Damage _damage;
         private GameObject _explosion;
@@ -39,15 +40,22 @@ namespace Assets.Scripts.Grenade
             set => _damage = value;
         }
 
-        public override void Launch(float speed, Damage damage, Vector3 direction, float timeFly, BaseMob owner)
+        public override BaseProjectile Construct(float speed, Damage damage, Vector3 direction, float timeFly, BaseMob owner)
         {
-            _speed = speed;
-            _damage = damage;
-            transform.up = direction;
-            _owner = owner;
-            InvokeRepeating(nameof(Fly), 0, Time.fixedDeltaTime);
-            Invoke(nameof(ActionExplosion), timeFly);
-            gameObject.SetActive(true);
+            if (_isConstruct is false)
+            {
+                _speed = speed;
+                _damage = damage;
+                transform.up = direction;
+                _owner = owner;
+                InvokeRepeating(nameof(Fly), 0, Time.fixedDeltaTime);
+                Invoke(nameof(ActionExplosion), timeFly);
+                gameObject.SetActive(true);
+                _isConstruct = true;
+                return this;
+            }
+
+            return null;
         }
 
         public void SetExplosion(float timeExplosion, float damageCount, GameObject gameObjectExpolosion)
@@ -65,6 +73,7 @@ namespace Assets.Scripts.Grenade
         private void OnDestroy()
         {
             CancelInvoke(nameof(Fly));
+            CancelInvoke(nameof(ActionExplosion));
         }
 
         private void OnTriggerEnter2D(Collider2D collider)
@@ -85,8 +94,8 @@ namespace Assets.Scripts.Grenade
 
         private void ActionExplosion()
         {
-            var Explosion = Instantiate(_explosion, gameObject.transform.position, Quaternion.identity).gameObject;
-            Explosion.GetComponent<Explosion>().UpdateExplosion(_timeExplosion, _damageCountExplosion);
+            var explosion = Instantiate(_explosion, gameObject.transform.position, Quaternion.identity);
+            explosion.GetComponent<Explosion>().UpdateExplosion(_damageCountExplosion);
             Destroy(gameObject);
         }
     }
