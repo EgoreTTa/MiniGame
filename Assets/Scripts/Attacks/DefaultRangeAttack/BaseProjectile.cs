@@ -6,11 +6,6 @@ namespace Assets.Scripts.Attacks.DefaultRangeAttack
 
     public abstract class BaseProjectile : MonoBehaviour
     {
-        public abstract void Launch(
-            float speed,
-            Damage damage,
-            Vector3 direction,
-            float timeFly,
-            BaseMob owner);
+        public abstract BaseProjectile Construct(float speed, Damage damage, Vector3 direction, float timeFly, BaseMob owner);
     }
 }
