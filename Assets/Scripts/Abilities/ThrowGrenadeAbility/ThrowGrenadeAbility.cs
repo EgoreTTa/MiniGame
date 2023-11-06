@@ -1,12 +1,11 @@
-namespace Assets.Scripts.Ability.AbilityThrowGrenade
+namespace Assets.Scripts.Abilities.ThrowGrenadeAbility
 {
     using Abilities;
     using Mobs;
     using Enums;
     using NoMonoBehaviour;
     using UnityEngine;
-    using Attacks.DefaultRangeAttack;
-    using Grenade;
+    using Projectiles;
 
     public class ThrowGrenadeAbility : BaseAbility
     {
@@ -73,9 +72,7 @@ namespace Assets.Scripts.Ability.AbilityThrowGrenade
             _stateOfAbility = StatesOfAbility.Standby;
         }
 
-        public override void Cast() { }
-
-        public override void Cast(Vector3 position, Vector3 direction)
+        public override void Cast(Vector3? position, Vector3? direction)
         {
             if (_stateOfAbility != StatesOfAbility.Standby
                 ||
@@ -83,8 +80,8 @@ namespace Assets.Scripts.Ability.AbilityThrowGrenade
 
             _isReady = false;
             Invoke(nameof(Ready), _timeReload);
-            _positionCast = position;
-            _directionCast = direction.normalized;
+            _positionCast = position!.Value;
+            _directionCast = direction!.Value.normalized;
             Swing();
         }
 
