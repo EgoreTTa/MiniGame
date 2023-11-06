@@ -60,7 +60,7 @@ namespace Assets.Scripts.Abilities.DefaultAbility
             _stateOfAbility = StatesOfAbility.Standby;
         }
 
-        public override void Cast()
+        public override void Cast(Vector3? position = null, Vector3? direction = null)
         {
             if (_stateOfAbility != StatesOfAbility.Standby
                 ||
