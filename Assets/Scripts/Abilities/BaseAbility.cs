@@ -13,7 +13,6 @@ namespace Assets.Scripts.Abilities
         /// </summary>
         public abstract BaseAbility Construct(BaseMob owner, GroupsMobs ownerGroupMobs, GameObject ownerGameObject);
 
-        public abstract void Cast();
-        public abstract void Cast(Vector3 position, Vector3 direction);
+        public abstract void Cast(Vector3? position = null, Vector3? direction = null);
     }
 }
