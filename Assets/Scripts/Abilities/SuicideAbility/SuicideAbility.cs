@@ -1,4 +1,4 @@
-namespace Assets.Scripts.Abilities
+namespace Assets.Scripts.Abilities.SuicideAbility
 {
     using System.Collections.Generic;
     using NoMonoBehaviour;
@@ -68,7 +68,7 @@ namespace Assets.Scripts.Abilities
             Invoke(nameof(IntoCasted), _timeToSwing);
         }
 
-        public override void Cast()
+        public override void Cast(Vector3? position = null, Vector3? direction = null)
         {
             IntoSwing();
         }
