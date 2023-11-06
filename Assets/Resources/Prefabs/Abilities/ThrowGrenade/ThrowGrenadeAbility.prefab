@@ -102,10 +102,12 @@ MonoBehaviour:
   _timeToSwing: 0
   _timeToCasted: 0
   _timeToRecovery: 0
-  _grenede: {fileID: 3522132144131134229, guid: c2c4ea08fec174a4095e974569aa5de1, type: 3}
+  _grenade: {fileID: 3522132144131134229, guid: c2c4ea08fec174a4095e974569aa5de1, type: 3}
   _damageCount: 2
-  _grenedeSpeed: 3
-  _grenadeFlyTime: 2
+  _grenadeSpeed: 2
+  _grenadeFlyTime: 5
   _timeReload: 2
+  _timeExplosion: 0
+  _damageCountExplosion: 5
+  _explosion: {fileID: 8039360452136824078, guid: 02e178e00c2dd604d8c0443f71c8af8f, type: 3}
   _isReady: 1
-  _damagePercent: 0

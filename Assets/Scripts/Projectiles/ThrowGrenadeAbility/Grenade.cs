@@ -13,7 +13,6 @@ namespace Assets.Scripts.Abilities.ThrowGrenadeAbility
         private Damage _damage;
         private GameObject _explosion;
         private BaseMob _owner;
-        private float _timeExplosion;
         private float _damageCountExplosion;
 
         public Vector3 Direction
@@ -40,7 +39,8 @@ namespace Assets.Scripts.Abilities.ThrowGrenadeAbility
             set => _damage = value;
         }
 
-        public override BaseProjectile Construct(float speed, Damage damage, Vector3 direction, float timeFly, BaseMob owner)
+        public override BaseProjectile Construct(float speed, Damage damage, Vector3 direction, float timeFly,
+            BaseMob owner)
         {
             if (_isConstruct is false)
             {
@@ -58,9 +58,8 @@ namespace Assets.Scripts.Abilities.ThrowGrenadeAbility
             return null;
         }
 
-        public void SetExplosion(float timeExplosion, float damageCount, GameObject gameObjectExpolosion)
+        public void SetExplosion(float damageCount, GameObject gameObjectExpolosion)
         {
-            _timeExplosion = timeExplosion;
             _damageCountExplosion = damageCount;
             _explosion = gameObjectExpolosion;
         }

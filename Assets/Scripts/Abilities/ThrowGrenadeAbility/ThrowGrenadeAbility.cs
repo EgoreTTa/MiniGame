@@ -26,7 +26,6 @@ namespace Assets.Scripts.Abilities.ThrowGrenadeAbility
         [SerializeField] private float _grenadeSpeed;
         [SerializeField] private float _grenadeFlyTime;
         [SerializeField] private float _timeReload;
-        [SerializeField] private float _timeExplosion;
         [SerializeField] private float _damageCountExplosion;
         [SerializeField] private GameObject _explosion;
         [SerializeField] private bool _isReady;
@@ -97,7 +96,7 @@ namespace Assets.Scripts.Abilities.ThrowGrenadeAbility
             var grenade = Instantiate(_grenade, _positionCast, Quaternion.identity);
             var projectile = grenade.GetComponent<BaseProjectile>()
                 .Construct(_grenadeSpeed, grenadeDamage, _directionCast, _grenadeFlyTime, _owner);
-            ((Grenade)projectile).SetExplosion(_timeExplosion, _damageCountExplosion, _explosion);
+            ((Grenade)projectile).SetExplosion(_damageCountExplosion, _explosion);
         }
     }
 }

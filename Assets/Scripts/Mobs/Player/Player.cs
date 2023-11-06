@@ -88,7 +88,7 @@ namespace Assets.Scripts.Mobs.Player
 
                     if (isKeyAbility1)
                     {
-                        _ability1?.Cast();
+                        _ability1?.Cast(transform.position, MovementSystem.Direction);
                         _stateOfPlayer = StatesOfPlayer.Attack;
                         return;
                     }

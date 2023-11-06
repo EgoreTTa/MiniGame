@@ -7,11 +7,10 @@ namespace Assets.Scripts.Explosion
     public class Explosion : MonoBehaviour
     {
         private Damage _damage;
-        private float _damageCount;
 
-        public void UpdateExplosion(float _damageCount)
+        public void UpdateExplosion(float damageCount)
         {
-            _damage = new Damage(null, gameObject, _damageCount, TypesDamage.Clear);
+            _damage = new Damage(null, gameObject, damageCount, TypesDamage.Clear);
             Destroy(gameObject, Time.fixedTime);
         }
 
