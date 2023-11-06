@@ -1,8 +1,8 @@
 namespace Assets.Scripts.Mobs.Enemies.RangerEnemy
 {
-    using Attacks.DefaultRangeAttack;
     using Mobs;
     using NoMonoBehaviour;
+    using Projectiles;
     using UnityEngine;
 
     public class Bottle : BaseProjectile
@@ -35,7 +35,12 @@ namespace Assets.Scripts.Mobs.Enemies.RangerEnemy
             set => _damage = value;
         }
 
-        public override void Launch(float speed, Damage damage, Vector3 direction, float timeFly, BaseMob owner)
+        public override BaseProjectile Construct(
+            float speed,
+            Damage damage,
+            Vector3 direction,
+            float timeFly,
+            BaseMob owner)
         {
             _speed = speed;
             _damage = damage;
@@ -44,6 +49,7 @@ namespace Assets.Scripts.Mobs.Enemies.RangerEnemy
             Destroy(this, timeFly);
             InvokeRepeating(nameof(Fly), 0, Time.fixedDeltaTime);
             gameObject.SetActive(true);
+            return this;
         }
 
         private void Fly()
