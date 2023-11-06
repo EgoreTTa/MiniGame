@@ -11,7 +11,7 @@ namespace Assets.Scripts.Explosion
         public void UpdateExplosion(float damageCount)
         {
             _damage = new Damage(null, gameObject, damageCount, TypesDamage.Clear);
-            Destroy(gameObject, Time.fixedTime);
+            Destroy(gameObject, Time.fixedDeltaTime);
         }
 
         private void OnTriggerEnter2D(Collider2D collider)
