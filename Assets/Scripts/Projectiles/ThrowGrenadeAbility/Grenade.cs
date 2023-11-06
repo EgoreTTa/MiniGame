@@ -1,9 +1,9 @@
-namespace Assets.Scripts.Grenade
+namespace Assets.Scripts.Abilities.ThrowGrenadeAbility
 {
-    using Attacks.DefaultRangeAttack;
     using Explosion;
     using Mobs;
     using NoMonoBehaviour;
+    using Projectiles;
     using UnityEngine;
 
     public class Grenade : BaseProjectile
