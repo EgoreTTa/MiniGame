@@ -1,5 +1,6 @@
 namespace Assets.Scripts.GUI
 {
+    using System;
     using Enums;
     using Interfaces;
     using Items;
@@ -60,6 +61,7 @@ namespace Assets.Scripts.GUI
             {
                 StatesGame.Game => StatesGame.Pause,
                 StatesGame.Pause => StatesGame.Game,
+                _ => throw new ArgumentOutOfRangeException()
             };
         }
 

@@ -2,7 +2,6 @@ namespace Assets.Scripts
 {
     using GUI;
     using Interfaces;
-    using Items;
     using NoMonoBehaviour;
     using UnityEngine;
 

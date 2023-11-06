@@ -1,7 +1,6 @@
 ﻿namespace Assets.Scripts.ElementalEffects
 {
     using Enums;
-    using Interfaces;
     using NoMonoBehaviour;
     using UnityEngine;
 
