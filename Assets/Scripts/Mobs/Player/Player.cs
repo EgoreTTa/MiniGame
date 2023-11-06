@@ -56,7 +56,7 @@ namespace Assets.Scripts.Mobs.Player
             _healthSystem.Construct(_managerGUI);
             _movementSystem.Construct(transform, _rigidbody);
             _jerk.Construct(this, transform, _rigidbody, _movementSystem);
-            _attackSystem.Construct(this, _groupMobs, _healthSystem, transform);
+            _attackSystem.Construct(this, _groupMobs, gameObject, _healthSystem, transform);
             _ability1.Construct(this, _groupMobs, gameObject);
         }
 
@@ -88,7 +88,7 @@ namespace Assets.Scripts.Mobs.Player
 
                     if (isKeyAbility1)
                     {
-                        _ability1?.Cast(transform.position, MovementSystem.Direction);
+                        _ability1?.Cast(transform.position, transform.up);
                         _stateOfPlayer = StatesOfPlayer.Attack;
                         return;
                     }

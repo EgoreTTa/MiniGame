@@ -18,15 +18,15 @@ namespace Assets.Scripts.Abilities.ThrowGrenadeAbility
         private Vector3 _directionCast;
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private StatesOfAbility _stateOfAbility;
-        [SerializeField] private float _timeToSwing;
-        [SerializeField] private float _timeToCasted;
-        [SerializeField] private float _timeToRecovery;
+        [SerializeField] [Min(.2f)] private float _timeToSwing;
+        [SerializeField] [Min(.2f)] private float _timeToCasted;
+        [SerializeField] [Min(.2f)] private float _timeToRecovery;
         [SerializeField] private GameObject _grenade;
-        [SerializeField] private float _damageCount;
-        [SerializeField] private float _grenadeSpeed;
+        [SerializeField] [Min(0)] private float _damageCount;
+        [SerializeField] [Min(.2f)] private float _grenadeSpeed;
         [SerializeField] private float _grenadeFlyTime;
-        [SerializeField] private float _timeReload;
-        [SerializeField] private float _damageCountExplosion;
+        [SerializeField] [Min(.2f)] private float _timeReload;
+        [SerializeField] [Min(0)] private float _damageCountExplosion;
         [SerializeField] private GameObject _explosion;
         [SerializeField] private bool _isReady;
 
@@ -94,8 +94,14 @@ namespace Assets.Scripts.Abilities.ThrowGrenadeAbility
         {
             var grenadeDamage = new Damage(_owner, gameObject, _damageCount, TypesDamage.Clear);
             var grenade = Instantiate(_grenade, _positionCast, Quaternion.identity);
-            var projectile = grenade.GetComponent<BaseProjectile>()
-                .Construct(_grenadeSpeed, grenadeDamage, _directionCast, _grenadeFlyTime, _owner);
+            var projectile = grenade.GetComponent<BaseProjectile>().Construct(
+                _grenadeSpeed,
+                grenadeDamage,
+                _directionCast,
+                _grenadeFlyTime,
+                _owner,
+                _ownerGroupMobs,
+                _ownerGameObject);
             ((Grenade)projectile).SetExplosion(_damageCountExplosion, _explosion);
         }
     }

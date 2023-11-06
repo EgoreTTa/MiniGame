@@ -1,5 +1,6 @@
 namespace Assets.Scripts.Projectiles
 {
+    using Enums;
     using Mobs;
     using NoMonoBehaviour;
     using UnityEngine;
@@ -11,6 +12,8 @@ namespace Assets.Scripts.Projectiles
             Damage damage,
             Vector3 direction,
             float timeFly,
-            BaseMob owner);
+            BaseMob owner,
+            GroupsMobs ownerGroupMobs,
+            GameObject ownerGameObject);
     }
 }

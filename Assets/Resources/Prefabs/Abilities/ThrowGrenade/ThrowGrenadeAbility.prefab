@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ea6d25094cc837246b0c4b9a471d6d7d, type: 3}
-  m_Color: {r: 0.0754717, g: 0.07309838, b: 0.07309838, a: 0.28235295}
+  m_Color: {r: 1, g: 0, b: 0, a: 0.49803922}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -99,15 +99,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 8251586978494750713}
   _stateOfAbility: 0
-  _timeToSwing: 0
-  _timeToCasted: 0
-  _timeToRecovery: 0
+  _timeToSwing: 0.2
+  _timeToCasted: 0.2
+  _timeToRecovery: 0.2
   _grenade: {fileID: 3522132144131134229, guid: c2c4ea08fec174a4095e974569aa5de1, type: 3}
   _damageCount: 2
   _grenadeSpeed: 2
   _grenadeFlyTime: 5
   _timeReload: 2
-  _timeExplosion: 0
   _damageCountExplosion: 5
   _explosion: {fileID: 8039360452136824078, guid: 02e178e00c2dd604d8c0443f71c8af8f, type: 3}
   _isReady: 1

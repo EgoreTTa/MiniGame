@@ -10,6 +10,7 @@ namespace Assets.Scripts.Attacks.DefaultAttack
     {
         private bool _isConstruct;
         private BaseMob _owner;
+        private GameObject _ownerGameObject;
         private GroupsMobs _ownerGroupMobs;
         private BaseHealthSystem _ownerHealthSystem;
         [SerializeField] private StatesOfAttack _stateOfAttack;
@@ -38,6 +39,7 @@ namespace Assets.Scripts.Attacks.DefaultAttack
         public override BaseAttackSystem Construct(
             BaseMob owner,
             GroupsMobs ownerGroupsMobs,
+            GameObject ownerGameObject,
             BaseHealthSystem ownerHealthSystem,
             Transform ownerTransform)
         {
@@ -45,6 +47,7 @@ namespace Assets.Scripts.Attacks.DefaultAttack
             {
                 _owner = owner;
                 _ownerGroupMobs = ownerGroupsMobs;
+                _ownerGameObject = ownerGameObject;
                 _ownerHealthSystem = ownerHealthSystem;
                 _isConstruct = true;
                 return this;

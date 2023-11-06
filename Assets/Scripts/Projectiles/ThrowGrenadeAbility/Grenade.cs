@@ -1,5 +1,6 @@
 namespace Assets.Scripts.Abilities.ThrowGrenadeAbility
 {
+    using Assets.Scripts.Enums;
     using Explosion;
     using Mobs;
     using NoMonoBehaviour;
@@ -13,6 +14,8 @@ namespace Assets.Scripts.Abilities.ThrowGrenadeAbility
         private Damage _damage;
         private GameObject _explosion;
         private BaseMob _owner;
+        private GroupsMobs _ownerGroupMobs;
+        private GameObject _ownerGameObject;
         private float _damageCountExplosion;
 
         public Vector3 Direction
@@ -39,8 +42,14 @@ namespace Assets.Scripts.Abilities.ThrowGrenadeAbility
             set => _damage = value;
         }
 
-        public override BaseProjectile Construct(float speed, Damage damage, Vector3 direction, float timeFly,
-            BaseMob owner)
+        public override BaseProjectile Construct(
+            float speed,
+            Damage damage,
+            Vector3 direction,
+            float timeFly,
+            BaseMob owner,
+            GroupsMobs ownerGroupMobs,
+            GameObject ownerGameObject)
         {
             if (_isConstruct is false)
             {
@@ -48,6 +57,8 @@ namespace Assets.Scripts.Abilities.ThrowGrenadeAbility
                 _damage = damage;
                 transform.up = direction;
                 _owner = owner;
+                _ownerGroupMobs = ownerGroupMobs;
+                _ownerGameObject = ownerGameObject;
                 InvokeRepeating(nameof(Fly), 0, Time.fixedDeltaTime);
                 Invoke(nameof(ActionExplosion), timeFly);
                 gameObject.SetActive(true);
@@ -58,10 +69,10 @@ namespace Assets.Scripts.Abilities.ThrowGrenadeAbility
             return null;
         }
 
-        public void SetExplosion(float damageCount, GameObject gameObjectExpolosion)
+        public void SetExplosion(float damageCount, GameObject gameObjectExplosion)
         {
             _damageCountExplosion = damageCount;
-            _explosion = gameObjectExpolosion;
+            _explosion = gameObjectExplosion;
         }
 
         private void Fly()
@@ -79,11 +90,14 @@ namespace Assets.Scripts.Abilities.ThrowGrenadeAbility
         {
             if (collider.isTrigger is false)
             {
-                if (_owner != null
+                if (collider.GetComponent<BaseMob>() is { } mob
                     &&
-                    collider.gameObject != _owner.gameObject)
+                    mob != _owner
+                    &&
+                    mob.GroupMobs != _ownerGroupMobs
+                   )
                 {
-                    if (collider.gameObject.GetComponent<BaseHealthSystem>() is { } healthSystem)
+                    if (mob.HealthSystem is { } healthSystem)
                         healthSystem.TakeDamage(_damage);
 
                     ActionExplosion();
@@ -94,7 +108,7 @@ namespace Assets.Scripts.Abilities.ThrowGrenadeAbility
         private void ActionExplosion()
         {
             var explosion = Instantiate(_explosion, gameObject.transform.position, Quaternion.identity);
-            explosion.GetComponent<Explosion>().UpdateExplosion(_damageCountExplosion);
+            explosion.GetComponent<Explosion>().UpdateExplosion(_damageCountExplosion, _owner, _ownerGroupMobs);
             Destroy(gameObject);
         }
     }

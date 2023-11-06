@@ -10,6 +10,8 @@ namespace Assets.Scripts.Attacks.DefaultRangeAttack
     {
         private bool _isConstruct;
         private BaseMob _owner;
+        private GameObject _ownerGameObject;
+        private GroupsMobs _ownerGroupsMobs;
         private Transform _ownerTransform;
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private float _timeSwing;
@@ -46,12 +48,15 @@ namespace Assets.Scripts.Attacks.DefaultRangeAttack
         public override BaseAttackSystem Construct(
             BaseMob owner,
             GroupsMobs ownerGroupsMobs,
+            GameObject ownerGameObject,
             BaseHealthSystem ownerHealthSystem,
             Transform ownerTransform)
         {
             if (_isConstruct is false)
             {
                 _owner = owner;
+                _ownerGroupsMobs = ownerGroupsMobs;
+                _ownerGameObject = ownerGameObject;
                 _ownerTransform = ownerTransform;
                 _isConstruct = true;
                 return this;
@@ -95,14 +100,24 @@ namespace Assets.Scripts.Attacks.DefaultRangeAttack
         private void BottleThrow()
         {
             var directionThrow = _ownerTransform.up.normalized;
-            var bottle = Instantiate(_bottle, _ownerTransform.position, Quaternion.identity)
-                .GetComponent<BaseProjectile>();
+            var bottle = Instantiate(_bottle,
+                _ownerTransform.position,
+                Quaternion.identity).GetComponent<BaseProjectile>();
 
             if (bottle != null)
             {
-                var bottleDamage = new Damage(_owner, null, _damageCount, TypesDamage.Clear);
-                var projectile = bottle.GetComponent<BaseProjectile>()
-                    .Construct(_bottleSpeed, bottleDamage, directionThrow, _bottleFlyTime, _owner);
+                var bottleDamage = new Damage(_owner,
+                    null,
+                    _damageCount,
+                    TypesDamage.Clear);
+                var projectile = bottle.GetComponent<BaseProjectile>().Construct(
+                    _bottleSpeed,
+                    bottleDamage,
+                    directionThrow,
+                    _bottleFlyTime,
+                    _owner,
+                    _ownerGroupsMobs,
+                    _ownerGameObject);
             }
         }
     }

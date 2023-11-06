@@ -1,5 +1,6 @@
 namespace Assets.Scripts.Mobs.Enemies.RangerEnemy
 {
+    using Enums;
     using Mobs;
     using NoMonoBehaviour;
     using Projectiles;
@@ -40,7 +41,9 @@ namespace Assets.Scripts.Mobs.Enemies.RangerEnemy
             Damage damage,
             Vector3 direction,
             float timeFly,
-            BaseMob owner)
+            BaseMob owner,
+            GroupsMobs ownerGroupMobs,
+            GameObject ownerGameObject)
         {
             _speed = speed;
             _damage = damage;

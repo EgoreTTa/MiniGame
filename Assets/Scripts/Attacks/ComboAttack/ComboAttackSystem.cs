@@ -10,6 +10,9 @@ namespace Assets.Scripts.Attacks.ComboAttack
         private bool _isConstruct;
         private int _lengthCombination;
         private int _maxLengthCombination;
+        private BaseMob _owner;
+        private GameObject _ownerGameObject;
+        private GroupsMobs _ownerGroupsMobs;
         [SerializeField] private float _timeSwing;
         [SerializeField] private float _timeHitting;
         [SerializeField] private float _timeRecovering;
@@ -35,19 +38,21 @@ namespace Assets.Scripts.Attacks.ComboAttack
         public override BaseAttackSystem Construct(
             BaseMob owner,
             GroupsMobs ownerGroupsMobs,
+            GameObject ownerGameObject,
             BaseHealthSystem ownerHealthSystem,
             Transform ownerTransform)
         {
             if (_isConstruct is false)
             {
                 _maxLengthCombination = _comboHits.Length;
-
-                for (var i = 0; i < _comboHits.Length; i++)
+                _owner = owner;
+                _ownerGroupsMobs = ownerGroupsMobs;
+                _ownerGameObject = ownerGameObject;
+                for (var i = 0; i < _maxLengthCombination; i++)
                 {
-                    if (_comboHits[i].GetComponent<BaseHit>() is { } hit)
-                        _comboHits[i] = hit.Construct(owner, ownerGroupsMobs, ownerHealthSystem);
-                    else
-                        Debug.LogError($"{nameof(ComboAttackSystem)} not instance {nameof(BaseHit)}");
+                    _comboHits[i] = _comboHits[i].Construct(owner,
+                        ownerGroupsMobs,
+                        ownerHealthSystem);
                 }
 
                 _isConstruct = true;

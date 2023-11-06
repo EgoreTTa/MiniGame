@@ -53,7 +53,11 @@ namespace Assets.Scripts.Mobs.Enemies.RangerEnemy
         {
             _healthSystem.Construct();
             _movementSystem.Construct(transform, _rigidbody);
-            _attackSystem.Construct(this, _groupMobs, _healthSystem, transform);
+            _attackSystem.Construct(this,
+                _groupMobs,
+                gameObject,
+                _healthSystem,
+                transform);
 
             _stateOfRangerEnemy = StatesOfRangerEnemy.Idle;
             Invoke(nameof(IntoExplore), _timeForIdle);

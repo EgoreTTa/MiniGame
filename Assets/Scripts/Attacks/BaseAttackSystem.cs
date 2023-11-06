@@ -16,6 +16,7 @@ namespace Assets.Scripts.Attacks
         public abstract BaseAttackSystem Construct(
             BaseMob owner,
             GroupsMobs ownerGroupsMobs,
+            GameObject ownerGameObject,
             BaseHealthSystem ownerHealthSystem,
             Transform ownerTransform);
 

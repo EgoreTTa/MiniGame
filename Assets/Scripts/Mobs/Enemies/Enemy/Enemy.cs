@@ -54,7 +54,7 @@ namespace Assets.Scripts.Mobs.Enemies.Enemy
         {
             _healthSystem.Construct();
             _movementSystem.Construct(transform, _rigidbody);
-            _attackSystem.Construct(this, _groupMobs, _healthSystem, transform);
+            _attackSystem.Construct(this, _groupMobs, gameObject, _healthSystem, transform);
 
             _stateOfEnemy = StatesOfEnemy.Idle;
             Invoke(nameof(IntoExplore), _timeForIdle);
