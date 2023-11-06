@@ -3,6 +3,7 @@ namespace Assets.Scripts.Attacks.DefaultRangeAttack
     using Mobs;
     using Enums;
     using NoMonoBehaviour;
+    using Projectiles;
     using UnityEngine;
 
     public class DefaultRangeAttackSystem : BaseAttackSystem
@@ -100,8 +101,8 @@ namespace Assets.Scripts.Attacks.DefaultRangeAttack
             if (bottle != null)
             {
                 var bottleDamage = new Damage(_owner, null, _damageCount, TypesDamage.Clear);
-                var projectile = bottle.GetComponent<BaseProjectile>();
-                projectile.Launch(_bottleSpeed, bottleDamage, directionThrow, _bottleFlyTime, _owner);
+                var projectile = bottle.GetComponent<BaseProjectile>()
+                    .Construct(_bottleSpeed, bottleDamage, directionThrow, _bottleFlyTime, _owner);
             }
         }
     }
