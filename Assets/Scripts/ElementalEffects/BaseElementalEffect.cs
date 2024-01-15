@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.ElementalEffects
+﻿namespace ElementalEffects
 {
     using System;
     using System.Linq;

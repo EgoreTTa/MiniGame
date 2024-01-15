@@ -1,12 +1,12 @@
-namespace Assets.Scripts.NonPlayerCharacters
+namespace Mobs.NonPlayerCharacters
 {
     using System.Collections.Generic;
     using System.Linq;
     using Interfaces;
     using Items;
     using JetBrains.Annotations;
-    using Mobs.Player;
     using NoMonoBehaviour;
+    using Player;
     using UnityEngine;
 
     [UsedImplicitly]

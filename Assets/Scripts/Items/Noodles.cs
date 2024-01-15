@@ -1,4 +1,4 @@
-namespace Assets.Scripts.Items
+namespace Items
 {
     using Interfaces;
     using JetBrains.Annotations;

@@ -1,4 +1,4 @@
-namespace Assets.Scripts.Items.Equipments
+namespace Items.Equipments
 {
     using Enums;
     using Interfaces;

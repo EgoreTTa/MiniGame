@@ -1,4 +1,4 @@
-namespace Assets.Scripts.NoMonoBehaviour
+namespace NoMonoBehaviour
 {
     using Mobs;
     using UnityEngine;

@@ -1,4 +1,4 @@
-namespace Assets.Scripts.Others
+namespace Others
 {
     using Enums;
     using JetBrains.Annotations;

@@ -1,8 +1,8 @@
-namespace Assets.Scripts.Abilities.DefaultAbility
+namespace Abilities.DefaultAbility
 {
-    using Mobs;
     using ElementalEffects;
     using Enums;
+    using Mobs;
     using UnityEngine;
 
     public class DefaultAbility : BaseAbility

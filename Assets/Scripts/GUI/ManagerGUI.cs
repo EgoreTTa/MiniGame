@@ -1,5 +1,6 @@
-namespace Assets.Scripts.GUI
+namespace GUI
 {
+    using System;
     using Enums;
     using Interfaces;
     using Items;
@@ -22,17 +23,15 @@ namespace Assets.Scripts.GUI
                 switch (value)
                 {
                     case StatesGame.Pause:
-                    {
                         _inGameMenu.SetActive(true);
                         Time.timeScale = 0;
-                    }
                         break;
                     case StatesGame.Game:
-                    {
                         _inGameMenu.SetActive(false);
                         Time.timeScale = 1;
-                    }
                         break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(value), value, null);
                 }
 
                 _stateGame = value;
@@ -60,6 +59,7 @@ namespace Assets.Scripts.GUI
             {
                 StatesGame.Game => StatesGame.Pause,
                 StatesGame.Pause => StatesGame.Game,
+                _ => throw new ArgumentOutOfRangeException()
             };
         }
 

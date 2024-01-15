@@ -1,10 +1,10 @@
-namespace Assets.Scripts.Items.Equipments
+namespace Items.Equipments
 {
+    using Effects;
     using Enums;
     using Interfaces;
-    using UnityEngine;
     using NoMonoBehaviour;
-    using Effects;
+    using UnityEngine;
 
     [DisallowMultipleComponent]
     public class FireBoot : BaseItem, IEquipment

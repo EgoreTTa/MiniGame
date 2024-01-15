@@ -1,4 +1,4 @@
-namespace Assets.Scripts.Abilities
+namespace Abilities
 {
     using Enums;
     using Mobs;

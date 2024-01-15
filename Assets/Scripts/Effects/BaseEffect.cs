@@ -1,4 +1,4 @@
-namespace Assets.Scripts.Effects
+namespace Effects
 {
     using UnityEngine;
 

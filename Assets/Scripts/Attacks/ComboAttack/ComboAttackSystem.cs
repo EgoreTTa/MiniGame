@@ -1,8 +1,7 @@
-namespace Assets.Scripts.Attacks.ComboAttack
+namespace Attacks.ComboAttack
 {
-    using Mobs;
     using Enums;
-    using Interfaces;
+    using Mobs;
     using UnityEngine;
 
     public class ComboAttackSystem : BaseAttackSystem

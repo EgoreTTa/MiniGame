@@ -1,15 +1,14 @@
-namespace Assets.Scripts.Mobs.Enemies.RangerEnemy
+namespace Mobs.Enemies.RangerEnemy
 {
-    using Enums;
-    using UnityEngine;
     using System;
-    using JetBrains.Annotations;
-    using Random = UnityEngine.Random;
     using System.Linq;
     using Attacks;
+    using Enums;
     using Interfaces;
-    using Mobs;
+    using JetBrains.Annotations;
     using Movements;
+    using UnityEngine;
+    using Random = UnityEngine.Random;
 
     public class RangerEnemy : BaseMob
     {

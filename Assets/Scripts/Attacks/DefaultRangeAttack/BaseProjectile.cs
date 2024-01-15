@@ -1,4 +1,4 @@
-namespace Assets.Scripts.Attacks.DefaultRangeAttack
+namespace Attacks.DefaultRangeAttack
 {
     using Mobs;
     using NoMonoBehaviour;

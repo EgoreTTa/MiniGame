@@ -1,7 +1,7 @@
-namespace Assets.Scripts.Effects
+namespace Effects
 {
-    using Mobs;
     using Enums;
+    using Mobs;
     using NoMonoBehaviour;
     using UnityEngine;
 

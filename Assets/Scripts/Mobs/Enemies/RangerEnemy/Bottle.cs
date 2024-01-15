@@ -1,7 +1,6 @@
-namespace Assets.Scripts.Mobs.Enemies.RangerEnemy
+namespace Mobs.Enemies.RangerEnemy
 {
     using Attacks.DefaultRangeAttack;
-    using Mobs;
     using NoMonoBehaviour;
     using UnityEngine;
 

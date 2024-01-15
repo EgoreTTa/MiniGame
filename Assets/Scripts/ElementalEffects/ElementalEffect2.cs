@@ -1,6 +1,5 @@
-﻿namespace Assets.Scripts.ElementalEffects
+﻿namespace ElementalEffects
 {
-    using Interfaces;
     using UnityEngine;
 
     [DisallowMultipleComponent]

@@ -1,8 +1,8 @@
-namespace Assets.Scripts.Mobs.Enemies
+namespace Mobs.Enemies
 {
     using System;
-    using GUI;
     using Enums;
+    using GUI;
     using Interfaces;
     using NoMonoBehaviour;
     using UnityEngine;
