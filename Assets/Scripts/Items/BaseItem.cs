@@ -1,4 +1,4 @@
-namespace Assets.Scripts.Items
+namespace Items
 {
     using Mobs.Player;
     using UnityEngine;

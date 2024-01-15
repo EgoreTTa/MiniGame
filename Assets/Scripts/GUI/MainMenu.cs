@@ -1,4 +1,4 @@
-namespace Assets.Scripts.GUI
+namespace GUI
 {
     using System;
     using UnityEngine;

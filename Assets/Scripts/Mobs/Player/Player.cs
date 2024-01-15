@@ -1,18 +1,18 @@
-namespace Assets.Scripts.Mobs.Player
+namespace Mobs.Player
 {
-    using NoMonoBehaviour;
     using System;
     using System.Collections.Generic;
     using Abilities;
+    using Attacks;
     using Enums;
+    using GUI;
     using Interfaces;
-    using UnityEngine;
     using Items;
     using Jerks;
     using Movements;
+    using NoMonoBehaviour;
+    using UnityEngine;
     using UnityEngine.SceneManagement;
-    using Attacks;
-    using GUI;
 
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Collider2D))]

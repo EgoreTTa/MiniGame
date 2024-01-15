@@ -1,7 +1,7 @@
-namespace Assets.Scripts.Attacks.DefaultRangeAttack
+namespace Attacks.DefaultRangeAttack
 {
-    using Mobs;
     using Enums;
+    using Mobs;
     using NoMonoBehaviour;
     using UnityEngine;
 

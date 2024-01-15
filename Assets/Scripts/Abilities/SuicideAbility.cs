@@ -1,9 +1,9 @@
-namespace Assets.Scripts.Abilities
+namespace Abilities
 {
     using System.Collections.Generic;
-    using NoMonoBehaviour;
     using Enums;
     using Mobs;
+    using NoMonoBehaviour;
     using UnityEngine;
 
     public class SuicideAbility : BaseAbility

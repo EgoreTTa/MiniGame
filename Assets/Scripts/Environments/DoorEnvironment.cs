@@ -1,4 +1,4 @@
-namespace Assets.Scripts.Environments
+namespace Environments
 {
     using System;
     using Interfaces;

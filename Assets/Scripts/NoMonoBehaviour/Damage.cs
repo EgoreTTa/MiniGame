@@ -1,7 +1,7 @@
-namespace Assets.Scripts.NoMonoBehaviour
+namespace NoMonoBehaviour
 {
-    using Mobs;
     using Enums;
+    using Mobs;
     using UnityEngine;
 
     public readonly struct Damage

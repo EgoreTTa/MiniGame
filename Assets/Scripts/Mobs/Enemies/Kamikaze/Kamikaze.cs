@@ -1,16 +1,15 @@
-namespace Assets.Scripts.Mobs.Enemies.Kamikaze
+namespace Mobs.Enemies.Kamikaze
 {
     using System;
     using System.Linq;
+    using Attacks;
     using Enums;
-    using NoMonoBehaviour;
+    using Interfaces;
     using JetBrains.Annotations;
+    using Movements;
+    using NoMonoBehaviour;
     using UnityEngine;
     using Random = UnityEngine.Random;
-    using Movements;
-    using Attacks;
-    using Mobs;
-    using Assets.Scripts.Interfaces;
 
     [DisallowMultipleComponent]
     public class Kamikaze : BaseMob

@@ -1,4 +1,4 @@
-namespace Assets.Scripts.Jerks
+namespace Jerks
 {
     using Enums;
     using Mobs;

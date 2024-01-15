@@ -1,7 +1,7 @@
-namespace Assets.Scripts.Attacks.DefaultAttack
+namespace Attacks.DefaultAttack
 {
-    using Mobs;
     using Enums;
+    using Mobs;
     using NoMonoBehaviour;
     using UnityEngine;
 

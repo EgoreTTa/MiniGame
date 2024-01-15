@@ -1,4 +1,4 @@
-namespace Assets.Scripts.NonPlayerCharacters
+namespace Interfaces
 {
     public interface INonPlayerCharacter
     {

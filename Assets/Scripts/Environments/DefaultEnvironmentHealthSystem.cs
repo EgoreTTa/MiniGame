@@ -1,8 +1,8 @@
-namespace Assets.Scripts.Environments
+namespace Environments
 {
     using System;
-    using GUI;
     using Enums;
+    using GUI;
     using Interfaces;
     using Mobs;
     using NoMonoBehaviour;

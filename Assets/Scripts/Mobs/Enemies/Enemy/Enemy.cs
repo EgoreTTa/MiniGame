@@ -1,15 +1,14 @@
-namespace Assets.Scripts.Mobs.Enemies.Enemy
+namespace Mobs.Enemies.Enemy
 {
     using System;
     using System.Linq;
-    using Movements;
+    using Attacks;
     using Enums;
+    using Interfaces;
     using JetBrains.Annotations;
+    using Movements;
     using UnityEngine;
     using Random = UnityEngine.Random;
-    using Attacks;
-    using Mobs;
-    using Interfaces;
 
     [DisallowMultipleComponent]
     public class Enemy : BaseMob

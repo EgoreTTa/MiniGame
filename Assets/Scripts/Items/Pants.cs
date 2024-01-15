@@ -1,4 +1,4 @@
-namespace Assets.Scripts.Items
+namespace Items
 {
     using JetBrains.Annotations;
     using Mobs.Player;

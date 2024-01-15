@@ -1,4 +1,4 @@
-namespace Assets.Scripts.Mobs.Player
+namespace Mobs.Player
 {
     using System;
     using System.Collections.Generic;

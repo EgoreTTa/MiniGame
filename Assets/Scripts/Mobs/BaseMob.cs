@@ -1,8 +1,8 @@
-namespace Assets.Scripts.Mobs
+namespace Mobs
 {
-    using Interfaces;
     using Attacks;
     using Enums;
+    using Interfaces;
     using Movements;
     using UnityEngine;
 

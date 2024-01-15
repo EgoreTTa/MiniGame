@@ -1,7 +1,7 @@
-namespace Assets.Scripts.Interfaces
+namespace Attacks.ComboAttack
 {
-    using Mobs;
     using Enums;
+    using Mobs;
     using UnityEngine;
 
     public abstract class BaseHit : MonoBehaviour

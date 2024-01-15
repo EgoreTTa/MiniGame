@@ -1,7 +1,7 @@
-namespace Assets.Scripts.Attacks
+namespace Attacks
 {
-    using Mobs;
     using Enums;
+    using Mobs;
     using UnityEngine;
 
     public abstract class BaseAttackSystem : MonoBehaviour

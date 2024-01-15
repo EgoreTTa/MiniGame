@@ -1,4 +1,4 @@
-namespace Assets.Scripts.Movements
+namespace Movements
 {
     using UnityEngine;
 
