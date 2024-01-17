@@ -2,6 +2,7 @@ namespace Abilities
 {
     using System.Collections.Generic;
     using Enums;
+    using GUI;
     using Mobs;
     using NoMonoBehaviour;
     using UnityEngine;
@@ -21,13 +22,18 @@ namespace Abilities
 
         public override StatesOfAbility StateOfAbility => _stateOfAbility;
 
-        public override BaseAbility Construct(BaseMob owner, GroupsMobs ownerGroupMobs, GameObject ownerGameObject)
+        public override BaseAbility Construct(
+            BaseMob owner, 
+            GroupsMobs ownerGroupMobs, 
+            GameObject ownerGameObject, 
+            ManagerGUI managerGUI)
         {
             if (_isConstruct is false)
             {
                 _owner = owner;
                 _ownerGroupMobs = ownerGroupMobs;
                 _isConstruct = true;
+                _managerGUI = null;
                 return this;
             }
 

@@ -2,6 +2,7 @@ namespace Abilities.DefaultAbility
 {
     using ElementalEffects;
     using Enums;
+    using GUI;
     using Mobs;
     using UnityEngine;
 
@@ -18,31 +19,53 @@ namespace Abilities.DefaultAbility
         [SerializeField] private float _timeToRecovery;
         [SerializeField] private float _timeReload;
         [SerializeField] private bool _isReady;
+        [SerializeField] private float _timerReload;
 
         public override StatesOfAbility StateOfAbility => _stateOfAbility;
 
-        public override BaseAbility Construct(BaseMob owner, GroupsMobs ownerGroupMobs, GameObject ownerGameObject)
+        public override BaseAbility Construct(BaseMob owner, GroupsMobs ownerGroupMobs, GameObject ownerGameObject,
+            ManagerGUI managerGUI)
         {
             if (_isConstruct is false)
             {
                 _owner = owner;
                 _ownerGameObject = ownerGameObject;
                 _isConstruct = true;
+                _managerGUI = managerGUI;
+                _managerGUI.SetAbility(_spriteAbility, _nameAbility, _typingAbility, _descriptionAbility);
                 return this;
             }
 
             return null;
         }
 
-        private void Ready()
+        private void Update()
         {
-            _isReady = true;
+            if (_isReady is false)
+            {
+                _timerReload += Time.deltaTime;
+                if (_timerReload > _timeReload)
+                {
+                    _timerReload = _timeReload;
+                    _isReady = true;
+                }
+
+                _managerGUI?.UpdateAbilityReload(1 - _timerReload / _timeReload, _timeReload - _timerReload);
+            }
+        }
+
+        private void IntoSwing()
+        {
+            _stateOfAbility = StatesOfAbility.Swing;
+            Invoke(nameof(IntoCasted), _timeToSwing);
         }
 
         private void IntoCasted()
         {
             _spriteRenderer.enabled = true;
             _circleCollider.enabled = true;
+            _isReady = false;
+            _timerReload = 0;
             _stateOfAbility = StatesOfAbility.Casted;
             Invoke(nameof(IntoRecovery), _timeToCasted);
         }
@@ -66,15 +89,7 @@ namespace Abilities.DefaultAbility
                 ||
                 _isReady is false) return;
 
-            _isReady = false;
-            Invoke(nameof(Ready), _timeReload);
-            Swing();
-        }
-
-        private void Swing()
-        {
-            _stateOfAbility = StatesOfAbility.Swing;
-            Invoke(nameof(IntoCasted), _timeToSwing);
+            IntoSwing();
         }
 
         private void OnTriggerEnter2D(Collider2D collider)

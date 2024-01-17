@@ -59,7 +59,7 @@ namespace Mobs.Player
             _movementSystem.Construct(transform, _rigidbody);
             _jerk.Construct(this, transform, _rigidbody, _movementSystem);
             _attackSystem.Construct(this, _groupMobs, _healthSystem, transform);
-            _ability1.Construct(this, _groupMobs, gameObject);
+            _ability1.Construct(this, _groupMobs, gameObject, _managerGUI);
         }
 
         private void Update()
@@ -90,7 +90,7 @@ namespace Mobs.Player
 
                     if (isKeyAbility1)
                     {
-                        _ability1?.Cast();
+                        _ability1.Cast();
                         _stateOfPlayer = StatesOfPlayer.Attack;
                         return;
                     }
