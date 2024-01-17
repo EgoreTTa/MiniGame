@@ -1,6 +1,7 @@
 namespace GUI
 {
     using System;
+    using Abilities;
     using Enums;
     using Interfaces;
     using Items;
@@ -14,6 +15,10 @@ namespace GUI
         [SerializeField] private HealthBar _healthBar;
         [SerializeField] private GameObject _inGameMenu;
         [SerializeField] private StatesGame _stateGame;
+        [SerializeField] private AbilityGUI _abilityGUI1;
+        [SerializeField] private AbilityGUI _abilityGUI2;
+        [SerializeField] private AbilityGUI _abilityGUI3;
+        [SerializeField] private AbilityGUI _abilityGUI4;
 
         public StatesGame StateGame
         {
@@ -66,6 +71,16 @@ namespace GUI
         public void UpdateHealthBar(float health, float maxHealth)
         {
             _healthBar.UpdateBar(health, maxHealth);
+        }
+
+        public void SetAbility(Sprite spriteAbility, string nameAbility, string hintTypingAbility, string descriptionAbility)
+        {
+            _abilityGUI1.SetAbility(spriteAbility, nameAbility, hintTypingAbility, descriptionAbility);
+        }
+
+        public void UpdateAbilityReload(float amount, float time)
+        {
+            _abilityGUI1.UpdateAbilityReload(amount, time);
         }
 
         public BaseItem[] GetItemsInventory()
