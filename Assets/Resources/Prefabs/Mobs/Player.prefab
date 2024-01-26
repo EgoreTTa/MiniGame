@@ -106,8 +106,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0
+  m_LinearDrag: 15
+  m_AngularDrag: 15
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -212,7 +212,8 @@ MonoBehaviour:
   _movementSystem: {fileID: 1913512640220180011}
   _jerk: {fileID: 5133062833684486613}
   _attackSystem: {fileID: 3978163518449412683}
-  _ability1: {fileID: 2126458344932274203}
+  _abilities:
+  - {fileID: 2126458344932274203}
   _managerGUI: {fileID: 0}
 --- !u!114 &5133062833684486613
 MonoBehaviour:
@@ -258,9 +259,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02a255b63453fa34e949d48a712c9653, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 200
+  _health: 190
+  _baseMinimumHealth: 0
   _minHealth: 0
-  _maxHealth: 250
+  _baseMaximumHealth: 190
+  _maxHealth: 190
 --- !u!1001 &2699698336027847575
 PrefabInstance:
   m_ObjectHideFlags: 0

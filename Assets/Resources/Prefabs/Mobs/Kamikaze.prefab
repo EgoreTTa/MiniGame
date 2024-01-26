@@ -161,12 +161,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73bf06ff44c436a4981ad44f4bd31c70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _nameAbility: 
+  _typingAbility: 
+  _descriptionAbility: 
+  _spriteAbility: {fileID: 0}
+  _managerGUI: {fileID: 0}
   _spriteRenderer: {fileID: 9193268657485360589}
   _collider: {fileID: 3371987733614768568}
   _timeToSwing: 0.2
   _timeToCasted: 0.2
   _timeToRecovery: 0.2
   _stateOfAbility: 0
+  _radius: 0
+  _speedUse: 0
+  _cooldown: 0
+  _power: 0
+  _duration: 0
+  _range: 0
 --- !u!1 &4455685455898522903
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,8 +281,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDrag: 15
+  m_AngularDrag: 15
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -333,16 +344,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _healthSystem: {fileID: 6753512013920280239}
   _movementSystem: {fileID: 6254714330885751594}
-  _suicide: {fileID: 4942100904473327186}
-  _rigidbody: {fileID: 4455685455898522898}
   _stateOfKamikaze: 0
   _firstname: "\u0423\u0431\u0438\u0432\u0435\u0446"
   _groupMobs: 1
   _targetToAttack: {fileID: 0}
+  _damageCount: 0
   _viewRadius: 3
   _timeForIdle: 10
   _timeForDetonation: 3
+  _explosionRadius: 0
   _detonationRadius: 1
+  _rigidbody: {fileID: 4455685455898522898}
 --- !u!114 &6254714330885751594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,3 +386,4 @@ MonoBehaviour:
   _minHealth: 0
   _maxHealth: 50
   _isLive: 1
+  _lastDamageDealt: {fileID: 0}

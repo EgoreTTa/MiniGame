@@ -158,17 +158,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 8524340033460196838}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5af08e635d38884389f48ae8e5ce614, type: 3}
+  m_Script: {fileID: 11500000, guid: 6e55a49d76a6bf248b14234a625306b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 3467425597989650613}
   _rigidbody: {fileID: 8179152049981466462}
   _collider: {fileID: 1296183366237359557}
-  _nameItem: "\u041E\u0433\u043D\u0435\u043D\u043D\u043D\u0430\u044F \u0431\u0440\u043E\u043D\u044F"
-  _description: 
-  _currency: 0
-  _changeMaxHealth: 20
-  _changeRegeneration: 5
+  _nameItem: Name Fire Armor
+  _description: Description Fire Armor
+  _currency: 25
+  _changeMaxHealth: 100
+  _changeRegeneration: 15
   _typeEquipment: 1
   _intervalRegeneration: 0.5
   _fireCirclePrefab: {fileID: 6181794229963983432, guid: b9edc3a99c02eb044ba364dd0fd0f9b4, type: 3}

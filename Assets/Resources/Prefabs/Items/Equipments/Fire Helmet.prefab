@@ -158,17 +158,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 8764614959007418237}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da425982804466344ab9c290f6b993b2, type: 3}
+  m_Script: {fileID: 11500000, guid: 6702a116fa60d714eb30ce214ecfbcbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 6127664521713483289}
   _rigidbody: {fileID: 1708184065813595886}
   _collider: {fileID: 2192244473348145497}
-  _nameItem: "\u041E\u0433\u043D\u0435\u043D\u043D\u043D\u044B\u0439 \u0448\u043B\u0435\u043C"
-  _description: 
-  _currency: 0
+  _nameItem: Name Fire Helmet
+  _description: Description
+  _currency: 15
   _changeMaxHealth: 50
-  _changeRegeneration: 8
+  _changeRegeneration: 10
   _typeEquipment: 0
   _intervalRegeneration: 0.5
   _fireCirclePrefab: {fileID: 6181794229963983432, guid: b9edc3a99c02eb044ba364dd0fd0f9b4, type: 3}
