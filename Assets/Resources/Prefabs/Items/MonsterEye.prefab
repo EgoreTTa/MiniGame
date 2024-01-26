@@ -173,7 +173,7 @@ MonoBehaviour:
   _description: DescriptionMonsterEye
   _currency: 15
   _hintCanvas: {fileID: 6838436769392163955}
-  _abilityRadius: 3.5
+  _abilityRadius: 50
 --- !u!1 &3854258465329623536
 GameObject:
   m_ObjectHideFlags: 0

@@ -155,7 +155,7 @@ namespace Mobs
                 _abilityRadius = value;
                 foreach (var ability in _baseAbilities)
                 {
-                    ability.Radius = _abilityRadius;
+                    ability.Radius = ability.BaseRadius * _abilityRadius / 100;
                 }
                 NotifySubscribers();
             }
@@ -169,7 +169,7 @@ namespace Mobs
                 _abilitySpeedUse = value;
                 foreach (var ability in _baseAbilities)
                 {
-                    ability.SpeedUse = _abilitySpeedUse;
+                    ability.SpeedUse = ability.SpeedUse * _abilitySpeedUse / 100;
                 }
                 NotifySubscribers();
             }
@@ -183,7 +183,7 @@ namespace Mobs
                 _abilityCooldown = value;
                 foreach (var ability in _baseAbilities)
                 {
-                    ability.Cooldown = _abilityCooldown;
+                    ability.Cooldown = ability.BaseCooldown * _abilityCooldown / 100;
                 }
                 NotifySubscribers();
             }
@@ -197,7 +197,7 @@ namespace Mobs
                 _abilityPower = value;
                 foreach (var ability in _baseAbilities)
                 {
-                    ability.Power = _abilityPower;
+                    ability.Power = ability.BasePower * _abilityPower / 100;
                 }
                 NotifySubscribers();
             }
@@ -211,7 +211,7 @@ namespace Mobs
                 _abilityDuration = value;
                 foreach (var ability in _baseAbilities)
                 {
-                    ability.Duration = _abilityDuration;
+                    ability.Duration = ability.BaseDuration * _abilityDuration / 100;
                 }
                 NotifySubscribers();
             }
@@ -225,7 +225,7 @@ namespace Mobs
                 _abilityRange = value;
                 foreach (var ability in _baseAbilities)
                 {
-                    ability.Range = _abilityRange;
+                    ability.Range = ability.BaseRange * _abilityRange / 100;
                 }
                 NotifySubscribers();
             }
