@@ -2,7 +2,6 @@ namespace Mobs.Enemies
 {
     using System;
     using Enums;
-    using GUI;
     using Interfaces;
     using NoMonoBehaviour;
     using UnityEngine;
@@ -12,7 +11,9 @@ namespace Mobs.Enemies
         private bool _isConstruct;
         private BaseMob _owner;
         [SerializeField] private float _health;
+        [SerializeField] private float _baseMinimumHealth;
         [SerializeField] private float _minHealth;
+        [SerializeField] private float _baseMaximumHealth;
         [SerializeField] private float _maxHealth;
         [SerializeField] private bool _isLive;
         [SerializeField] private BaseMob _lastDamageDealt;
@@ -37,6 +38,8 @@ namespace Mobs.Enemies
             }
         }
 
+        public override float BaseMinHealth => _baseMinimumHealth;
+
         public override float MinHealth
         {
             get => _minHealth;
@@ -48,6 +51,8 @@ namespace Mobs.Enemies
             }
         }
 
+        public override float BaseMaxHealth => _baseMaximumHealth;
+
         public override float MaxHealth
         {
             get => _maxHealth;
@@ -58,7 +63,7 @@ namespace Mobs.Enemies
             }
         }
 
-        public override BaseHealthSystem Construct(BaseMob owner, ManagerGUI managerGUI = null)
+        public override BaseHealthSystem Construct(BaseMob owner)
         {
             if (_isConstruct is false)
             {
@@ -87,14 +92,18 @@ namespace Mobs.Enemies
             };
         }
 
-        public override void Subscribe(IHealthChangeable healthChangeable) { }
+        public override void Subscribe(ITakeDamage takeDamage) { }
 
-        public override void Unsubscribe(IHealthChangeable healthChangeable) { }
+        public override void Unsubscribe(ITakeDamage takeDamage) { }
+
+        public override void Subscribe(ITakeHealth takeHealth) { }
+
+        public override void Unsubscribe(ITakeHealth takeHealth) { }
 
         private void Dead()
         {
             Destroy(gameObject);
-            _lastDamageDealt.KilledMob(_owner);
+            _lastDamageDealt?.KilledMob(_owner);
         }
     }
 }
