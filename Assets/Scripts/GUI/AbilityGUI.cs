@@ -47,12 +47,12 @@ namespace GUI
                 _hintNameAbility.text = _ability.NameAbility;
                 _hintTypingAbility.text = _ability.TypingAbility;
                 _hintSettingsAbility.text =
-                    (_ability.Duration > 0 ? $" Длительность {_ability.Duration:F1}" : "") +
-                    (_ability.Power > 0 ? $" Сила {_ability.Power:F1}" : "") +
-                    (_ability.Radius > 0 ? $" Радиус {_ability.Radius:F1}" : "") +
-                    (_ability.Range > 0 ? $" Радиус {_ability.Range:F1}" : "") +
-                    (_ability.Cooldown > 0 ? $" Радиус {_ability.Cooldown:F1}" : "") +
-                    (_ability.SpeedUse > 0 ? $" Радиус {_ability.SpeedUse:F1}" : "");
+                    (_ability.Duration > 0 ? $"Длительность {_ability.Duration:F}\n" : "") +
+                    (_ability.Power > 0 ? $"Сила {_ability.Power:F}\n" : "") +
+                    (_ability.Radius > 0 ? $"Радиус {_ability.Radius:F}\n" : "") +
+                    (_ability.Range > 0 ? $"Дальность {_ability.Range:F}\n" : "") +
+                    (_ability.Cooldown > 0 ? $"Перезарядка {_ability.Cooldown:F}\n" : "") +
+                    (_ability.SpeedUse > 0 ? $"Скорость использования {_ability.SpeedUse:F}" : "");
                 _hintDescriptionAbility.text = _ability.DescriptionAbility;
                 _hintPanel.SetActive(true);
             }
