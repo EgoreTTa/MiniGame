@@ -1,17 +1,18 @@
-namespace Items.Equipments
+namespace Items.Equipments.Sets
 {
     using Effects;
     using Enums;
     using Interfaces;
+    using Mobs;
     using NoMonoBehaviour;
     using UnityEngine;
 
     [DisallowMultipleComponent]
-    public class FireBoot : BaseItem, IEquipment
+    public class FireHelmet : BaseItem, IEquipment
     {
         private BaseHealthSystem _healthSystem;
         private Health _health;
-        private readonly EquipmentSets _equipmentSet = EquipmentSets.FireBoot;
+        private readonly EquipmentSets _equipmentSet = EquipmentSets.FireHelmet;
         [SerializeField] private float _changeMaxHealth;
         [SerializeField] private float _changeRegeneration;
         [SerializeField] private TypesEquipment _typeEquipment;

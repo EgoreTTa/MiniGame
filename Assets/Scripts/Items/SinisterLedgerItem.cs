@@ -8,7 +8,7 @@ namespace Items
 
     [UsedImplicitly]
     [DisallowMultipleComponent]
-    public class SinisterLedger : BaseItem, IKillerMob, IHealthChangeable
+    public class SinisterLedger : BaseItem, IKillerMob, ITakeDamage
     {
         [SerializeField] private float _powerDamagePercent;
         [SerializeField] private float _incrementDamagePercent;
@@ -38,10 +38,6 @@ namespace Items
                 _powerDamagePercent += _incrementDamagePercent;
             }
         }
-
-        public void UpdateHealthSystem(BaseHealthSystem healthSystem) { }
-
-        public void TakeHealth(BaseHealthSystem healthSystem) { }
 
         public void TakeDamage(BaseHealthSystem healthSystem) => ResetProgress();
 

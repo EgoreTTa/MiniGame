@@ -1,4 +1,4 @@
-namespace Items.Equipments
+namespace Items.Equipments.Sets
 {
     using Effects;
     using Enums;
