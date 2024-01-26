@@ -9,6 +9,7 @@ namespace Attacks.ComboAttack
         private bool _isConstruct;
         private int _lengthCombination;
         private int _maxLengthCombination;
+        private AttributeMob _ownerAttribute;
         [SerializeField] private float _timeSwing;
         [SerializeField] private float _timeHitting;
         [SerializeField] private float _timeRecovering;
@@ -34,12 +35,15 @@ namespace Attacks.ComboAttack
         public override BaseAttackSystem Construct(
             BaseMob owner,
             GroupsMobs ownerGroupsMobs,
+            AttributeMob ownerAttribute,
             BaseHealthSystem ownerHealthSystem,
             Transform ownerTransform)
         {
             if (_isConstruct is false)
             {
                 _maxLengthCombination = _comboHits.Length;
+                _ownerAttribute = ownerAttribute;
+                _ownerAttribute.AttackSystem = this;
 
                 foreach (var hit in _comboHits)
                     hit.Construct(owner, ownerGroupsMobs, ownerHealthSystem);
@@ -49,6 +53,11 @@ namespace Attacks.ComboAttack
             }
 
             return null;
+        }
+
+        private void OnDestroy()
+        {
+            _ownerAttribute.AttackSystem = null;
         }
 
         public override void Attack()

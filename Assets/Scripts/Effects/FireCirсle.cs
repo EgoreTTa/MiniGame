@@ -2,6 +2,7 @@ namespace Effects
 {
     using System.Collections.Generic;
     using Enums;
+    using Mobs;
     using NoMonoBehaviour;
     using UnityEngine;
 

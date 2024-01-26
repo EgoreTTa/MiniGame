@@ -16,6 +16,7 @@ namespace Attacks
         public abstract BaseAttackSystem Construct(
             BaseMob owner,
             GroupsMobs ownerGroupsMobs,
+            AttributeMob ownerAttribute,
             BaseHealthSystem ownerHealthSystem,
             Transform ownerTransform);
 

@@ -20,10 +20,61 @@ namespace Abilities.DefaultAbility
         [SerializeField] private float _timeReload;
         [SerializeField] private bool _isReady;
         [SerializeField] private float _timerReload;
+        [SerializeField] private float _radius;
+        [SerializeField] private float _speedUse;
+        [SerializeField] private float _cooldown;
+        [SerializeField] private float _power;
+        [SerializeField] private float _duration;
+        [SerializeField] private float _range;
+        private string _settings;
 
         public override StatesOfAbility StateOfAbility => _stateOfAbility;
 
-        public override BaseAbility Construct(BaseMob owner, GroupsMobs ownerGroupMobs, GameObject ownerGameObject,
+        public override float Radius
+        {
+            get => _radius;
+            set
+            {
+                _radius = value;
+                _circleCollider.radius = _radius;
+                _spriteRenderer.size = new Vector2(_radius * 2, _radius * 2);
+            }
+        }
+
+        public override float SpeedUse
+        {
+            get => _speedUse;
+            set => _speedUse = value;
+        }
+
+        public override float Cooldown
+        {
+            get => _cooldown;
+            set => _cooldown = value;
+        }
+
+        public override float Power
+        {
+            get => _power;
+            set => _power = value;
+        }
+
+        public override float Duration
+        {
+            get => _duration;
+            set => _duration = value;
+        }
+
+        public override float Range
+        {
+            get => _range;
+            set => _range = value;
+        }
+
+        public override BaseAbility Construct(
+            BaseMob owner,
+            GroupsMobs ownerGroupMobs,
+            GameObject ownerGameObject,
             ManagerGUI managerGUI)
         {
             if (_isConstruct is false)
@@ -32,7 +83,7 @@ namespace Abilities.DefaultAbility
                 _ownerGameObject = ownerGameObject;
                 _isConstruct = true;
                 _managerGUI = managerGUI;
-                _managerGUI.SetAbility(_spriteAbility, _nameAbility, _typingAbility, _descriptionAbility);
+                _managerGUI.SetAbility(this);
                 return this;
             }
 

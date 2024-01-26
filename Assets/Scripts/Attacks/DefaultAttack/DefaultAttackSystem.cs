@@ -11,6 +11,7 @@ namespace Attacks.DefaultAttack
         private bool _isConstruct;
         private BaseMob _owner;
         private GroupsMobs _ownerGroupMobs;
+        private AttributeMob _ownerAttribute;
         private BaseHealthSystem _ownerHealthSystem;
         [SerializeField] private StatesOfAttack _stateOfAttack;
         [SerializeField] private SpriteRenderer _spriteRenderer;
@@ -38,6 +39,7 @@ namespace Attacks.DefaultAttack
         public override BaseAttackSystem Construct(
             BaseMob owner,
             GroupsMobs ownerGroupsMobs,
+            AttributeMob ownerAttribute,
             BaseHealthSystem ownerHealthSystem,
             Transform ownerTransform)
         {
@@ -45,12 +47,19 @@ namespace Attacks.DefaultAttack
             {
                 _owner = owner;
                 _ownerGroupMobs = ownerGroupsMobs;
+                _ownerAttribute = ownerAttribute;
+                _ownerAttribute.AttackSystem = this;
                 _ownerHealthSystem = ownerHealthSystem;
                 _isConstruct = true;
                 return this;
             }
 
             return null;
+        }
+
+        private void OnDestroy()
+        {
+            _ownerAttribute.AttackSystem = null;
         }
 
         public override void Attack()

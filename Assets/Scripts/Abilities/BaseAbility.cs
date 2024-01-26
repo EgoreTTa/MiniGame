@@ -13,7 +13,17 @@ namespace Abilities
         [SerializeField] protected Sprite _spriteAbility;
         [SerializeField] protected ManagerGUI _managerGUI;
 
+        public string NameAbility => _nameAbility;
+        public string TypingAbility => _typingAbility;
+        public string DescriptionAbility => _descriptionAbility;
+        public Sprite Sprite => _spriteAbility;
         public abstract StatesOfAbility StateOfAbility { get; }
+        public abstract float Radius { get; set; }
+        public abstract float SpeedUse { get; set; }
+        public abstract float Cooldown { get; set; }
+        public abstract float Power { get; set; }
+        public abstract float Duration { get; set; }
+        public abstract float Range { get; set; }
 
         /// <summary>
         /// Constructor for <see cref="MonoBehaviour"/> is <see cref="BaseAbility"/>

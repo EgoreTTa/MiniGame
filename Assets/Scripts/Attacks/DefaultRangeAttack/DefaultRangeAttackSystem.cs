@@ -45,6 +45,7 @@ namespace Attacks.DefaultRangeAttack
         public override BaseAttackSystem Construct(
             BaseMob owner,
             GroupsMobs ownerGroupsMobs,
+            AttributeMob ownerAttribute,
             BaseHealthSystem ownerHealthSystem,
             Transform ownerTransform)
         {

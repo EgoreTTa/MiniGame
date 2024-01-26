@@ -2,7 +2,6 @@ namespace Environments
 {
     using System;
     using Enums;
-    using GUI;
     using Interfaces;
     using Mobs;
     using NoMonoBehaviour;
@@ -14,7 +13,9 @@ namespace Environments
         private bool _isLive;
         [SerializeField] private float _health;
         [SerializeField] private float _minHealth;
+        [SerializeField] private float _baseMinimumHealth;
         [SerializeField] private float _maxHealth;
+        [SerializeField] private float _baseMaximumHealth;
 
         public override bool IsLive => _isLive;
 
@@ -38,6 +39,8 @@ namespace Environments
             }
         }
 
+        public override float BaseMinHealth => _baseMinimumHealth;
+
         public override float MinHealth
         {
             get => _minHealth;
@@ -49,6 +52,8 @@ namespace Environments
             }
         }
 
+        public override float BaseMaxHealth => _baseMaximumHealth;
+
         public override float MaxHealth
         {
             get => _maxHealth;
@@ -59,7 +64,7 @@ namespace Environments
             }
         }
 
-        public override BaseHealthSystem Construct(BaseMob owner = null, ManagerGUI managerGUI = null)
+        public override BaseHealthSystem Construct(BaseMob owner = null)
         {
             if (_isConstruct is false)
             {
@@ -83,9 +88,13 @@ namespace Environments
             };
         }
 
-        public override void Subscribe(IHealthChangeable healthChangeable) { }
+        public override void Subscribe(ITakeDamage takeDamage) { }
 
-        public override void Unsubscribe(IHealthChangeable healthChangeable) { }
+        public override void Unsubscribe(ITakeDamage takeDamage) { }
+
+        public override void Subscribe(ITakeHealth takeHealth) { }
+
+        public override void Unsubscribe(ITakeHealth takeHealth) { }
 
         private void Destruction()
         {

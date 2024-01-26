@@ -5,13 +5,15 @@ namespace GUI
     using Enums;
     using Interfaces;
     using Items;
+    using Mobs;
     using Mobs.Player;
     using UnityEngine;
     using UnityEngine.SceneManagement;
 
-    public class ManagerGUI : MonoBehaviour
+    public class ManagerGUI : MonoBehaviour, ITakeDamage, ITakeHealth, IAttributeChange
     {
         [SerializeField] private Player _player;
+        [SerializeField] private AttributeGUI _attributeGUI;
         [SerializeField] private HealthBar _healthBar;
         [SerializeField] private GameObject _inGameMenu;
         [SerializeField] private StatesGame _stateGame;
@@ -46,6 +48,11 @@ namespace GUI
         private void Start()
         {
             StateGame = StatesGame.Game;
+            _player.HealthSystem.Subscribe(this as ITakeHealth);
+            _player.HealthSystem.Subscribe(this as ITakeDamage);
+            _healthBar.UpdateBar(_player.HealthSystem.Health, _player.HealthSystem.MaxHealth);
+            _player.Attribute.Subscribe(this);
+            _attributeGUI.AttributeChange(_player.Attribute);
         }
 
         private void Update()
@@ -68,14 +75,9 @@ namespace GUI
             };
         }
 
-        public void UpdateHealthBar(float health, float maxHealth)
+        public void SetAbility(BaseAbility ability)
         {
-            _healthBar.UpdateBar(health, maxHealth);
-        }
-
-        public void SetAbility(Sprite spriteAbility, string nameAbility, string hintTypingAbility, string descriptionAbility)
-        {
-            _abilityGUI1.SetAbility(spriteAbility, nameAbility, hintTypingAbility, descriptionAbility);
+            _abilityGUI1.SetAbility(ability);
         }
 
         public void UpdateAbilityReload(float amount, float time)
@@ -134,6 +136,21 @@ namespace GUI
         public void ReturnMainMenu()
         {
             SceneManager.LoadSceneAsync(0);
+        }
+
+        public void TakeDamage(BaseHealthSystem healthSystem)
+        {
+            _healthBar.UpdateBar(healthSystem.Health, healthSystem.MaxHealth);
+        }
+
+        public void TakeHealth(BaseHealthSystem healthSystem)
+        {
+            _healthBar.UpdateBar(healthSystem.Health, healthSystem.MaxHealth);
+        }
+
+        public void AttributeChange(AttributeMob attributeMob)
+        {
+            _attributeGUI.AttributeChange(attributeMob);
         }
     }
 }
