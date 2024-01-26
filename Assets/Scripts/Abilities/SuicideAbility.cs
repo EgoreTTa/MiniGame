@@ -18,15 +18,12 @@ namespace Abilities
         [SerializeField] [Min(.2f)] private float _timeToSwing;
         [SerializeField] [Min(.2f)] private float _timeToCasted;
         [SerializeField] [Min(.2f)] private float _timeToRecovery;
-        [SerializeField] private StatesOfAbility _stateOfAbility;
         [SerializeField] private float _radius;
         [SerializeField] private float _speedUse;
         [SerializeField] private float _cooldown;
         [SerializeField] private float _power;
         [SerializeField] private float _duration;
         [SerializeField] private float _range;
-
-        public override StatesOfAbility StateOfAbility => _stateOfAbility;
 
         public override float Radius
         {

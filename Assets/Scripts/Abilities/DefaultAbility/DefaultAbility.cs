@@ -13,11 +13,9 @@ namespace Abilities.DefaultAbility
         private GameObject _ownerGameObject;
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private CircleCollider2D _circleCollider;
-        [SerializeField] private StatesOfAbility _stateOfAbility;
         [SerializeField] private float _timeToSwing;
         [SerializeField] private float _timeToCasted;
         [SerializeField] private float _timeToRecovery;
-        [SerializeField] private float _timeReload;
         [SerializeField] private bool _isReady;
         [SerializeField] private float _timerReload;
         [SerializeField] private float _radius;
@@ -27,8 +25,6 @@ namespace Abilities.DefaultAbility
         [SerializeField] private float _duration;
         [SerializeField] private float _range;
         private string _settings;
-
-        public override StatesOfAbility StateOfAbility => _stateOfAbility;
 
         public override float Radius
         {
@@ -95,13 +91,13 @@ namespace Abilities.DefaultAbility
             if (_isReady is false)
             {
                 _timerReload += Time.deltaTime;
-                if (_timerReload > _timeReload)
+                if (_timerReload > _cooldown)
                 {
-                    _timerReload = _timeReload;
+                    _timerReload = _cooldown;
                     _isReady = true;
                 }
 
-                _managerGUI?.UpdateAbilityReload(1 - _timerReload / _timeReload, _timeReload - _timerReload);
+                _managerGUI?.UpdateAbilityReload(1 - _timerReload / _cooldown, _cooldown - _timerReload);
             }
         }
 
