@@ -26,6 +26,7 @@ namespace Mobs.Enemies.Enemy
         [SerializeField] private BaseAttackSystem _attackSystem;
         private BaseMob _targetToAttack;
         private Vector3? _targetToExplore;
+        private AttributeMob _attributeMob;
         [SerializeField] private StatesOfEnemy _stateOfEnemy = StatesOfEnemy.Idle;
         [SerializeField] private string _firstname;
         [SerializeField] private GroupsMobs _groupMobs;
@@ -36,10 +37,12 @@ namespace Mobs.Enemies.Enemy
 
         public override string FirstName => _firstname;
         public override GroupsMobs GroupMobs => _groupMobs;
+        public override AttributeMob Attribute => _attributeMob;
         public override BaseHealthSystem HealthSystem => _healthSystem;
         public override BaseMovement MovementSystem => _movementSystem;
         public override BaseAttackSystem AttackSystem => _attackSystem;
         public StatesOfEnemy StateOfEnemy => _stateOfEnemy;
+
         public BaseMob TargetToAttack
         {
             get => _targetToAttack;
@@ -51,9 +54,10 @@ namespace Mobs.Enemies.Enemy
 
         private void Awake()
         {
+            _attributeMob = new AttributeMob(this);
             _healthSystem.Construct(this);
             _movementSystem.Construct(transform, _rigidbody);
-            _attackSystem.Construct(this, _groupMobs, _healthSystem, transform);
+            _attackSystem.Construct(this, _groupMobs, _attributeMob, _healthSystem, transform);
 
             _stateOfEnemy = StatesOfEnemy.Idle;
             Invoke(nameof(IntoExplore), _timeForIdle);
@@ -86,8 +90,8 @@ namespace Mobs.Enemies.Enemy
         }
 
         public override void KilledMob(BaseMob mob) { }
-        public override void Subscribe(IKillerMob killerMob) { }
-        public override void Unsubscribe(IKillerMob killerMob) { }
+        public virtual void Subscribe(IKillerMob killerMob) { }
+        public virtual void Unsubscribe(IKillerMob killerMob) { }
 
         private void IntoExplore()
         {

@@ -35,6 +35,7 @@ namespace Mobs.Enemies.RangerEnemy
 
         public override string FirstName => _firstname;
         public override GroupsMobs GroupMobs => _groupMobs;
+        public override AttributeMob Attribute => throw new NotImplementedException();
         public override BaseHealthSystem HealthSystem => _healthSystem;
         public override BaseMovement MovementSystem => _movementSystem;
         public override BaseAttackSystem AttackSystem => _attackSystem;
@@ -53,7 +54,7 @@ namespace Mobs.Enemies.RangerEnemy
         {
             _healthSystem.Construct(this);
             _movementSystem.Construct(transform, _rigidbody);
-            _attackSystem.Construct(this, _groupMobs, _healthSystem, transform);
+            _attackSystem.Construct(this, _groupMobs, null, _healthSystem, transform);
 
             _stateOfRangerEnemy = StatesOfRangerEnemy.Idle;
             Invoke(nameof(IntoExplore), _timeForIdle);
@@ -67,8 +68,8 @@ namespace Mobs.Enemies.RangerEnemy
         }
 
         public override void KilledMob(BaseMob mob) { }
-        public override void Subscribe(IKillerMob killerMob) { }
-        public override void Unsubscribe(IKillerMob killerMob) { }
+        public virtual void Subscribe(IKillerMob killerMob) { }
+        public virtual void Unsubscribe(IKillerMob killerMob) { }
 
         private void IntoExplore()
         {
