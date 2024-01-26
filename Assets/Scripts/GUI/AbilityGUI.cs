@@ -1,5 +1,6 @@
 namespace GUI
 {
+    using Abilities;
     using UnityEngine;
     using UnityEngine.EventSystems;
     using UnityEngine.UI;
@@ -13,7 +14,9 @@ namespace GUI
         [SerializeField] private GameObject _hintPanel;
         [SerializeField] private Text _hintNameAbility;
         [SerializeField] private Text _hintTypingAbility;
+        [SerializeField] private Text _hintSettingsAbility;
         [SerializeField] private Text _hintDescriptionAbility;
+        [SerializeField] private BaseAbility _ability;
 
         public void UpdateAbilityReload(float amount, float time)
         {
@@ -21,12 +24,10 @@ namespace GUI
             _abilityCooldownTime.text = time > 0 ? $"{time:F1}" : string.Empty;
         }
 
-        public void SetAbility(Sprite spriteAbility, string nameAbility, string hintTypingAbility, string descriptionAbility)
+        public void SetAbility(BaseAbility ability)
         {
-            _abilityImageGUI.sprite = spriteAbility;
-            _hintNameAbility.text = nameAbility;
-            _hintTypingAbility.text = hintTypingAbility;
-            _hintDescriptionAbility.text = descriptionAbility;
+            _ability = ability;
+            _abilityImageGUI.sprite = _ability.Sprite;
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -41,7 +42,20 @@ namespace GUI
 
         private void HintShow()
         {
-            _hintPanel.SetActive(true);
+            if (_ability != null)
+            {
+                _hintNameAbility.text = _ability.NameAbility;
+                _hintTypingAbility.text = _ability.TypingAbility;
+                _hintSettingsAbility.text =
+                    (_ability.Duration > 0 ? $" Длительность {_ability.Duration:F1}" : "") +
+                    (_ability.Power > 0 ? $" Сила {_ability.Power:F1}" : "") +
+                    (_ability.Radius > 0 ? $" Радиус {_ability.Radius:F1}" : "") +
+                    (_ability.Range > 0 ? $" Радиус {_ability.Range:F1}" : "") +
+                    (_ability.Cooldown > 0 ? $" Радиус {_ability.Cooldown:F1}" : "") +
+                    (_ability.SpeedUse > 0 ? $" Радиус {_ability.SpeedUse:F1}" : "");
+                _hintDescriptionAbility.text = _ability.DescriptionAbility;
+                _hintPanel.SetActive(true);
+            }
         }
 
         private void HintHide()

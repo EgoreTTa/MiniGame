@@ -158,17 +158,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 8289204747366004414}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6198ee1331ef0ef45ad42161940451b9, type: 3}
+  m_Script: {fileID: 11500000, guid: 957017c1852197c4790aae16829f4c20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 7743612482565358544}
   _rigidbody: {fileID: 7393561557865522081}
   _collider: {fileID: 3752003096845879265}
-  _nameItem: "\u041E\u0433\u043D\u0435\u043D\u043D\u043D\u044B\u0435 \u0431\u043E\u0442\u0438\u043D\u043A\u0438"
-  _description: 
-  _currency: 0
-  _changeMaxHealth: 30
-  _changeRegeneration: 7
+  _nameItem: Name Fire Boot
+  _description: Description Fire Boot
+  _currency: 3
+  _changeMaxHealth: 25
+  _changeRegeneration: 5
   _typeEquipment: 2
   _intervalRegeneration: 0.5
   _fireCirclePrefab: {fileID: 6181794229963983432, guid: b9edc3a99c02eb044ba364dd0fd0f9b4, type: 3}

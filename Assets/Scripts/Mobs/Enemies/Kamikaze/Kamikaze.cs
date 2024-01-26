@@ -39,6 +39,7 @@ namespace Mobs.Enemies.Kamikaze
 
         public override string FirstName => _firstname;
         public override GroupsMobs GroupMobs => _groupMobs;
+        public override AttributeMob Attribute => throw new NotImplementedException();
         public override BaseHealthSystem HealthSystem => _healthSystem;
         public override BaseMovement MovementSystem => _movementSystem;
         public override BaseAttackSystem AttackSystem => null;
@@ -69,8 +70,8 @@ namespace Mobs.Enemies.Kamikaze
         }
 
         public override void KilledMob(BaseMob mob) { }
-        public override void Subscribe(IKillerMob killerMob) { }
-        public override void Unsubscribe(IKillerMob killerMob) { }
+        public virtual void Subscribe(IKillerMob killerMob) { }
+        public virtual void Unsubscribe(IKillerMob killerMob) { }
 
         private void Explosion()
         {

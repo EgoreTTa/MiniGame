@@ -16,12 +16,13 @@ namespace Items
         [SerializeField] protected string _nameItem;
         [SerializeField] protected string _description;
         [SerializeField] protected float _currency;
+        [SerializeField] private GameObject _hintCanvas;
 
         public string NameItem => _nameItem;
         public string Description => _description;
         public SpriteRenderer SpriteRenderer => _spriteRenderer;
         public float Currency => _currency;
-        
+
         public virtual void PickUp(Player owner)
         {
             _owner = owner;
@@ -37,6 +38,22 @@ namespace Items
             _spriteRenderer.enabled = true;
             _rigidbody.simulated = true;
             _collider.enabled = true;
+        }
+
+        private void OnMouseEnter()
+        {
+            if (_hintCanvas != null)
+            {
+                _hintCanvas.SetActive(true);
+            }
+        }
+
+        private void OnMouseExit()
+        {
+            if (_hintCanvas != null)
+            {
+                _hintCanvas.SetActive(false);
+            }
         }
     }
 }

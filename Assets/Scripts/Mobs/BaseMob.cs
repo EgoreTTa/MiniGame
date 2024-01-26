@@ -2,7 +2,6 @@ namespace Mobs
 {
     using Attacks;
     using Enums;
-    using Interfaces;
     using Movements;
     using UnityEngine;
 
@@ -10,12 +9,11 @@ namespace Mobs
     {
         public abstract string FirstName { get; }
         public abstract GroupsMobs GroupMobs { get; }
+        public abstract AttributeMob Attribute { get; }
         public abstract BaseHealthSystem HealthSystem { get; }
         public abstract BaseMovement MovementSystem { get; }
         public abstract BaseAttackSystem AttackSystem { get; }
 
         public abstract void KilledMob(BaseMob mob);
-        public abstract void Subscribe(IKillerMob killerMob);
-        public abstract void Unsubscribe(IKillerMob killerMob);
     }
 }

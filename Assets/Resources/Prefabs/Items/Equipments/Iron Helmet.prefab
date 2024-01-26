@@ -167,5 +167,6 @@ MonoBehaviour:
   _nameItem: Iron Helmet
   _description: Iron Helmet Description
   _currency: 0
-  _changeMaxHealth: 75
+  _hintCanvas: {fileID: 0}
+  _changeMaxHealth: 50
   _typeEquipment: 0

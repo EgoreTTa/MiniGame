@@ -31,7 +31,8 @@ namespace Mobs.Player
         private bool _isInteract;
         private IInteraction _interaction;
         private Inventory _inventory;
-        private List<IKillerMob> _killerMobs = new();
+        private AttributeMob _attributeMob;
+        private readonly List<IKillerMob> _killerMobs = new();
         [SerializeField] private string _firstname;
         [SerializeField] private GroupsMobs _groupMobs;
         [SerializeField] private StatesOfPlayer _stateOfPlayer;
@@ -42,24 +43,30 @@ namespace Mobs.Player
         [SerializeField] private BaseMovement _movementSystem;
         [SerializeField] private BaseJerk _jerk;
         [SerializeField] private BaseAttackSystem _attackSystem;
-        [SerializeField] private BaseAbility _ability1;
+        [SerializeField] private BaseAbility[] _abilities;
         [SerializeField] private ManagerGUI _managerGUI;
+
         public override string FirstName => _firstname;
         public override GroupsMobs GroupMobs => _groupMobs;
         public StatesOfPlayer StateOfPlayer => _stateOfPlayer;
+        public override AttributeMob Attribute => _attributeMob;
         public override BaseHealthSystem HealthSystem => _healthSystem;
         public override BaseMovement MovementSystem => _movementSystem;
         public override BaseAttackSystem AttackSystem => _attackSystem;
+        public BaseAbility Ability1 => _abilities[0];
         public Inventory Inventory => _inventory;
 
         private void Awake()
         {
             _inventory = new Inventory(this);
-            _healthSystem.Construct(this, _managerGUI);
+            _attributeMob = new AttributeMob(this);
+            _healthSystem.Construct(this);
             _movementSystem.Construct(transform, _rigidbody);
             _jerk.Construct(this, transform, _rigidbody, _movementSystem);
-            _attackSystem.Construct(this, _groupMobs, _healthSystem, transform);
-            _ability1.Construct(this, _groupMobs, gameObject, _managerGUI);
+            _attackSystem.Construct(this, _groupMobs, _attributeMob, _healthSystem, transform);
+            _attributeMob.AttackSystem = _attackSystem;
+            _abilities[0].Construct(this, _groupMobs, gameObject, _managerGUI);
+            _attributeMob.AddAbility(_abilities[0]);
         }
 
         private void Update()
@@ -90,7 +97,7 @@ namespace Mobs.Player
 
                     if (isKeyAbility1)
                     {
-                        _ability1.Cast();
+                        _abilities[0].Cast();
                         _stateOfPlayer = StatesOfPlayer.Attack;
                         return;
                     }
@@ -133,7 +140,7 @@ namespace Mobs.Player
 
                     if (_attackSystem.StateOfAttack == StatesOfAttack.Idle
                         &&
-                        _ability1.StateOfAbility == StatesOfAbility.Standby)
+                        _abilities[0].StateOfAbility == StatesOfAbility.Standby)
                     {
                         _stateOfPlayer = StatesOfPlayer.Idle;
                     }
@@ -195,12 +202,12 @@ namespace Mobs.Player
             }
         }
 
-        public override void Subscribe(IKillerMob killerMob)
+        public virtual void Subscribe(IKillerMob killerMob)
         {
             _killerMobs.Add(killerMob);
         }
 
-        public override void Unsubscribe(IKillerMob killerMob)
+        public virtual void Unsubscribe(IKillerMob killerMob)
         {
             _killerMobs.Remove(killerMob);
         }

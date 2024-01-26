@@ -3,7 +3,6 @@ namespace Mobs.Player
     using System;
     using System.Collections.Generic;
     using Enums;
-    using GUI;
     using Interfaces;
     using NoMonoBehaviour;
     using UnityEngine;
@@ -12,11 +11,13 @@ namespace Mobs.Player
     {
         private bool _isConstruct;
         private bool _isLive = true;
-        private ManagerGUI _managerGUI;
-        private readonly List<IHealthChangeable> _healthsChangeable = new();
+        private readonly List<ITakeDamage> _takeDamages = new();
+        private readonly List<ITakeHealth> _takeHealths = new();
         private BaseMob _owner;
         [SerializeField] private float _health;
+        [SerializeField] private float _baseMinimumHealth;
         [SerializeField] private float _minHealth;
+        [SerializeField] private float _baseMaximumHealth;
         [SerializeField] private float _maxHealth;
 
         public override bool IsLive => _isLive;
@@ -33,31 +34,20 @@ namespace Mobs.Player
                     Destroy(gameObject);
                 }
 
-                if (value >= _maxHealth)
-                {
-                    value = _maxHealth;
-                }
+                if (value >= _maxHealth) value = _maxHealth;
 
-                if (value < _health)
-                {
-                    foreach (var healthChangeable in _healthsChangeable)
-                    {
-                        healthChangeable.TakeDamage(this);
-                    }
-                }
-                else
-                {
-                    foreach (var healthChangeable in _healthsChangeable)
-                    {
-                        healthChangeable.TakeHealth(this);
-                    }
-                }
-
+                var oldValue = value;
                 _health = value;
-                UpdateSubscribers();
-                _managerGUI.UpdateHealthBar(_health, _maxHealth);
+                if (_health < oldValue)
+                    foreach (var takeDamage in _takeDamages)
+                        takeDamage.TakeDamage(this);
+                else
+                    foreach (var takeHealth in _takeHealths)
+                        takeHealth.TakeHealth(this);
             }
         }
+
+        public override float BaseMinHealth => _baseMinimumHealth;
 
         public override float MinHealth
         {
@@ -70,26 +60,33 @@ namespace Mobs.Player
             }
         }
 
+        public override float BaseMaxHealth => _baseMaximumHealth;
+
         public override float MaxHealth
         {
             get => _maxHealth;
             set
             {
                 if (value <= _minHealth) value = _minHealth;
+
+                var oldValue = value;
                 _maxHealth = value;
-                UpdateSubscribers();
-                _managerGUI.UpdateHealthBar(_health, _maxHealth);
+                if (_maxHealth < oldValue)
+                    foreach (var takeDamage in _takeDamages)
+                        takeDamage.TakeDamage(this);
+                else
+                    foreach (var takeHealth in _takeHealths)
+                        takeHealth.TakeHealth(this);
             }
         }
 
-        public override BaseHealthSystem Construct(BaseMob owner, ManagerGUI managerGUI)
+        public override BaseHealthSystem Construct(BaseMob owner)
         {
             if (_isConstruct is false)
             {
                 _owner = owner;
-                _managerGUI = managerGUI;
-                _managerGUI.UpdateHealthBar(_health, _maxHealth);
                 _isConstruct = true;
+                _health = _maxHealth;
                 return this;
             }
 
@@ -112,22 +109,24 @@ namespace Mobs.Player
             };
         }
 
-        public override void Subscribe(IHealthChangeable healthChangeable)
+        public override void Subscribe(ITakeDamage takeDamage)
         {
-            _healthsChangeable.Add(healthChangeable);
+            _takeDamages.Add(takeDamage);
         }
 
-        public override void Unsubscribe(IHealthChangeable healthChangeable)
+        public override void Unsubscribe(ITakeDamage takeDamage)
         {
-            _healthsChangeable.Remove(healthChangeable);
+            _takeDamages.Remove(takeDamage);
         }
 
-        public void UpdateSubscribers()
+        public override void Subscribe(ITakeHealth takeHealth)
         {
-            foreach (var healthChangeable in _healthsChangeable)
-            {
-                healthChangeable.UpdateHealthSystem(this);
-            }
+            _takeHealths.Add(takeHealth);
+        }
+
+        public override void Unsubscribe(ITakeHealth takeHealth)
+        {
+            _takeHealths.Remove(takeHealth);
         }
     }
 }

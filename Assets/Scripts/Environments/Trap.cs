@@ -2,6 +2,7 @@ namespace Environments
 {
     using System.Collections.Generic;
     using Enums;
+    using Mobs;
     using Mobs.Player;
     using NoMonoBehaviour;
     using UnityEngine;

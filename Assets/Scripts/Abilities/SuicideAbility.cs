@@ -19,8 +19,50 @@ namespace Abilities
         [SerializeField] [Min(.2f)] private float _timeToCasted;
         [SerializeField] [Min(.2f)] private float _timeToRecovery;
         [SerializeField] private StatesOfAbility _stateOfAbility;
+        [SerializeField] private float _radius;
+        [SerializeField] private float _speedUse;
+        [SerializeField] private float _cooldown;
+        [SerializeField] private float _power;
+        [SerializeField] private float _duration;
+        [SerializeField] private float _range;
 
         public override StatesOfAbility StateOfAbility => _stateOfAbility;
+
+        public override float Radius
+        {
+            get => _radius;
+            set => _radius = value;
+        }
+
+        public override float SpeedUse
+        {
+            get => _speedUse;
+            set => _speedUse = value;
+        }
+
+        public override float Cooldown
+        {
+            get => _cooldown;
+            set => _cooldown = value;
+        }
+
+        public override float Power
+        {
+            get => _power;
+            set => _power = value;
+        }
+
+        public override float Duration
+        {
+            get => _duration;
+            set => _duration = value;
+        }
+
+        public override float Range
+        {
+            get => _range;
+            set => _range = value;
+        }
 
         public override BaseAbility Construct(
             BaseMob owner, 

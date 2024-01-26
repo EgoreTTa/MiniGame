@@ -167,5 +167,6 @@ MonoBehaviour:
   _nameItem: Iron Boot
   _description: Iron Boot Description
   _currency: 0
-  _changeMaxHealth: 50
+  _hintCanvas: {fileID: 0}
+  _changeMaxHealth: 25
   _typeEquipment: 2

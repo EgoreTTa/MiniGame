@@ -1,8 +1,9 @@
-namespace Items.Equipments
+namespace Items.Equipments.Sets
 {
     using Effects;
     using Enums;
     using Interfaces;
+    using Mobs;
     using NoMonoBehaviour;
     using UnityEngine;
 

@@ -167,5 +167,6 @@ MonoBehaviour:
   _nameItem: Iron Armor
   _description: Iron Armor Description
   _currency: 0
-  _changeMaxHealth: 100
+  _hintCanvas: {fileID: 0}
+  _changeMaxHealth: 75
   _typeEquipment: 1

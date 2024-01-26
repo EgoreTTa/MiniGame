@@ -103,8 +103,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDrag: 15
+  m_AngularDrag: 15
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -167,13 +167,13 @@ MonoBehaviour:
   _healthSystem: {fileID: 766843542765708033}
   _movementSystem: {fileID: 6862590130289619701}
   _attackSystem: {fileID: 122566567624384518}
-  _rigidbody: {fileID: 4455685455898522898}
   _stateOfEnemy: 0
   _firstname: "\u0411\u043B\u0438\u0436\u043D\u0438\u043A"
   _groupMobs: 1
   _timeForIdle: 10
   _distanceToAttack: 0.5
   _viewRadius: 3
+  _rigidbody: {fileID: 4455685455898522898}
 --- !u!114 &766843542765708033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,6 +190,7 @@ MonoBehaviour:
   _minHealth: 0
   _maxHealth: 10
   _isLive: 1
+  _lastDamageDealt: {fileID: 0}
 --- !u!114 &6862590130289619701
 MonoBehaviour:
   m_ObjectHideFlags: 0
