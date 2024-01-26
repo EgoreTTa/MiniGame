@@ -34,7 +34,7 @@ namespace Items
         {
             if (_powerDamagePercent < _maxDamagePercent)
             {
-                _owner.AttackSystem.DamagePercent += _incrementDamagePercent;
+                _owner.Attribute.AttackRelativeDamage += _incrementDamagePercent;
                 _powerDamagePercent += _incrementDamagePercent;
             }
         }
@@ -43,7 +43,7 @@ namespace Items
 
         public void ResetProgress()
         {
-            _owner.AttackSystem.DamagePercent -= _powerDamagePercent;
+            _owner.Attribute.AttackRelativeDamage -= _powerDamagePercent;
             _powerDamagePercent = default;
         }
     }
